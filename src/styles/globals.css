@@ -1,0 +1,261 @@
+@import "tailwindcss";
+
+/*
+ * Expedition design tokens.
+ * Source of truth for colour, type, radius, shadow, motion and layout.
+ * Documented in .context/DESIGN_SYSTEM.md — keep both in sync.
+ */
+
+@theme inline {
+  --font-display: var(--font-baloo), "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+  --font-hand: var(--font-kalam), "Segoe Print", "Bradley Hand", cursive;
+  --font-body: var(--font-nunito), ui-rounded, "Segoe UI", system-ui, sans-serif;
+  --font-sans: var(--font-nunito), ui-rounded, "Segoe UI", system-ui, sans-serif;
+}
+
+@theme {
+  /* Reset Tailwind's default palette so only expedition tokens exist. */
+  --color-*: initial;
+  --color-black: #000000;
+
+  /* ── Ink: navy family (headlines, body, departure board) ── */
+  --color-navy-950: #061536;
+  --color-navy-900: #0b1e4a;
+  --color-navy-800: #14285a;
+  --color-navy-700: #1e2e50;
+  --color-navy-500: #45557c;
+  --color-navy-300: #8a97b5;
+
+  /* ── Trail blue: active states, primary actions, route line ── */
+  --color-blue-700: #0d4fae;
+  --color-blue-600: #125fcb;
+  --color-blue-500: #1570e6;
+  --color-blue-300: #7fb2f5;
+  --color-blue-100: #dcebff;
+  --color-blue-50: #eef5ff;
+
+  /* ── Paper & canvas ── */
+  --color-cream: #f7f1e6;
+  --color-paper: #fff9ed;
+  --color-paper-edge: #eadfc8;
+  --color-paper-shade: #f1e6d0;
+  --color-white: #ffffff;
+
+  /* ── Wood (signs, boards, crates) ── */
+  --color-wood-900: #3e2819;
+  --color-wood-700: #6b4933;
+  --color-wood-500: #946a48;
+  --color-wood-300: #c9a27c;
+
+  /* ── Accents ── */
+  --color-sunset-700: #9a4d07;
+  --color-sunset-600: #d9761a;
+  --color-sunset-500: #f59a3a;
+  --color-sunset-100: #fdebd6;
+  --color-moss-700: #1a6b3f;
+  --color-moss-600: #23824f;
+  --color-moss-500: #2ea36a;
+  --color-moss-100: #dcf2e5;
+  --color-stone-700: #5f574c;
+  --color-stone-500: #8a8174;
+  --color-stone-100: #ece7de;
+  --color-flag-red: #b8322e;
+
+  /* ── Semantic status (projects, departure board, milestones) ── */
+  --color-status-completed: var(--color-moss-700);
+  --color-status-completed-bg: var(--color-moss-100);
+  --color-status-progress: var(--color-blue-600);
+  --color-status-progress-bg: var(--color-blue-100);
+  --color-status-planned: var(--color-navy-500);
+  --color-status-planned-bg: #e3e7f0;
+  --color-status-idea: var(--color-sunset-700);
+  --color-status-idea-bg: var(--color-sunset-100);
+  --color-status-archived: var(--color-stone-700);
+  --color-status-archived-bg: var(--color-stone-100);
+
+  /* ── Feedback ── */
+  --color-danger-600: #b42318;
+  --color-danger-100: #fde4e1;
+  --color-success-600: var(--color-moss-600);
+
+  /* ── Type scale (fluid, 320px → 1440px) ── */
+  --text-hero: clamp(2.75rem, 1.6rem + 5.2vw, 6rem);
+  --text-hero--line-height: 0.92;
+  --text-title: clamp(2.25rem, 1.5rem + 3.4vw, 4.5rem);
+  --text-title--line-height: 0.95;
+  --text-heading: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  --text-heading--line-height: 1.05;
+  --text-hand-lg: clamp(1.35rem, 1.1rem + 1vw, 2rem);
+  --text-hand-lg--line-height: 1.25;
+
+  /* ── Radius: hierarchy, not one-size-fits-all ── */
+  --radius-tag: 0.5rem;
+  --radius-control: 0.875rem;
+  --radius-card: 1.125rem;
+  --radius-panel: 1.5rem;
+  --radius-pill: 999px;
+
+  /* ── Shadows: warm, paper-on-wood, never grey-blur SaaS ── */
+  --shadow-paper: 0 1px 0 rgb(107 73 51 / 0.1), 0 12px 24px -12px rgb(11 30 74 / 0.35);
+  --shadow-paper-lift: 0 2px 0 rgb(107 73 51 / 0.12), 0 20px 32px -14px rgb(11 30 74 / 0.42);
+  --shadow-nav: 0 10px 30px -12px rgb(11 30 74 / 0.35);
+  --shadow-button: 0 3px 0 var(--color-blue-700), 0 10px 18px -10px rgb(13 79 174 / 0.8);
+  --shadow-button-pressed: 0 1px 0 var(--color-blue-700);
+  --shadow-sign: 0 4px 0 var(--color-wood-900), 0 14px 20px -12px rgb(62 40 25 / 0.6);
+  --shadow-glow-blue: 0 0 0 4px rgb(21 112 230 / 0.18), 0 0 18px rgb(21 112 230 / 0.45);
+
+  /* ── Motion ── */
+  --ease-trail: cubic-bezier(0.22, 0.8, 0.3, 1);
+  --ease-snap: cubic-bezier(0.3, 1.4, 0.5, 1);
+  --duration-quick: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+
+  /* ── Breakpoints (Tailwind defaults + wide screens) ── */
+  --breakpoint-xs: 23.4375rem; /* 375px */
+  --breakpoint-3xl: 120rem; /* 1920px */
+
+  /* ── Animations ── */
+  --animate-flag-wave: flag-wave 3.2s var(--ease-trail) infinite;
+  --animate-cloud-drift: cloud-drift 60s linear infinite;
+
+  @keyframes flag-wave {
+    0%, 100% { transform: skewY(0deg) scaleX(1); }
+    50% { transform: skewY(-2deg) scaleX(0.97); }
+  }
+  @keyframes cloud-drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-4%); }
+  }
+}
+
+/* ── Layout constants (not colour/type, so plain custom properties) ── */
+:root {
+  --nav-height: 4rem;
+  --sidebar-width: 12.5rem;
+  --page-gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --content-max: 88rem;
+  --z-scenery: 0;
+  --z-content: 10;
+  --z-sidebar: 30;
+  --z-nav: 40;
+  --z-overlay: 50;
+  --z-toast: 60;
+
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-height) + 1.5rem);
+  }
+
+  body {
+    min-height: 100dvh;
+    background-color: var(--color-cream);
+    color: var(--color-navy-900);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  ::selection {
+    background-color: var(--color-blue-100);
+    color: var(--color-navy-950);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-blue-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ── Typography utilities ── */
+@utility font-display-heavy {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+@utility font-handwritten {
+  font-family: var(--font-hand);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@utility eyebrow {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 0.8125rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ── Surface utilities ── */
+@utility surface-paper {
+  background-color: var(--color-paper);
+  background-image:
+    radial-gradient(120% 90% at 0% 0%, rgb(255 255 255 / 0.7), transparent 60%),
+    linear-gradient(180deg, transparent 70%, rgb(234 223 200 / 0.45));
+  border: 1px solid var(--color-paper-edge);
+  box-shadow: var(--shadow-paper);
+}
+
+@utility surface-wood {
+  background-color: var(--color-wood-700);
+  background-image:
+    repeating-linear-gradient(
+      178deg,
+      rgb(255 255 255 / 0.04) 0 2px,
+      transparent 2px 11px
+    ),
+    linear-gradient(180deg, var(--color-wood-500), var(--color-wood-700));
+  color: var(--color-paper);
+  box-shadow: var(--shadow-sign);
+}
+
+@utility surface-board {
+  background-color: var(--color-navy-800);
+  background-image: linear-gradient(180deg, var(--color-navy-700), var(--color-navy-900));
+  color: var(--color-white);
+}
+
+/* Scenic overlays keep text legible over artwork (see §54 of the brief). */
+@utility scrim-left {
+  background-image: linear-gradient(
+    90deg,
+    rgb(255 249 237 / 0.92) 0%,
+    rgb(255 249 237 / 0.7) 38%,
+    rgb(255 249 237 / 0) 70%
+  );
+}
+
+@utility scrim-bottom {
+  background-image: linear-gradient(0deg, rgb(6 21 54 / 0.55), rgb(6 21 54 / 0) 55%);
+}
+
+@utility transition-trail {
+  transition-timing-function: var(--ease-trail);
+  transition-duration: var(--duration-base);
+}
