@@ -19,19 +19,22 @@ Browser ──► Vercel (Next.js App Router)
 - **Fonts:** self-hosted via `next/font/local` (`src/styles/fonts.ts`) — no runtime request to Google, works offline and in CI.
 - **Path alias:** `@/*` → `src/*`.
 
-## Backend (planned — Phase 9+)
-- `src/lib/supabase/client.ts` — browser client (anon key).
-- `src/lib/supabase/server.ts` — server client bound to request cookies (anon key + user session).
-- `src/lib/supabase/admin.ts` — service-role client, `import "server-only"`, used only when RLS must be bypassed (e.g. seeding). Never imported by client code.
-- `src/lib/queries/*` — typed read functions per entity (public reads filter `content_state = 'published'` and `is_visible = true`; RLS enforces the same).
-- `src/lib/actions/*` — Server Actions for admin writes. Each action: verify session → validate with Zod → write → `revalidateTag`/`revalidatePath`.
+## Backend (clients built Phase 9; wired to pages in Phase 14)
+- `src/lib/supabase/env.ts` — reads/validates `NEXT_PUBLIC_SUPABASE_*`; `isSupabaseConfigured()`; `STORAGE_BUCKET`.
+- `src/lib/supabase/client.ts` — browser client (`"use client"`, anon key). Only for client islands that need it (admin login).
+- `src/lib/supabase/server.ts` — request-scoped server client bound to cookies (anon key + user session). Admin pages and Server Actions.
+- `src/lib/supabase/public.ts` — cookie-less anon client for public reads, so public pages stay static/cacheable. RLS limits it to published, visible rows.
+- `src/lib/supabase/admin.ts` — service-role client, `import "server-only"`, only when RLS must be bypassed. Never imported by client code.
+- All clients are typed with `Database` (`src/types/database.ts`).
+- `src/lib/queries/*` — typed read functions per entity (`server-only`). **Currently backed by `src/lib/mock/*`**; Phase 14 swaps the bodies to Supabase. Public rules: `content_state = 'published'` and `is_visible` — the mocks apply the same filters; RLS enforces them in the database.
+- `src/lib/actions/*` — Server Actions for admin writes (Phase 11+). Each action: verify session → validate with Zod → write → `revalidateTag`/`revalidatePath`.
 
 ## Authentication (planned — Phase 10)
 - Supabase Auth, email + password, **no public sign-up**. The single admin user is created in the Supabase dashboard.
 - Next.js 16 renamed `middleware.ts` → **`proxy.ts`**. The proxy refreshes the Supabase session and redirects unauthenticated `/admin/*` requests (except `/admin/login`) to login.
 - The proxy is a convenience, not the security boundary. Every admin layout/page re-checks the session server-side, every Server Action re-checks, and **RLS** is the final guard. The admin email is checked against `ADMIN_EMAIL` and an `is_admin()` SQL helper.
 
-## Storage (planned — Phase 9/13)
+## Storage (bucket + policies built Phase 9; uploads Phase 11/13)
 - One public bucket (`SUPABASE_STORAGE_BUCKET`, default `portfolio-media`) with folders `profile/`, `projects/<id>/`, `milestones/`, `icons/`, `resume/`.
 - Public read; writes restricted to the admin via storage RLS policies.
 - Images are rendered through `next/image` (AVIF/WebP, responsive `sizes`); `*.supabase.co` is allowed in `next.config.ts`.
@@ -53,3 +56,13 @@ Browser ──► Vercel (Next.js App Router)
 | 2026-09-25 | Public route placeholders for all 7 checkpoints | Every route resolves while phases are built |
 | 2026-09-25 | Admin routes have no pages until Phase 10 | Avoid unprotected admin pages existing even as stubs |
 | 2026-09-25 | Route protection via `proxy.ts` + server checks + RLS | Next 16 convention; defence in depth |
+| 2026-09-27 | Public reads go through `src/lib/queries/*` (`server-only`) even while backed by `src/lib/mock/*` | Phase 14 swaps the query bodies only; pages don't change |
+| 2026-09-27 | `cn()` uses `extendTailwindMerge` with our custom text/radius/shadow scales | Otherwise `text-hero` + a size override both survive and the wrong one can win |
+| 2026-09-27 | Scenes are SVG stand-ins registered in `SceneBackground` | No text-free art plates yet; swapping to `next/image` plates later touches one component |
+| 2026-09-27 | Mobile map uses native `<dialog>` + `showModal()` | Built-in focus trap, Esc and inert background with no extra JS |
+| 2026-09-27 | Projects/Milestones filtering is client-side over server-provided lists | Tiny datasets; keeps pages static |
+| 2026-09-27 | Journey route layout is computed (rows of 3, snaking) rather than hand-placed | Works for any number of admin-managed entries without overlap |
+| 2026-09-27 | `Database` type is hand-written but derived from `content.ts` | One source of truth for shapes; CLI type generation needs a live project |
+| 2026-09-27 | Admin allow-list lives in `private.admin_users`, checked by `security definer` `private.is_admin()` | Not reachable through the API; RLS policies can still use it |
+| 2026-09-27 | SQL verified with PGlite (`npm run db:test`) | No Docker/Supabase needed to test migrations + RLS |
+| 2026-09-27 | Separate cookie-less `public.ts` Supabase client for public reads | Reading cookies would force every public page to render dynamically |

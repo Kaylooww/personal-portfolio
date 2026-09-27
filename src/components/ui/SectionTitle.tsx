@@ -1,15 +1,20 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
 import { LogoMark } from "./LogoMark";
+import { Spark } from "./Spark";
 
 interface SectionTitleProps {
   eyebrow?: string;
   eyebrowIcon?: ReactNode;
   title: ReactNode;
+  /** Plain line between the title and the note (e.g. roles). */
+  subtitle?: ReactNode;
   /** Handwritten journal line under the title. Use `\n` for line breaks. */
   note?: string;
   as?: "h1" | "h2";
   size?: "hero" | "title";
+  /** Overrides the title's type size when a layout needs a tighter fit. */
+  titleClassName?: string;
   className?: string;
 }
 
@@ -21,9 +26,11 @@ export function SectionTitle({
   eyebrow,
   eyebrowIcon,
   title,
+  subtitle,
   note,
   as: Heading = "h1",
   size = "title",
+  titleClassName,
   className,
 }: SectionTitleProps) {
   return (
@@ -38,30 +45,20 @@ export function SectionTitle({
         className={cn(
           "font-display-heavy uppercase text-navy-900",
           size === "hero" ? "text-hero" : "text-title",
+          titleClassName,
         )}
       >
         {title}
         <Spark className="ml-[0.08em] inline-block h-[0.45em] w-[0.45em] -translate-y-[0.32em] text-blue-500" />
       </Heading>
+      {subtitle && <div className="mt-4">{subtitle}</div>}
       {note && (
-        <p className="font-handwritten relative mt-3 inline-block whitespace-pre-line text-hand-lg text-navy-800 -rotate-1">
+        <p className="font-handwritten relative mt-4 inline-block whitespace-pre-line text-hand-lg text-navy-800 -rotate-1">
           {note}
           <Swoosh className="absolute -bottom-2 left-0 h-3 w-3/5 text-blue-500" />
         </p>
       )}
     </div>
-  );
-}
-
-function Spark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden focusable="false">
-      <g stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" fill="none">
-        <path d="M6 3.5 8 9" />
-        <path d="m14 7.5-4.5 4" />
-        <path d="M15.5 16 10 15" />
-      </g>
-    </svg>
   );
 }
 

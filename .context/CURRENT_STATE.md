@@ -1,45 +1,49 @@
 # Current State
 
-_Last updated: 2026-09-25 — end of Phase 1_
+_Last updated: 2026-09-27 — end of Phase 9_
 
 ## Current phase
-**Phase 1 — Foundation: complete, awaiting owner approval.**
-Next: Phase 2 — Public Navigation + Airport (do not start without approval).
+**Phase 9 — Supabase + Database: complete, awaiting owner approval.**
+The owner approved Phases 3–9 as one batch; each was built, verified and logged separately.
+Next: Phase 10 — Authentication + Admin Foundation (do not start without approval).
 
 ## Completed work
-- Project initialised (Next.js 16.3, React 19.3, TS 6 strict, Tailwind 4.3, ESLint 9, Motion).
-- Folder structure per brief §45 (+ `.context/references/`, `src/styles/fonts/`).
-- Design tokens, typography (Baloo 2 / Kalam / Nunito, self-hosted), surfaces, motion, responsive foundations.
-- Section model (7 checkpoints ending at Summit), domain types, status constants.
-- Base UI: LogoMark, PaperCard, ButtonLink, SectionTitle, Container, SkipLink, PortfolioShell.
-- Every public route resolves (placeholders); `/peak` → 404.
-- `/` temporarily shows a design-token specimen for review.
-- Docs: CHECKPOINTS, CLAUDE, AGENTS, README, DEVELOPMENT, DEPLOYMENT (initial), all `.context/` files.
-- Checks: lint ✅ typecheck ✅ build ✅. Visual check at 1440px and 375px ✅.
+- **Phase 1 — Foundation** and **Phase 2 — Navigation + Airport** (approved).
+- **Phase 3 — About** (`/about`): shore scene, passport + "Hello! I'm" intro card, wood notice board with Education / Interests / Development Focus / Location / Current Goals (checklist).
+- **Phase 4 — Skills** (`/skills`): jungle scene, plank gear board with 6 category panels, skill tiles (logo or monogram fallback), empty state.
+- **Phase 5 — Projects** (`/projects`, `/projects/[slug]`): canyon scene, search + status filters (client), flag-tab cards with status, stack, role, Details/GitHub/Live demo; full detail page (overview, problem, solution, features, process, gallery, facts). Drafts/archived → 404. Detail pages statically generated.
+- **Phase 6 — Journey** (`/journey`): dusk ridge scene, computed snaking mountain route with glowing dotted trail + pennants (lg+), vertical timeline (mobile).
+- **Phase 7 — Milestones** (`/milestones`): citadel scene, 6 category badge cards that filter the milestone log, enamel hex badges, empty states.
+- **Phase 8 — Summit** (`/summit`): sunset scene with planted flag, THE SUMMIT, note + closing message, Contact / View Projects / GitHub / LinkedIn (missing links hidden). All pages verified together.
+- **Phase 9 — Supabase + Database:** `@supabase/ssr` + `@supabase/supabase-js`; typed browser / server / public / service-role clients; `Database` type; 3 migrations (schema, RLS, storage); `seed.sql`; `npm run db:test` (PGlite) — 28/28 checks pass.
+- Checks: lint ✅ typecheck ✅ build ✅ db:test ✅. All 8 public URLs: one `h1` each, no "Peak" text, no horizontal overflow at 320/375/768, all internal links resolve, `/peak` → 404.
 
-## Incomplete work (by design, later phases)
-- Navigation (top, sidebar, mobile) — Phase 2.
-- All real page designs — Phases 2–8.
-- Supabase, schema, RLS, storage — Phase 9. `src/lib/supabase`, `queries`, `actions`, `auth`, `validation` are empty.
-- React Hook Form, Zod, `@supabase/ssr`, `@supabase/supabase-js` not yet installed (added in the phase that uses them).
-- Admin — Phases 10–13. `src/app/admin/*` folders are empty.
-- sitemap/robots/OG image — Phase 16.
+## Incomplete work
+- **Supabase not connected.** `.env.local` has no Supabase URL/keys yet, so migrations have not been applied to a live project. Steps: `supabase/README.md`. Pages keep using mocks until Phase 14 by design.
+- **`/admin/login` → 404** until Phase 10.
+- **Placeholder content to replace:** social links (`hello@example.com`, github.com, linkedin.com roots), sample projects/milestones, journey entries (taken from the reference — verify accuracy), profile photo.
+- **Scene art is stand-in SVG** for all 7 checkpoints; mascot omitted.
+- Not-found project slugs return HTTP 200 with the 404 UI (root `loading.tsx` streams before `notFound()`); address in Phase 16 (SEO).
+- Loading skeletons, motion polish — Phase 15. Sitemap/robots/OG — Phase 16.
 
 ## Known bugs
-None.
+None known.
 
 ## Database state
-No database yet. Planned schema documented in `DATABASE.md`.
+Schema, RLS and storage migrations written and tested in PGlite; not yet applied to Supabase. Seed matches the mocks (samples as drafts, social links hidden).
 
 ## Architectural decisions
-See `ARCHITECTURE.md` → Decisions log.
+See `ARCHITECTURE.md` → Decisions log (Phases 3–9 added: client-side filtering, computed journey layout, derived `Database` type, `private.is_admin()`, PGlite tests, cookie-less public client).
 
 ## Open questions for the owner
-1. **Scene artwork.** Each page needs a clean background plate with no UI or text baked in (the references have nav bars, headings and a "PEAK" label painted in). Preferred: regenerate each of the 7 scenes as a text-free plate, desktop landscape (≥ 2560×1440) + mobile portrait (≈ 1080×1920). Without them, Phase 2+ will use layered CSS/SVG scenery as a stand-in.
-2. **Mascot.** The backpacker character appears in every reference. Should it be in the artwork plates, or omitted?
-3. **Real links.** GitHub, LinkedIn, email — needed by Phase 8 (can be placeholders until Phase 13 admin).
+1. **Supabase project** — create it and share access by filling `.env.local` (URL, anon key, service-role key, `ADMIN_EMAIL`). Needed for Phase 10.
+2. **Real links** — GitHub, LinkedIn, contact email (placeholders are live on `/summit` in dev).
+3. **Journey entries** — confirm the six entries from the reference are accurate (e.g. "Open Source Contributor").
+4. **Skills** — the reference lists Java and C under both Programming and Backend; keep, or change?
+5. **Scene artwork & mascot** — painted, text-free plates per checkpoint, or keep the SVG stand-ins?
+6. **Profile photo.**
 
 ## Important notes
-- The references label the last nav item "PEAK"; the site must say **Summit** everywhere.
-- Reference About text says "BST Information Technology" and "closer to the peak" → use "BS Information Technology" and "closer to the summit".
-- Reference project names (SkyTrack, CampNotes, Summit Social, Peak Planner) are placeholders, not Kyle's work.
+- The site says **Summit** everywhere; "PEAK" is only the inspiration.
+- Reference project names (SkyTrack, CampNotes, Summit Social, Peak Planner) are not used.
+- Reference About text "BST" → "BS"; "closer to the peak" → "closer to the summit".

@@ -1,4 +1,4 @@
-import type { ContentState, ProjectStatus } from "@/types";
+import type { ContentState, DepartureStatus, ProjectStatus } from "@/types";
 
 export const PROJECT_STATUSES: readonly ProjectStatus[] = [
   "completed",
@@ -17,3 +17,9 @@ export const PROJECT_STATUS_LABEL: Record<ProjectStatus, string> = {
 };
 
 export const CONTENT_STATES: readonly ContentState[] = ["draft", "published", "archived"];
+
+export const DEPARTURE_STATUS_LABEL: Record<DepartureStatus, string> = {
+  ready: "Ready",
+  up_next: "Up Next",
+  planned: "Planned",
+};

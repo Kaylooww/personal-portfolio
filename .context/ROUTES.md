@@ -3,14 +3,14 @@
 ## Public — `src/app/(portfolio)/`
 | Route | Page | Status |
 |---|---|---|
-| `/` | Airport / landing | Phase 1: design-token preview · Phase 2: Airport |
-| `/about` | About | placeholder → Phase 3 |
-| `/skills` | Equipment & Skills | placeholder → Phase 4 |
-| `/projects` | Expeditions | placeholder → Phase 5 |
-| `/projects/[slug]` | Project detail | placeholder → Phase 5 |
-| `/journey` | My Journey | placeholder → Phase 6 |
-| `/milestones` | Milestones | placeholder → Phase 7 |
-| `/summit` | The Summit (final destination) | placeholder → Phase 8 |
+| `/` | Airport / landing | ✅ built (Phase 2) |
+| `/about` | About | ✅ built (Phase 3) |
+| `/skills` | Equipment & Skills | ✅ built (Phase 4) |
+| `/projects` | Expeditions | ✅ built (Phase 5) |
+| `/projects/[slug]` | Project detail (published only; drafts/archived → 404) | ✅ built (Phase 5), SSG via `generateStaticParams` |
+| `/journey` | My Journey | ✅ built (Phase 6) |
+| `/milestones` | Milestones | ✅ built (Phase 7) |
+| `/summit` | The Summit (final destination) | ✅ built (Phase 8) |
 
 **There is no `/peak`.** It resolves to the 404 page.
 

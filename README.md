@@ -33,6 +33,7 @@ npm run dev                  # http://localhost:3000
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript, no emit |
 | `npm run check` | lint + typecheck + build |
+| `npm run db:test` | Apply migrations + seed to in-memory Postgres and test RLS |
 
 ## Structure
 ```

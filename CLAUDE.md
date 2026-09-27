@@ -39,4 +39,5 @@ npm run lint        # ESLint (flat config)
 npm run typecheck   # tsc --noEmit
 npm run build       # production build
 npm run check       # all three
+npm run db:test     # migrations + RLS on in-memory Postgres (PGlite)
 ```

@@ -60,6 +60,10 @@
   --color-stone-500: #8a8174;
   --color-stone-100: #ece7de;
   --color-flag-red: #b8322e;
+  /* Badge enamels only (milestone badges) — not for UI surfaces. */
+  --color-gold-500: #c9962e;
+  --color-gold-700: #8a6414;
+  --color-plum-600: #5b3f8f;
 
   /* ── Semantic status (projects, departure board, milestones) ── */
   --color-status-completed: var(--color-moss-700);
@@ -169,6 +173,9 @@
   }
 
   p { text-wrap: pretty; }
+
+  /* Freeze the page behind an open modal (mobile map, later admin dialogs). */
+  html:has(dialog[open]) { overflow: hidden; }
 
   ::selection {
     background-color: var(--color-blue-100);

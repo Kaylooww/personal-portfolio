@@ -72,6 +72,10 @@ export interface Skill extends Timestamps, Orderable {
   featured: boolean;
 }
 
+export interface SkillCategoryWithSkills extends SkillCategory {
+  skills: Skill[];
+}
+
 export interface Project extends Timestamps, Orderable {
   id: UUID;
   title: string;
@@ -161,9 +165,13 @@ export interface SocialLink extends Timestamps, Orderable {
   url: string;
 }
 
+export type DepartureStatus = "ready" | "up_next" | "planned";
+
 export interface DepartureRow {
   destination: string;
-  status: "ready" | "up_next" | "planned";
+  status: DepartureStatus;
+  /** Icon key (e.g. "laptop", "palm", "mountain"); unknown keys fall back to a plane. */
+  icon: string | null;
 }
 
 export interface SiteSettings {
@@ -172,6 +180,12 @@ export interface SiteSettings {
   site_description: string;
   og_image_url: string | null;
   departures: DepartureRow[];
+  /** Short handwritten line in the departure board corner. */
+  departures_note: string | null;
+  /** Handwritten line under THE SUMMIT. */
+  summit_note: string | null;
+  /** Closing paragraph on the Summit page. */
+  summit_message: string | null;
   resume_enabled: boolean;
   updated_at: ISODateString;
 }

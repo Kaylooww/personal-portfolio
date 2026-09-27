@@ -30,6 +30,8 @@ Tailwind's default palette is **reset** — only these tokens exist (`bg-navy-90
 | `moss-700/600/500/100` | #1A6B3F / #23824F / #2EA36A / #DCF2E5 | READY, Completed |
 | `stone-700/500/100` | #5F574C / #8A8174 / #ECE7DE | Archived |
 | `flag-red` | #B8322E | Competition badge, banners |
+| `gold-500/700` | #C9962E / #8A6414 | Award badge enamel only |
+| `plum-600` | #5B3F8F | Accomplishment badge enamel only (never gradients/surfaces) |
 | `danger-600/100` | #B42318 / #FDE4E1 | Errors, destructive actions |
 
 Status tokens (`status-completed`, `status-progress`, `status-planned`, `status-idea`, `status-archived`, each with `-bg`) map onto the above. Status text uses the `-700` shade so every pill passes AA (≥ 4.5:1) on its tinted background: Completed 5.6, In progress 4.9, Planned 6.0, Idea 5.2, Archived 5.8.
@@ -61,7 +63,8 @@ Tailwind 4px scale. Layout variables: `--nav-height` 4rem, `--sidebar-width` 12.
 ## Navigation (built Phase 2)
 - Top nav: `surface-paper` pill, `shadow-nav`, centered, fixed; active = `bg-blue-100` pill + 3px `blue-500` underline; label "Summit" (never "Peak").
 - Sidebar: dashed `navy-300` route line, solid `blue-500` for completed segment; inactive badge `navy-700` 36px; active `blue-500` 44px + `shadow-glow-blue`.
-- Mobile (< lg): logo left, menu button right; menu opens as an expedition-map sheet listing the 7 checkpoints on a trail; a compact 7-dot progress indicator.
+- Mobile (< lg): floating paper bar — logo, `NN / Label` of the current checkpoint, a 7-dot progress indicator, and a navy **Map** button that opens a right-side `<dialog>` sheet listing all 7 checkpoints on a trail (label + handwritten meaning). Esc, the ✕ button, the backdrop, or choosing a link closes it; the page behind is scroll-locked.
+- Active state everywhere comes from `useActiveSection()`; nested routes (e.g. `/projects/x`) light up their parent.
 
 ## Motion
 Durations `--duration-quick` 150ms · `-base` 250ms · `-slow` 400ms. Easing `--ease-trail` (default), `--ease-snap` (small bounces on badges). Keyframes: `flag-wave`, `cloud-drift`.
