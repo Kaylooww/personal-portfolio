@@ -17,7 +17,9 @@ export type UiIconName =
   | "github"
   | "linkedin"
   | "mail"
-  | "search";
+  | "search"
+  | "log-out"
+  | "trash";
 
 /** General-purpose line icons (2px stroke, rounded caps). Decorative by default. */
 const PATHS: Record<UiIconName, ReactNode> = {
@@ -38,6 +40,8 @@ const PATHS: Record<UiIconName, ReactNode> = {
       <path d="m3 7 9 6 9-6" />
     </>
   ),
+  trash: <path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1l1-13M9 7V4h6v3" />,
+  "log-out": <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />,
   search: (
     <>
       <circle cx="11" cy="11" r="7" />

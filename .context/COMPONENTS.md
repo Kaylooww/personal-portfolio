@@ -54,6 +54,34 @@ Rule: Server Component unless it needs state, effects, or browser APIs. One comp
 
 `NextStopSign` gained a `note` prop. `CheckpointPlaceholder` was removed (all checkpoints built).
 
+## Built (Phase 10 — admin)
+
+| Component | Path | Kind | Purpose |
+|---|---|---|---|
+| `AdminSidebar` | `components/admin/AdminSidebar.tsx` | client | Section nav with active state; sidebar (lg+) / tab row (below lg); Log out |
+| `AdminHeader` | `components/admin/AdminHeader.tsx` | server | Signed-in email + "View site" |
+| `AdminPageHeader` | `components/admin/AdminPageHeader.tsx` | server | Page title, description, actions |
+| `StatCard` | `components/admin/StatCard.tsx` | server | Dashboard number tile linking to its section |
+| `AdminComingSoon` | `components/admin/AdminComingSoon.tsx` | server | Placeholder for sections built later |
+| `LoginForm` | `components/admin/LoginForm.tsx` | client | `useActionState` + `signIn` Server Action; works without JS |
+| `SignOutButton` | `components/admin/SignOutButton.tsx` | client | Form posting to `signOut`, pending state |
+| `TextField` | `components/forms/TextField.tsx` | client-usable | Labelled input with hint/error wired to `aria-describedby` |
+
+## Built (Phase 11 — project management)
+
+| Component | Path | Kind | Purpose |
+|---|---|---|---|
+| `ToastProvider` / `useToast` | `components/ui/Toast.tsx` | client | Success/error notes (`role=status`/`alert`), mounted in the admin layout |
+| `ConfirmDialog` | `components/ui/ConfirmDialog.tsx` | client | Native `<dialog>` confirmation; focus starts on Cancel |
+| `TextAreaField`, `SelectField`, `CheckboxField` | `components/forms/` | client-usable | Labelled fields matching `TextField` |
+| `ImageUploader` + `uploadImage()` | `components/forms/ImageUploader.tsx` | client | Direct-to-Storage upload, preview, replace/remove, discard of abandoned uploads |
+| `ContentStatePill` | `components/admin/ContentStatePill.tsx` | server | Draft / Published / Archived |
+| `ProjectAdminList`, `ProjectRowActions`, `ProjectFilters` | `components/admin/projects/` | server / client / client | List rows; row actions; URL-driven search + filters |
+| `ProjectForm`, `TechnologyPicker` | `components/admin/projects/` | client | RHF + zod editor; ordered skill picker |
+| `ProjectImagesManager`, `DeleteProjectButton` | `components/admin/projects/` | client | Screenshot gallery manager; danger-zone delete |
+
+`UiIcon` gained `trash`. `AdminSidebar` scrolls the active tab into view on small screens.
+
 Hook: `useActiveSection()` (`hooks/useActiveSection.ts`) → `{ section, index }` from the pathname; nested routes map to their parent.
 
 `SectionTitle` gained `subtitle` (line between title and note) and `titleClassName` (size override).
@@ -63,7 +91,5 @@ Hook: `useActiveSection()` (`hooks/useActiveSection.ts`) → `{ section, index }
 | Component | Folder | Phase |
 |---|---|---|
 | `LoadingSkeleton` | `ui/` | 15 |
-| `AdminSidebar`, `AdminHeader`, `StatCard` | `admin/` | 10 |
-| `FormField`, `ImageUploader`, `ConfirmDialog`, `ReorderList`, `TechnologyPicker` | `forms/`, `ui/`, `admin/` | 11 |
 
 Update this table as components are built.

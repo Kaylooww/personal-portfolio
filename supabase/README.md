@@ -28,7 +28,8 @@ No Docker or Supabase project required.
    - **Dashboard:** SQL Editor → paste and run each migration file in order.
 3. Load starter content: SQL Editor → run `seed.sql` (or `npx supabase db reset` on a local stack).
 4. Create the admin login: **Authentication → Users → Add user** (email + password, auto-confirm).
-   Public sign-ups should be **disabled** (Authentication → Providers → Email → uncheck "Allow new users to sign up").
+   Keep the **Email provider enabled**, but turn off public sign-ups: Authentication → Sign In / Providers → **Allow new users to sign up: off**.
+   (Disabling the Email provider itself blocks the admin from signing in — the login form will say so.)
 5. Grant that email admin rights (SQL Editor):
    ```sql
    insert into private.admin_users (email) values (lower('you@example.com'));

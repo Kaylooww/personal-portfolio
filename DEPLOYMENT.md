@@ -8,7 +8,7 @@
 
 ## Outline
 1. Create a Supabase project; run migrations from `supabase/migrations/` (this also creates the `portfolio-media` bucket and its policies); run `supabase/seed.sql`. Details: `supabase/README.md`.
-2. Disable public sign-ups (Authentication → Providers → Email).
+2. Keep the Email provider **enabled**; turn off "Allow new users to sign up" (Authentication → Sign In / Providers).
 3. Create the single admin user in Supabase Auth; add the email to `private.admin_users`; set `ADMIN_EMAIL`.
 4. Import the repository into Vercel (framework preset: Next.js).
 5. Add environment variables from `.env.example` in Vercel (Production + Preview). `SUPABASE_SERVICE_ROLE_KEY` must **not** be prefixed `NEXT_PUBLIC_`.

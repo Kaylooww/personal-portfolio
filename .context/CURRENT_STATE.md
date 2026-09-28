@@ -1,49 +1,48 @@
 # Current State
 
-_Last updated: 2026-09-27 — end of Phase 9_
+_Last updated: 2026-09-27 — end of Phase 11_
 
 ## Current phase
-**Phase 9 — Supabase + Database: complete, awaiting owner approval.**
-The owner approved Phases 3–9 as one batch; each was built, verified and logged separately.
-Next: Phase 10 — Authentication + Admin Foundation (do not start without approval).
+**Phase 11 — Project Management: complete, awaiting owner approval.**
+Next: Phase 12 — Skills Management (do not start without approval).
 
 ## Completed work
-- **Phase 1 — Foundation** and **Phase 2 — Navigation + Airport** (approved).
-- **Phase 3 — About** (`/about`): shore scene, passport + "Hello! I'm" intro card, wood notice board with Education / Interests / Development Focus / Location / Current Goals (checklist).
-- **Phase 4 — Skills** (`/skills`): jungle scene, plank gear board with 6 category panels, skill tiles (logo or monogram fallback), empty state.
-- **Phase 5 — Projects** (`/projects`, `/projects/[slug]`): canyon scene, search + status filters (client), flag-tab cards with status, stack, role, Details/GitHub/Live demo; full detail page (overview, problem, solution, features, process, gallery, facts). Drafts/archived → 404. Detail pages statically generated.
-- **Phase 6 — Journey** (`/journey`): dusk ridge scene, computed snaking mountain route with glowing dotted trail + pennants (lg+), vertical timeline (mobile).
-- **Phase 7 — Milestones** (`/milestones`): citadel scene, 6 category badge cards that filter the milestone log, enamel hex badges, empty states.
-- **Phase 8 — Summit** (`/summit`): sunset scene with planted flag, THE SUMMIT, note + closing message, Contact / View Projects / GitHub / LinkedIn (missing links hidden). All pages verified together.
-- **Phase 9 — Supabase + Database:** `@supabase/ssr` + `@supabase/supabase-js`; typed browser / server / public / service-role clients; `Database` type; 3 migrations (schema, RLS, storage); `seed.sql`; `npm run db:test` (PGlite) — 28/28 checks pass.
-- Checks: lint ✅ typecheck ✅ build ✅ db:test ✅. All 8 public URLs: one `h1` each, no "Peak" text, no horizontal overflow at 320/375/768, all internal links resolve, `/peak` → 404.
+- **Phases 1–9** (approved): foundation; navigation + all seven public checkpoints (mock data); Supabase clients, schema, RLS, storage, seed, `npm run db:test`. Committed as `851f0a1` (Phase 1) and `432b935` (Phases 2–9).
+- **Supabase is live:** `.env.local` holds a valid project URL, publishable key, secret key, `ADMIN_EMAIL`, bucket. Migrations + seed are applied; RLS behaves as designed (anon sees 1 project, admin 4); `portfolio-media` bucket exists; the admin user exists and is in `private.admin_users`.
+- **Phase 10:**
+  - `src/proxy.ts` session refresh + signed-out redirect for `/admin/*`.
+  - `requireAdmin()` / `getAdminSession()` (`getUser()` + `ADMIN_EMAIL`), in the protected layout and every protected page.
+  - `/admin/login` (Server Action sign-in, generic errors, `?next=` sanitised), `/admin/unauthorized`, logout.
+  - Admin shell "Base Camp": sidebar (tab row on mobile), header, dashboard with 6 live stats + quick actions; placeholder pages for the other 8 sections.
+- Checks: lint ✅ typecheck ✅ build ✅ db:test ✅; browser auth flows ✅ against the live project (temporary test user deleted afterwards).
+- **Phase 11 — Project Management:** full project CRUD in the admin (list with URL search/filters, reorder, featured, visibility, publish/unpublish/archive/restore, delete with confirm; create/edit form with validation, auto slug, thumbnail upload, tech picker, links, dates; screenshots manager). Verified with a 41-step browser run against the live database; test data cleaned up, real projects renumbered 1–4.
 
 ## Incomplete work
-- **Supabase not connected.** `.env.local` has no Supabase URL/keys yet, so migrations have not been applied to a live project. Steps: `supabase/README.md`. Pages keep using mocks until Phase 14 by design.
-- **`/admin/login` → 404** until Phase 10.
-- **Placeholder content to replace:** social links (`hello@example.com`, github.com, linkedin.com roots), sample projects/milestones, journey entries (taken from the reference — verify accuracy), profile photo.
-- **Scene art is stand-in SVG** for all 7 checkpoints; mascot omitted.
-- Not-found project slugs return HTTP 200 with the 404 UI (root `loading.tsx` streams before `notFound()`); address in Phase 16 (SEO).
-- Loading skeletons, motion polish — Phase 15. Sitemap/robots/OG — Phase 16.
+- **Password sign-in is blocked by a Supabase setting:** the project's Email provider is disabled ("Email logins are disabled"). Owner must enable it (keep "Allow new users to sign up" off). The login form now shows this clearly. Everything else was verified with injected sessions.
+- Admin section editors still to build: Skills (12), Profile/About/Journey/Milestones/Media/Settings (13). "+ Add skill" / "+ Add milestone" quick actions open placeholders.
+- Public pages still read `src/lib/mock/*` until Phase 14 (dashboard says so).
+- Placeholder content to replace: social links, sample projects/milestones, journey entries (verify), profile photo.
+- Scene art is SVG stand-in; mascot omitted.
+- Unpublished project slugs return HTTP 200 with the 404 UI — Phase 16.
 
 ## Known bugs
-None known.
+None known in code. (Email provider setting above is a project configuration issue.)
 
 ## Database state
-Schema, RLS and storage migrations written and tested in PGlite; not yet applied to Supabase. Seed matches the mocks (samples as drafts, social links hidden).
+Live Supabase project: 3 migrations + seed applied. Users: 1 (the admin).
 
 ## Architectural decisions
-See `ARCHITECTURE.md` → Decisions log (Phases 3–9 added: client-side filtering, computed journey layout, derived `Database` type, `private.is_admin()`, PGlite tests, cookie-less public client).
+See `ARCHITECTURE.md` → Decisions log (Phase 10: auth checks; Phase 11: direct-to-Storage uploads, shared zod schemas, URL-driven admin filters, renumbering reorder, `ActionResult`).
 
 ## Open questions for the owner
-1. **Supabase project** — create it and share access by filling `.env.local` (URL, anon key, service-role key, `ADMIN_EMAIL`). Needed for Phase 10.
-2. **Real links** — GitHub, LinkedIn, contact email (placeholders are live on `/summit` in dev).
-3. **Journey entries** — confirm the six entries from the reference are accurate (e.g. "Open Source Contributor").
-4. **Skills** — the reference lists Java and C under both Programming and Backend; keep, or change?
-5. **Scene artwork & mascot** — painted, text-free plates per checkpoint, or keep the SVG stand-ins?
+1. **Enable the Email provider** in Supabase (Authentication → Sign In / Providers → Email), keeping sign-ups off — then try signing in at `/admin/login`.
+2. **Real links** — GitHub, LinkedIn, contact email.
+3. **Journey entries** — confirm accuracy.
+4. **Skills** — keep Java/C under both Programming and Backend?
+5. **Scene artwork & mascot.**
 6. **Profile photo.**
 
 ## Important notes
 - The site says **Summit** everywhere; "PEAK" is only the inspiration.
 - Reference project names (SkyTrack, CampNotes, Summit Social, Peak Planner) are not used.
-- Reference About text "BST" → "BS"; "closer to the peak" → "closer to the summit".
+- The secret (service-role) key is used only in `src/lib/supabase/admin.ts` (`server-only`); admin reads/writes use the admin's own session + RLS.

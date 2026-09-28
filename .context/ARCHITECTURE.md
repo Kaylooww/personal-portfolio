@@ -29,7 +29,7 @@ Browser ──► Vercel (Next.js App Router)
 - `src/lib/queries/*` — typed read functions per entity (`server-only`). **Currently backed by `src/lib/mock/*`**; Phase 14 swaps the bodies to Supabase. Public rules: `content_state = 'published'` and `is_visible` — the mocks apply the same filters; RLS enforces them in the database.
 - `src/lib/actions/*` — Server Actions for admin writes (Phase 11+). Each action: verify session → validate with Zod → write → `revalidateTag`/`revalidatePath`.
 
-## Authentication (planned — Phase 10)
+## Authentication (built Phase 10)
 - Supabase Auth, email + password, **no public sign-up**. The single admin user is created in the Supabase dashboard.
 - Next.js 16 renamed `middleware.ts` → **`proxy.ts`**. The proxy refreshes the Supabase session and redirects unauthenticated `/admin/*` requests (except `/admin/login`) to login.
 - The proxy is a convenience, not the security boundary. Every admin layout/page re-checks the session server-side, every Server Action re-checks, and **RLS** is the final guard. The admin email is checked against `ADMIN_EMAIL` and an `is_admin()` SQL helper.
@@ -66,3 +66,12 @@ Browser ──► Vercel (Next.js App Router)
 | 2026-09-27 | Admin allow-list lives in `private.admin_users`, checked by `security definer` `private.is_admin()` | Not reachable through the API; RLS policies can still use it |
 | 2026-09-27 | SQL verified with PGlite (`npm run db:test`) | No Docker/Supabase needed to test migrations + RLS |
 | 2026-09-27 | Separate cookie-less `public.ts` Supabase client for public reads | Reading cookies would force every public page to render dynamically |
+| 2026-09-27 | Proxy uses `getClaims()`; pages/actions use `getUser()` via cached `getAdminSession()` | Fast optimistic check at the edge; authoritative check where data is touched |
+| 2026-09-27 | `requireAdmin()` in the protected layout **and** each page | Layouts don't re-run on every client navigation |
+| 2026-09-27 | Non-admin accounts are signed straight back out on login | No session ever exists for a non-admin through the form |
+| 2026-09-27 | Admin section placeholders exist behind `requireAdmin()` | Sidebar links resolve; safe now that protection exists |
+| 2026-09-27 | Uploads go browser → Storage with the admin session; actions receive URLs only | Avoids the Server Action body limit; storage RLS still restricts writes to the admin |
+| 2026-09-27 | One zod schema per form, used by React Hook Form and re-run in the Server Action | Client UX and server safety can't drift |
+| 2026-09-27 | Admin list filters live in URL search params, rendered on the server | Shareable/back-button friendly; no client data fetching |
+| 2026-09-27 | Reordering = move up/down + renumber 1..n | Simple, accessible, robust to gaps; drag-and-drop not needed yet |
+| 2026-09-27 | Actions return `ActionResult` and map Postgres errors (`23505` → field error) | Friendly messages; raw DB errors never reach the UI |

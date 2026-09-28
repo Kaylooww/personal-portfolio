@@ -12,9 +12,9 @@ verified, documented, reported to the owner, and **explicitly approved**.
 
 | Field | Value |
 |---|---|
-| Current phase | **Phase 9 — Supabase + Database** |
+| Current phase | **Phase 11 — Project Management** |
 | Phase status | ✅ Complete — **awaiting owner approval** |
-| Next phase | Phase 10 — Authentication + Admin Foundation (blocked until approved) |
+| Next phase | Phase 12 — Skills Management (blocked until approved) |
 
 Update this table whenever a phase changes state.
 
@@ -62,9 +62,9 @@ If the owner requests changes, you stay in the **current** phase: fix → verify
 | 6 | Journey | ✅ Complete (batch-approved 3–9) |
 | 7 | Milestones | ✅ Complete (batch-approved 3–9) |
 | 8 | Summit | ✅ Complete (batch-approved 3–9) |
-| 9 | Supabase + Database | ✅ Complete — awaiting approval |
-| 10 | Authentication + Admin Foundation | ⏸ Not started |
-| 11 | Project Management | ⏸ Not started |
+| 9 | Supabase + Database | ✅ Approved |
+| 10 | Authentication + Admin Foundation | ✅ Approved |
+| 11 | Project Management | ✅ Complete — awaiting approval |
 | 12 | Skills Management | ⏸ Not started |
 | 13 | Content Management | ⏸ Not started |
 | 14 | Public Database Integration | ⏸ Not started |

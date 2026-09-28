@@ -2,6 +2,40 @@
 
 All meaningful implementation changes, newest first.
 
+## 2026-09-27 — Phase 11: Project Management
+
+### Added
+- `react-hook-form`, `@hookform/resolvers`.
+- Project admin: `/admin/projects` (list, URL search/filters, reorder, featured, visibility, publish/unpublish, archive/restore, delete with confirm), `/admin/projects/new`, `/admin/projects/[id]/edit` (full editor, screenshots, danger zone).
+- `src/lib/actions/projects.ts` — 10 Server Actions (requireAdmin → zod → admin session write → revalidate); storage cleanup on delete/replace.
+- `src/lib/actions/result.ts` (`ActionResult`, DB error mapping), `src/lib/validation/project.ts` (`projectFormSchema`, `slugify`, row ↔ form converters), `src/lib/storage/media.ts` (file rules, safe paths, URL → storage path), `src/lib/queries/admin-projects.ts`.
+- UI: `Toast`, `ConfirmDialog`, `TextAreaField`, `SelectField`, `CheckboxField`, `ImageUploader`, `ContentStatePill`, project list/row/filter/form/picker/images/delete components; `UiIcon` `trash`.
+- Dashboard "+ Add project" → `/admin/projects/new`.
+
+### Changed
+- `AdminSidebar` keeps the active tab in view on small screens.
+
+### Verified (live Supabase, admin session)
+- 41-step browser run: list/filters/search/empty state; validation (required, slug format, URL, file type); auto slug; thumbnail upload; draft save + DB fields, feature lines, tech order; RLS hides drafts; screenshots upload/alt/reorder/delete (+ file removal); publish (RLS shows it); duplicate slug field error; feature/hide (RLS hides)/move/archive; delete with confirm → row, cascades, and all stored files removed.
+- Test project removed; real projects renumbered 1–4 in their original order; no test files left in storage.
+
+## 2026-09-27 — Phase 10: Authentication + Admin Foundation
+
+### Added
+- `zod` (direct dependency).
+- `src/proxy.ts` — refreshes Supabase session cookies (`getClaims()`), redirects signed-out `/admin/*` to `/admin/login?next=…`.
+- `src/lib/auth/admin.ts` — `isAdminEmail`, cached `getAdminSession()` (`getUser()`), `requireAdmin()`; `src/lib/auth/paths.ts` — `safeAdminPath()` (no open redirects), public admin paths.
+- `src/lib/actions/auth.ts` — `signIn` / `signOut` Server Actions; generic errors; non-admin accounts signed back out; clear message when the Email provider is disabled.
+- `src/lib/validation/auth.ts` — zod sign-in schema.
+- Admin routes: `/admin/login`, `/admin/unauthorized`, `(protected)` group with dashboard and placeholder pages for Profile, About, Skills, Projects, Journey, Milestones, Media, Settings. Admin layout is `noindex`.
+- Dashboard: 6 live stat cards (projects total/published/draft, skills, milestones, journey), quick actions, note that the public site still uses mocks.
+- Components: `AdminSidebar`, `AdminHeader`, `AdminPageHeader`, `StatCard`, `AdminComingSoon`, `LoginForm`, `SignOutButton`, `TextField`; `UiIcon` `log-out`; `lib/constants/admin-nav.ts`.
+
+### Verified (against the live Supabase project)
+- Real admin email is in `private.admin_users` (admin session sees 4 projects, all social links).
+- Browser flows: signed-out redirects with `next`, validation + generic errors, session → section/dashboard, `/admin/login` bounces a signed-in admin, logout, non-admin session → unauthorized on every route, open-redirect attempts neutralised.
+- Temporary test user created for the run and deleted afterwards.
+
 ## 2026-09-27 — Phase 9: Supabase + Database
 
 ### Added
