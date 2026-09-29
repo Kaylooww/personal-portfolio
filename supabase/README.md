@@ -1,44 +1,92 @@
-# supabase/
+# Supabase
 
-Database schema, security rules and starter content for the portfolio.
-Design notes: `.context/DATABASE.md`.
+Schema, security rules and starter content. Design details:
+[Database](../.context/DATABASE.md) and [Content model](../.context/CONTENT_MODEL.md).
+The owner's live project already has these migrations and seed; preserve its content.
 
-| File | What it does |
+| File | Purpose |
 |---|---|
-| `migrations/20260927000001_schema.sql` | Enums, all tables, constraints, indexes, `updated_at` + `published_at` triggers |
-| `migrations/20260927000002_rls.sql` | `private.admin_users`, `private.is_admin()`, RLS on every table |
-| `migrations/20260927000003_storage.sql` | Public `portfolio-media` bucket + admin-only write policies |
-| `seed.sql` | Starter content matching the site's current mock data |
+| `migrations/20260927000001_schema.sql` | Enums, tables, constraints, indexes and timestamp/publishing triggers |
+| `migrations/20260927000002_rls.sql` | Private admin allowlist, helper and table RLS |
+| `migrations/20260927000003_storage.sql` | Public `portfolio-media` bucket and admin-only writes |
+| `seed.sql` | Starter content; sample projects draft, social placeholders hidden |
 
-## Test locally without Supabase
+## Fresh project setup
 
-```bash
+1. Create a Supabase project and wait for its database to be available.
+2. In its SQL Editor, run the three migration files above in order, once each.
+3. Run `seed.sql` once on the fresh database. It is not safe to rerun on an existing portfolio.
+4. Keep the **Email provider enabled** and disable **Allow new users to sign up**.
+   Create the administrator under Authentication → Users with email, password and
+   confirmed email status. Existing confirmed users can sign in when sign-ups are
+   off. See [Auth configuration](https://supabase.com/docs/guides/auth/general-configuration).
+5. Grant the same email database rights in the SQL Editor:
+
+   ```sql
+   insert into private.admin_users (email)
+   values (lower('you@example.com'))
+   on conflict (email) do nothing;
+   ```
+
+6. Put the project URL and publishable key into `.env.local` under
+   `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`. Set `ADMIN_EMAIL`
+   to the same email. These variable names accept modern keys despite their legacy
+   terminology. The secret/service-role key is optional for the server-only
+   maintenance helper; no app route requires it. See
+   [API keys](https://supabase.com/docs/guides/getting-started/api-keys).
+7. Start the app, sign in at `/admin/login`, and verify a reversible save/upload.
+   Confirm drafts remain private; remove temporary content/files afterward.
+
+Keep `private` outside exposed API schemas. Normal writes use the signed-in admin's
+session; app email and database allowlist must match. Manage the Auth account in
+Supabase; the app has no registration or self-service password recovery screen.
+
+## Storage
+
+Keep the bucket named `portfolio-media`. Its migration allows public reads and
+admin writes, with a 10 MB limit and PNG/JPEG/WebP/AVIF/PDF MIME types.
+Uploaders enforce 5 MB for images and 10 MB for PDFs; SVG is rejected.
+Folders: `profile`, `projects`, `skills`, `milestones`, `resume`, `site`.
+
+`SUPABASE_STORAGE_BUCKET` alone does not configure uploads: the shared
+`MEDIA_BUCKET` constant and migration name this bucket too. Public URLs are stored
+in content rows and stay accessible when a row is hidden. Back up file objects
+separately from the database.
+
+## Tests and future migrations
+
+```powershell
 npm run db:test
 ```
 
-Applies the migrations and seed to an in-memory Postgres (PGlite) and checks the
-RLS rules as an anonymous visitor, a signed-in non-admin, and the admin.
-No Docker or Supabase project required.
+This applies migrations and seed to in-memory PostgreSQL (PGlite), checking RLS as
+anon/non-admin/admin, constraints and triggers. It needs neither Docker nor live
+credentials and does not mutate the hosted database.
 
-## Set up a real project
+For schema changes:
 
-1. Create a project at [supabase.com](https://supabase.com) (free tier is fine).
-2. Apply the migrations — either:
-   - **CLI:** `npx supabase login`, `npx supabase link --project-ref <ref>`, `npx supabase db push`
-   - **Dashboard:** SQL Editor → paste and run each migration file in order.
-3. Load starter content: SQL Editor → run `seed.sql` (or `npx supabase db reset` on a local stack).
-4. Create the admin login: **Authentication → Users → Add user** (email + password, auto-confirm).
-   Keep the **Email provider enabled**, but turn off public sign-ups: Authentication → Sign In / Providers → **Allow new users to sign up: off**.
-   (Disabling the Email provider itself blocks the admin from signing in — the login form will say so.)
-5. Grant that email admin rights (SQL Editor):
-   ```sql
-   insert into private.admin_users (email) values (lower('you@example.com'));
-   ```
-6. Copy **Project URL**, **anon key** and **service_role key** (Project Settings → API) into `.env.local`
-   and set `ADMIN_EMAIL` to the same email. The service-role key is server-only.
+1. Add a timestamped migration; never edit an applied migration.
+2. Update `src/types/content.ts`, `src/types/database.ts` and database docs.
+3. Run `npm run db:test` and app checks. Verify Auth/Storage changes in a separate hosted test project.
+4. Back up the target, review the SQL, and apply only the new migration.
 
-## Changing the schema
+### Optional CLI workflow
 
-Add a new timestamped file in `migrations/` (never edit an applied one), then update
-`src/types/content.ts`, `src/types/database.ts` and `.context/DATABASE.md` in the same change,
-and run `npm run db:test`.
+This repository has SQL migrations and no `supabase/config.toml`. To adopt the
+CLI, initialize configuration with `npx supabase init`, then authenticate and link:
+
+```powershell
+npx supabase login
+npx supabase link --project-ref YOUR_PROJECT_REF
+npx supabase migration list
+```
+
+SQL Editor execution does not populate CLI migration history. For an existing
+project, compare its schema with the SQL files and reconcile history before
+`db push`, which could otherwise recreate existing objects. For a fresh linked
+project with no migrations applied, `npx supabase db push` applies the files in
+order. Load the seed once through SQL Editor afterward. Follow
+[Supabase's migration workflow and history guidance](https://supabase.com/docs/guides/deployment/database-migrations).
+
+For the current live project, continue reviewed SQL Editor migrations until history
+is deliberately reconciled. Do not use a database reset as a release step.

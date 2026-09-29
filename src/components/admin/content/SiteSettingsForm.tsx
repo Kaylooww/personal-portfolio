@@ -47,7 +47,7 @@ export function SiteSettingsForm({ defaults }: { defaults: SiteSettingsFormValue
           render={({ field, fieldState }) => (
             <ImageUploader
               label="Share image"
-              hint="1200×630 works best for link previews (used in Phase 16)."
+              hint="1200×630 works best for link previews."
               aspect="video"
               value={field.value}
               folder="site"

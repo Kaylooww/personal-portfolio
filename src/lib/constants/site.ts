@@ -7,5 +7,4 @@ export const SITE = {
   tagline: "Building ideas, one climb at a time.",
   roles: ["BSIT Student", "Developer", "UI/UX Enthusiast"],
   locale: "en_PH",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 } as const;

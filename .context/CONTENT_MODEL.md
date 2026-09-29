@@ -1,6 +1,6 @@
 # Content Model
 
-TypeScript types: `src/types/content.ts` (mirror of the planned schema in `DATABASE.md`).
+TypeScript types: `src/types/content.ts` (mirror of the implemented schema in `DATABASE.md`).
 
 | Content | Stored in | Public visibility rule | Edited at |
 |---|---|---|---|
@@ -24,7 +24,7 @@ TypeScript types: `src/types/content.ts` (mirror of the planned schema in `DATAB
 A project can be *Published* with status *Planned* (a public plan), or *Draft* with status *Completed* (finished but not yet written up).
 
 ## Ordering
-Every orderable list uses `display_order` (ascending). Admin reorders with Move Up/Move Down (drag-and-drop if stable).
+Every orderable list uses `display_order` (ascending). Admin reorders with Move Up/Move Down.
 
 ## Public reads (Phase 14)
 All public pages read Supabase through `src/lib/queries/*` with the cookie-less anon client (`publicDb()` in `queries/public-db.ts`). Each query filters explicitly **and** RLS enforces the same rules:

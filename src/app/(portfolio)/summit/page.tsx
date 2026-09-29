@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { checkpointMetadata } from "@/lib/seo/metadata";
 import { CheckpointPage } from "@/components/portfolio/CheckpointPage";
 import { SummitActions } from "@/components/portfolio/SummitActions";
 import { LogoMark } from "@/components/ui/LogoMark";
@@ -6,10 +6,9 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 import { getResumeUrl, getSiteSettings } from "@/lib/queries/site-settings";
 import { getSocialLinks } from "@/lib/queries/social-links";
 
-export const metadata: Metadata = {
-  title: "The Summit",
-  description: "The end of this expedition and the start of the next — get in touch with Kyle Angelo C. Castro.",
-};
+export function generateMetadata() {
+  return checkpointMetadata("summit");
+}
 
 /** Checkpoint 7 — the Summit: where the next climb begins. Kept deliberately calm and uncluttered. */
 export default async function SummitPage() {

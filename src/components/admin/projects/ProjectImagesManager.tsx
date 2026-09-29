@@ -30,6 +30,7 @@ export function ProjectImagesManager({ projectId, projectTitle, images }: Projec
   const onFiles = async (files: FileList | null) => {
     if (!files?.length) return;
     const list = [...files];
+    let added = 0;
     for (const [i, file] of list.entries()) {
       setUploading(`Uploading ${i + 1} of ${list.length}…`);
       const up = await uploadImage(file, `projects/${projectId}`);
@@ -41,11 +42,13 @@ export function ProjectImagesManager({ projectId, projectTitle, images }: Projec
       if (!saved.ok) {
         toast.error(saved.error);
         void discardUpload(up.url);
+      } else {
+        added += 1;
       }
     }
     setUploading(null);
     if (inputRef.current) inputRef.current.value = "";
-    toast.success(list.length === 1 ? "Screenshot added" : "Screenshots added");
+    if (added > 0) toast.success(added === 1 ? "Screenshot added" : `${added} screenshots added`);
   };
 
   const run = (fn: () => ReturnType<typeof moveProjectImage>, after?: () => void) =>

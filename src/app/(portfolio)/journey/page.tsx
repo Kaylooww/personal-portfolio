@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { checkpointMetadata } from "@/lib/seo/metadata";
 import { JourneyRoute } from "@/components/journey/JourneyRoute";
 import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { CheckpointPage } from "@/components/portfolio/CheckpointPage";
@@ -8,10 +8,9 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 import { getNextSection } from "@/lib/constants/sections";
 import { getJourneyEntries } from "@/lib/queries/journey";
 
-export const metadata: Metadata = {
-  title: "Journey",
-  description: "The route so far — the places, programs and projects that shaped Kyle Angelo C. Castro.",
-};
+export function generateMetadata() {
+  return checkpointMetadata("journey");
+}
 
 /** Checkpoint 5 — the Ridge: checkpoints along the route. */
 export default async function JourneyPage() {

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { checkpointMetadata } from "@/lib/seo/metadata";
 import { MilestoneExplorer } from "@/components/milestones/MilestoneExplorer";
 import { CheckpointPage } from "@/components/portfolio/CheckpointPage";
 import { NextStopSign } from "@/components/portfolio/NextStopSign";
@@ -8,10 +8,9 @@ import { SignPost } from "@/components/ui/SignPost";
 import { getNextSection } from "@/lib/constants/sections";
 import { getMilestoneCategories, getMilestones } from "@/lib/queries/milestones";
 
-export const metadata: Metadata = {
-  title: "Milestones",
-  description: "Certifications, competitions, awards, projects and academic achievements earned on the climb.",
-};
+export function generateMetadata() {
+  return checkpointMetadata("milestones");
+}
 
 /** Checkpoint 6 — the Citadel: achievements earned on the climb. */
 export default async function MilestonesPage() {

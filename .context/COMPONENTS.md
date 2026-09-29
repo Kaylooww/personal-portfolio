@@ -125,6 +125,11 @@ Hook: `useActiveSection()` (`hooks/useActiveSection.ts`) → `{ section, index }
 
 `SectionTitle` gained `subtitle` (line between title and note) and `titleClassName` (size override).
 
+## Built (Phase 16 — performance)
+
+- `MobileMapContents` (`components/navigation/MobileMapContents.tsx`, client): checkpoint list dynamically imported by `MobileNavigation` on first open. The dialog shell and close button remain in the initial component.
+- `PassportCard` and project-detail `ProjectThumbnail` use Next 16 `preload`; other images remain lazy. Their responsive `sizes`, including gallery images, account for the rendered columns and width limits.
+
 ## Planned
 
 | Component | Folder | Phase |

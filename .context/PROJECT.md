@@ -8,7 +8,7 @@ and it must let him add projects, skills, journey entries and milestones forever
 ## Goals
 - Distinctive PEAK-inspired visual identity that closely follows the seven references.
 - Fully content-managed via a protected admin (Supabase).
-- Lighthouse 90+ in Performance, Accessibility, Best Practices, SEO.
+- Target: Lighthouse 90+ in Performance, Accessibility, Best Practices, SEO (not yet measured on a deployed site).
 - Maintainable by humans and AI agents (this folder + CHECKPOINTS.md).
 
 ## Visual concept

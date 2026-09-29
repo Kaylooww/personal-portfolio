@@ -1,7 +1,7 @@
 # Design System
 
 Tokens live in `src/styles/globals.css` (`@theme`). This file explains them. Keep both in sync.
-A live specimen renders at `/` during Phase 1 only.
+The Phase 1 specimen was replaced by the Airport page; tokens remain in `src/styles/globals.css`.
 
 ## Colour
 

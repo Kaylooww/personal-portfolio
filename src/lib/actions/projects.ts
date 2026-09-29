@@ -21,6 +21,7 @@ const direction = z.enum(["up", "down"]);
 function revalidateProjects(slugs: (string | null | undefined)[] = []) {
   revalidatePath("/admin", "layout");
   revalidatePath("/projects");
+  revalidatePath("/sitemap.xml");
   revalidatePath("/");
   for (const slug of slugs) if (slug) revalidatePath(`/projects/${slug}`);
 }

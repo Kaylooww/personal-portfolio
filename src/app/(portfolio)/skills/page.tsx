@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { checkpointMetadata } from "@/lib/seo/metadata";
 import { CheckpointPage } from "@/components/portfolio/CheckpointPage";
 import { NextStopSign } from "@/components/portfolio/NextStopSign";
 import { GearBoard } from "@/components/skills/GearBoard";
@@ -8,10 +8,9 @@ import { WoodSign } from "@/components/ui/WoodSign";
 import { getNextSection } from "@/lib/constants/sections";
 import { getSkillCategoriesWithSkills } from "@/lib/queries/skills";
 
-export const metadata: Metadata = {
-  title: "Skills",
-  description: "The equipment Kyle Angelo C. Castro carries — languages, frameworks, databases, tools and design.",
-};
+export function generateMetadata() {
+  return checkpointMetadata("skills");
+}
 
 /** Checkpoint 3 — the Jungle: the equipment I carry. */
 export default async function SkillsPage() {

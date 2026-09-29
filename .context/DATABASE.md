@@ -57,6 +57,6 @@ Bucket `portfolio-media` (public read, 10 MB limit, PNG/JPEG/WebP/AVIF/PDF — *
 
 ## Migrations, seed & tests
 - `supabase/migrations/<timestamp>_<name>.sql` — never edit an applied migration; add a new one.
-- `supabase/seed.sql` — starter content mirroring the mocks. Sample projects are seeded as **drafts**; sample milestones are **not** seeded; social links are seeded **hidden** with placeholder URLs.
+- `supabase/seed.sql` — starter content for a fresh database, retained after mocks were removed. Run once; do not rerun over existing content. Sample projects are seeded as **drafts**; sample milestones are **not** seeded; social links are seeded **hidden** with placeholder URLs.
 - `npm run db:test` — applies everything to PGlite and asserts the RLS matrix, singleton/slug/URL/date constraints and triggers.
 - Setup steps for a real project: `supabase/README.md`.

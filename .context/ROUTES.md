@@ -36,8 +36,9 @@
 All `/admin/*` except `/admin/login` and `/admin/unauthorized` require the admin (proxy + `requireAdmin()` in layout and page + RLS). Protected pages live in the `(protected)` route group. Every section has its editor (Phase 13); the placeholder component was removed.
 
 ## System
-`app/not-found.tsx` (the single 404, rendered inside the public shell) · `(portfolio)/[...rest]` (unknown public URLs → 404) · `(portfolio)/error.tsx` · `admin/(protected)/error.tsx` + `loading.tsx` · `app/error.tsx` · `app/global-error.tsx` · `app/icon.svg` · `public/favicon.ico`.
-Planned (Phase 16): `app/sitemap.ts`, `app/robots.ts`, `app/opengraph-image.*`.
+`app/not-found.tsx` (the single 404, rendered inside the public shell) · `(portfolio)/[...rest]` (unknown public URLs → 404) · `(portfolio)/error.tsx` · `admin/(protected)/error.tsx` + `loading.tsx` · `app/error.tsx` · `app/global-error.tsx` · `app/icon.svg` · `app/favicon.ico`.
+
+Built (Phase 16): `/sitemap.xml` (`app/sitemap.ts`, seven checkpoints + published/visible projects), `/robots.txt` (`app/robots.ts`, excludes admin), `/share-image` (`app/share-image/route.ts`, generated 1200×630 PNG). Sitemap and share image have hourly ISR. The explicit share-image URL lets the admin's uploaded OG image take precedence over the fallback.
 
 Public data comes from Supabase (Phase 14). Pages are static with on-demand revalidation; `/projects/[slug]` renders new published slugs on demand and returns the 404 page for drafts, hidden and archived projects.
 

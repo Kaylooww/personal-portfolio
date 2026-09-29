@@ -44,8 +44,8 @@ export function ProjectDetail({ project, number }: ProjectDetailProps) {
           <ProjectThumbnail
             src={project.thumbnail_url}
             alt={`Screenshot of ${project.title}`}
-            sizes="(min-width: 1024px) 60vw, 100vw"
-            priority
+            sizes="(min-width: 1608px) 61rem, (min-width: 1024px) calc(100vw - 39.5rem), calc(100vw - 5rem)"
+            preload
             className="aspect-[16/9] shadow-paper-lift"
           />
 
@@ -77,7 +77,7 @@ export function ProjectDetail({ project, number }: ProjectDetailProps) {
                           src={img.url}
                           alt={img.alt}
                           fill
-                          sizes="(min-width: 640px) 30vw, 100vw"
+                          sizes="(min-width: 1608px) 28.5rem, (min-width: 1024px) calc(50vw - 21.75rem), (min-width: 640px) calc(50vw - 4.5rem), calc(100vw - 5rem)"
                           className="object-cover"
                           fallback={<span className="absolute inset-0 grid place-items-center text-sm font-bold text-navy-500">Image unavailable</span>}
                         />

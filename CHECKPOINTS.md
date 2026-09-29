@@ -12,9 +12,9 @@ verified, documented, reported to the owner, and **explicitly approved**.
 
 | Field | Value |
 |---|---|
-| Current phase | **Phase 15 — Polish** |
-| Phase status | ✅ Complete — **awaiting owner approval** |
-| Next phase | Phase 16 — Performance + SEO (blocked until approved) |
+| Current phase | **Phase 18 — Documentation + Deployment** |
+| Phase status | ✅ Complete — **awaiting final owner approval** |
+| Next phase | None — final planned phase; hosting launch tracked in DEPLOYMENT.md |
 
 Update this table whenever a phase changes state.
 
@@ -68,10 +68,10 @@ If the owner requests changes, you stay in the **current** phase: fix → verify
 | 12 | Skills Management | ✅ Approved |
 | 13 | Content Management | ✅ Approved |
 | 14 | Public Database Integration | ✅ Approved |
-| 15 | Polish | ✅ Complete — awaiting approval |
-| 16 | Performance + SEO | ⏸ Not started |
-| 17 | Final Testing | ⏸ Not started |
-| 18 | Documentation + Deployment | ⏸ Not started |
+| 15 | Polish | ✅ Approved |
+| 16 | Performance + SEO | ✅ Approved |
+| 17 | Final Testing | ✅ Approved |
+| 18 | Documentation + Deployment | ✅ Complete — awaiting final approval |
 
 ### Phase scopes
 

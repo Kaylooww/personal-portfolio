@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { checkpointMetadata } from "@/lib/seo/metadata";
 import { CheckpointPage } from "@/components/portfolio/CheckpointPage";
 import { NextStopSign } from "@/components/portfolio/NextStopSign";
 import { ProjectExplorer } from "@/components/projects/ProjectExplorer";
@@ -8,10 +8,9 @@ import { SignPost } from "@/components/ui/SignPost";
 import { getNextSection } from "@/lib/constants/sections";
 import { getPublishedProjects } from "@/lib/queries/projects";
 
-export const metadata: Metadata = {
-  title: "Projects",
-  description: "Expeditions by Kyle Angelo C. Castro — completed builds, work in progress, plans and ideas.",
-};
+export function generateMetadata() {
+  return checkpointMetadata("projects");
+}
 
 /** Checkpoint 4 — the Canyon: expeditions completed and underway. */
 export default async function ProjectsPage() {

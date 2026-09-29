@@ -18,7 +18,7 @@ The service-role key is never used for normal admin writes — the admin's own s
 
 ## Layout
 Simplified dashboard ("Base Camp"): cream canvas, paper panels, navy sidebar text, blue actions. No scenic backgrounds, `noindex`.
-Below `lg` the sidebar becomes a horizontally scrolling tab row. Sections not built yet show a protected "Trail under construction" placeholder naming the phase that delivers them.
+Below `lg` the sidebar becomes a horizontally scrolling tab row. Every section has its editor; no placeholder pages remain.
 Files: `app/admin/layout.tsx` (canvas + robots), `app/admin/(protected)/*`, `app/admin/login`, `app/admin/unauthorized`; components in `components/admin/`; nav in `lib/constants/admin-nav.ts`; stats in `lib/queries/admin-dashboard.ts` (admin's own session, so RLS applies).
 Sidebar: Dashboard · Profile · About · Skills · Projects · Journey · Milestones · Media · Settings · Logout.
 Dashboard stats: Total Projects, Total Skills, Total Milestones, Journey Entries, Published Projects, Draft Projects. Quick actions: + Add Project, + Add Skill, + Add Milestone.
@@ -27,6 +27,7 @@ Dashboard stats: Total Projects, Total Skills, Total Milestones, Journey Entries
 - `/admin/projects` — every project in any state, display order. Search (title/summary/slug) + state + status filters live in the URL (`?q=&state=&status=`). Per row: move up/down (unfiltered list only), featured ★, visible 👁, Publish/Unpublish, Archive/Restore, Edit, Delete (confirm).
 - `/admin/projects/new`, `/admin/projects/[id]/edit` — `ProjectForm` (React Hook Form + `projectFormSchema`): title → auto slug (until edited), summary (≤300), status, role, thumbnail upload, overview/problem/solution/features (one per line)/process, tech stack picker (order = pick order, adjustable), GitHub/demo/docs URLs (`https://` only), start/finish dates (finish ≥ start), featured, visible. Buttons depend on state: Save draft / Publish, or Save as draft / Update published, or Save (keep archived) / Publish.
 - Edit page also has **Screenshots** (multi-upload, alt text + caption, reorder, delete) and a **Danger zone** delete.
+- Screenshot upload errors are reported per file; a success message appears only for saved screenshots and reports the actual count for batches (Phase 17 regression fix).
 - Server Actions: `src/lib/actions/projects.ts` (`saveProject`, `setProjectContentState`, `setProjectFlag`, `moveProject`, `deleteProject`, `addProjectImage`, `updateProjectImage`, `moveProjectImage`, `deleteProjectImage`, `discardUpload`). Reordering renumbers the whole list 1..n. Deleting a project or screenshot removes its stored files; replacing a thumbnail deletes the old file.
 - Uploads go browser → Supabase Storage directly (`uploadImage()` in `components/forms/ImageUploader.tsx`) with the admin's session; only the resulting URL is sent to the Server Action. Paths: `projects/<id>/…` (or `projects/new-<uuid>/…` before the first save), sanitised names, unique prefixes.
 - Edits revalidate `/`, `/projects`, `/projects/[slug]` and the admin, so the public site updates on the next request (verified in Phase 14).

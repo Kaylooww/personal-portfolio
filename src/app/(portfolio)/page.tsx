@@ -1,3 +1,4 @@
+import { checkpointMetadata } from "@/lib/seo/metadata";
 import Link from "next/link";
 import { Container } from "@/components/layout/Container";
 import { NextStopSign } from "@/components/portfolio/NextStopSign";
@@ -10,6 +11,10 @@ import { UiIcon } from "@/components/ui/UiIcon";
 import { getNextSection } from "@/lib/constants/sections";
 import { getProfile } from "@/lib/queries/profile";
 import { getSiteSettings } from "@/lib/queries/site-settings";
+
+export function generateMetadata() {
+  return checkpointMetadata("airport");
+}
 
 /** Checkpoint 1 — the Airport: where the expedition begins. */
 export default async function AirportPage() {

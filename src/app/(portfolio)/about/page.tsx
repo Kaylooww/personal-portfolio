@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { checkpointMetadata } from "@/lib/seo/metadata";
 import { CheckpointPage } from "@/components/portfolio/CheckpointPage";
 import { NextStopSign } from "@/components/portfolio/NextStopSign";
 import { PassportCard } from "@/components/portfolio/PassportCard";
@@ -9,10 +9,9 @@ import { getNextSection } from "@/lib/constants/sections";
 import { getAboutCards } from "@/lib/queries/about";
 import { getProfile } from "@/lib/queries/profile";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "Who Kyle Angelo C. Castro is — education, interests, development focus and current goals.",
-};
+export function generateMetadata() {
+  return checkpointMetadata("about");
+}
 
 /** Checkpoint 2 — the Shore: who I am. */
 export default async function AboutPage() {

@@ -2,6 +2,60 @@
 
 All meaningful implementation changes, newest first.
 
+## 2026-09-30 — Phase 18: Documentation + Deployment
+
+### Completed
+- Replaced the foundation-era README and setup outlines with current feature, local development, Supabase and Vercel deployment guides. Documented environment values, publishing, hosted verification, backups, rollback and troubleshooting, with official platform references.
+- Clarified modern publishable/secret keys under the existing environment names, optional service key, fixed upload bucket, fresh-only seed execution and SQL Editor versus CLI migration history. Existing live content was preserved.
+- Declared Node 24.x in `package.json`, the lockfile and `.nvmrc`, matching the tested runtime. The installed Supabase SDK requires Node 22 or newer; the old Node 20 setup guidance was obsolete.
+- Updated the context index, architecture, content/database/design notes and final state. All planned development phases are implemented; Phase 17 approved and Phase 18 complete awaiting final owner approval. Vercel publication, final domain and owner review remain explicit launch tasks.
+
+### Verified
+- Lint and typecheck passed. Production build passed on Node 24.19.0; the sandbox attempt compiled but could not spawn a worker (`EPERM`), so the build was rerun with the required process permission.
+- Checked 37 local links across 19 documents, matching package/lockfile Node engines and direct dependency entries, and `git diff --check`.
+- Phase 17 browser/database results remain the application verification baseline. No hosting deployment, live database mutation or additional browser coverage is claimed for this documentation phase.
+
+## 2026-09-29 — Phase 17: Final Testing
+
+### Added
+- `scripts/browser-smoke.mjs` and `npm run test:browser`: read-only production browser checks for public routes, seven viewport widths, axe WCAG A/AA, navigation/keyboard, filters/empty states, 404s, login guards, return-path validation and invalid credentials. Added Playwright and axe-core as development dependencies.
+- `npm run test:seo` for the existing SEO smoke script; `.context/TESTING.md` records the matrix, commands, results and coverage limits.
+
+### Fixed
+- Gallery uploader no longer announces success when every file is rejected. Mixed batches report only successfully saved screenshots. Verified invalid-only and mixed batches on the final build.
+- Removed the obsolete Phase 16 reference from the share-image uploader hint.
+
+### Content
+- Saved and enabled the owner's GitHub (`https://github.com/Kaylooww`) and LinkedIn (`https://www.linkedin.com/in/kyle-angelo-castro-59a74b430/`) through the admin; verified the destinations on Summit.
+- Confirmed Supabase Email is enabled and public sign-ups are disabled, resolving the earlier configuration blocker.
+
+### Verified
+- Final lint, typecheck, build, PGlite database tests, SEO smoke and public browser suite passed. Public/admin audits: 104 layouts, 48 WCAG A/AA audits, zero violations or browser exceptions.
+- Live admin workflows: project publishing/privacy/sitemap, CRUD and visibility across skills/categories/About/Journey/milestones, image/gallery uploads and failures, media usage protection, profile/settings revalidation, custom OG precedence, résumé upload/enable/download/hide/removal, URL search and featured flag.
+- Admin session return path/logout; valid non-admin credentials rejected by the login form; non-admin session blocked from admin pages and writes. Temporary Auth account removed.
+- Final cleanup matched all 12 content tables (excluding update timestamps), found zero Storage objects and one original Auth user. Owner social links retained.
+- Owner password sign-in confirmation remains pending. Safari/Firefox/physical devices and deployed crawler/field-performance checks are not claimed; details are in `TESTING.md`.
+
+## 2026-09-29 — Phase 16: Performance + SEO
+
+### Added
+- Shared public metadata helpers driven by profile/settings: per-page titles, descriptions, canonical URLs and matching Open Graph/Twitter cards. Project thumbnails take precedence over the site OG upload, then the generated fallback.
+- `/share-image`: static 1200×630 expedition PNG generated with `ImageResponse`, database title/roles/tagline, mountain/flag art and hourly revalidation.
+- `/sitemap.xml`: seven checkpoints plus only published, visible project slugs; hourly revalidation and invalidation on project mutations. `/robots.txt`: admin exclusion and absolute sitemap URL.
+- `scripts/seo-smoke.mjs`: read-only checks against a running production server for metadata, canonical query handling, sitemap, robots, cache headers, admin/404 exclusions, favicons and share-image dimensions.
+
+### Changed
+- React `cache()` deduplicates project reads within a render. A lightweight `id, slug` query replaces full project/gallery reads for static params, detail numbering and sitemap.
+- Mobile map contents load via `next/dynamic` on first open; dialog shell, close control and native focus handling stay immediately available.
+- Responsive sizes refined for the portrait, project detail image and gallery. Replaced deprecated `priority` with `preload`; other images retain lazy loading, AVIF/WebP and fixed aspect ratios.
+- Moved the existing ICO from `public/` into `app/` so Next advertises it alongside the SVG icon. Centralized canonical-origin validation and documented production URL configuration in `.env.example`.
+
+### Verified
+- `npm run check`: lint, typecheck and production build passed. Public pages, sitemap and share image remain static with hourly revalidation.
+- SEO smoke check passed for all 8 live public pages; query parameters excluded from canonicals; admin/404 noindex, both favicons and 1200×630 share image verified. Cached routes returned `HIT`.
+- Headless Edge: map chunk (1,513 bytes) requested only after opening; seven links, background inertness, Escape, focus return, navigation and reopen passed. No detail-page horizontal overflow at 320/375/768/1024/1440px; all 3 seed drafts return 404 + noindex; no browser errors.
+- Generated share image visually inspected. Live database content unchanged. Deployed crawler checks and real-world performance measurement remain deployment work; no Lighthouse/Core Web Vitals score claimed.
+
 ## 2026-09-29 — Phase 15: Polish
 
 ### Added

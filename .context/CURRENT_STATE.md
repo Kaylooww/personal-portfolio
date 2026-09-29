@@ -1,52 +1,91 @@
 # Current State
 
-_Last updated: 2026-09-29 — end of Phase 15_
+_Last updated: 2026-09-30 — Phase 18 handoff_
 
-## Current phase
-**Phase 15 — Polish: complete, awaiting owner approval.**
-Next: Phase 16 — Performance + SEO (do not start without approval).
+## Status
 
-## Completed work
-- **Phases 1–9** (approved): foundation; navigation + all seven public checkpoints (mock data); Supabase clients, schema, RLS, storage, seed, `npm run db:test`. Committed as `851f0a1` (Phase 1), `432b935` (Phases 2–9) and `ff5e420` (Phases 10–11).
-- **Supabase is live:** `.env.local` holds a valid project URL, publishable key, secret key, `ADMIN_EMAIL`, bucket. Migrations + seed are applied; RLS behaves as designed (anon sees 1 project, admin 4); `portfolio-media` bucket exists; the admin user exists and is in `private.admin_users`.
-- **Phase 10:**
-  - `src/proxy.ts` session refresh + signed-out redirect for `/admin/*`.
-  - `requireAdmin()` / `getAdminSession()` (`getUser()` + `ADMIN_EMAIL`), in the protected layout and every protected page.
-  - `/admin/login` (Server Action sign-in, generic errors, `?next=` sanitised), `/admin/unauthorized`, logout.
-  - Admin shell "Base Camp": sidebar (tab row on mobile), header, dashboard with 6 live stats + quick actions; placeholder pages for the other 8 sections.
-- Checks: lint ✅ typecheck ✅ build ✅ db:test ✅; browser auth flows ✅ against the live project (temporary test user deleted afterwards).
-- **Phase 11 — Project Management:** full project CRUD in the admin (list with URL search/filters, reorder, featured, visibility, publish/unpublish/archive/restore, delete with confirm; create/edit form with validation, auto slug, thumbnail upload, tech picker, links, dates; screenshots manager). Verified with a 41-step browser run against the live database; test data cleaned up, real projects renumbered 1–4.
-- **Phase 12 — Skills Management:** skills admin grouped like the public board (search, category filter, in-category reorder, featured/visible, delete with usage warning), skill editor (logo, fallback icon, proficiency), category manager (inline edit, reorder, visibility, delete → uncategorised). Shared admin building blocks extracted (`AdminFilters`, `DangerDeleteButton`, `useAdminAction`, `IconPicker`, server-only helpers). Verified with a 47-step browser run; data restored identically.
-- **Phase 13 — Content Management:** Profile (photo, résumé), About cards, Journey, Milestones + categories, Settings (SEO, departure board, Summit text, résumé toggle, social links) and Media browser. **The admin is feature-complete.** Verified with a 61-check browser run; all touched tables and storage restored identically.
-- **Phase 14 — Public Database Integration:** all public pages read Supabase (mocks deleted); static pages with on-demand revalidation from admin saves + hourly safety net; résumé button on the Summit when enabled. Admin → public flow verified end to end; no draft/hidden data in public HTML.
-- **Phase 15 — Polish:** CSS motion (page reveal, trail march, dialog transitions, micro-interactions; all off under reduced motion), broken-image fallbacks everywhere, error/loading/404 states (single 404 inside the shell, real HTTP 404), contrast fixes, short-screen sidebar. axe: 0 WCAG A/AA violations across public + admin pages; keyboard flow verified.
+**Phase 18 — Documentation + Deployment: complete, awaiting final
+owner review.** Phase 17 was approved by the owner's request to proceed.
+All 18 planned development phases are implemented; there is no next planned phase.
+The application and deployment guide are complete. **Vercel publication and the
+final HTTPS domain have not been verified.**
 
-## Incomplete work
-- **Password sign-in is blocked by a Supabase setting:** the project's Email provider is disabled ("Email logins are disabled"). Owner must enable it (keep "Allow new users to sign up" off). The login form now shows this clearly. Everything else was verified with injected sessions.
-- **Live content is still the seed:** only "Expedition Portfolio" is published; sample projects are drafts; social links are hidden placeholders; journey entries came from the reference. Replace/verify in the admin.
-- Share image (`og_image_url`) is stored but not yet used — Phase 16 (metadata/OG).
-- Uncategorised skills stay hidden on the public board (kept as designed; owner can ask for a catch-all panel).
-- Placeholder content to replace: social links, sample projects/milestones, journey entries (verify), profile photo.
-- Scene art is SVG stand-in; mascot omitted.
+## Implemented
+
+- Seven expedition checkpoints (Airport → Summit), project details, search/filters,
+  responsive navigation, keyboard support, reduced motion and themed fallback states.
+- Complete admin: profile/photo/résumé, About, skills/categories, projects/gallery,
+  Journey, milestones/categories, social links, site settings and media management.
+- Supabase database, Auth, public Storage bucket, table/storage RLS, server-side
+  authorization, Zod validation and authenticated Server Actions.
+- Supabase-backed public pages with hourly ISR and invalidation after admin saves;
+  drafts, archived and hidden projects excluded; new slugs work without rebuilding.
+- Per-page canonical/OG/Twitter metadata, generated 1200×630 share image, favicons,
+  sitemap and robots. Uploaded share image and project thumbnails take precedence.
+- Responsive image sizes, preloaded hero images, lazy gallery images, deferred
+  mobile map contents and memoized project reads.
+- Screenshot uploader reports success only for saved files, including mixed batches.
+- Repeatable database, SEO and public browser checks; detailed admin test evidence
+  and limitations in [TESTING.md](TESTING.md).
+- Final [README](../README.md), [Development](../DEVELOPMENT.md),
+  [Deployment](../DEPLOYMENT.md) and [Supabase setup](../supabase/README.md).
+  Node 24.x declared in package/lockfile and `.nvmrc`; environment/key/bucket behavior documented.
+
+## Verification
+
+Phase 17: lint, typecheck, production build, database tests, SEO smoke and browser
+smoke passed. Public/admin tests covered 104 layouts and 48 automated WCAG A/AA
+audits with zero violations. Publishing, media, résumé, custom OG, auth guards and
+non-admin rejection were exercised against live Supabase. See [TESTING.md](TESTING.md).
+
+Phase 18: lint and typecheck passed; production build passed after retrying outside
+the sandbox (its worker launch was initially blocked with `spawn EPERM`). Verified
+37 local links across 19 documents, package/lockfile Node declarations and direct
+dependency entries, plus `git diff --check`. Browser/database evidence above remains
+from Phase 17; Phase 18 changed documentation and runtime declarations. No live
+content changes, migrations or hosting publication were performed in Phase 18.
+
+## Database and owner links
+
+The existing Supabase project has three migrations and seed applied, one original
+Auth administrator, and the `portfolio-media` public bucket. Phase 17 cleanup
+verified all 12 content tables restored (except timestamps), zero Storage files,
+and no remaining QA account. Email provider is enabled; public sign-ups are disabled.
+
+The following links were saved through admin, remain visible on Summit, and live
+in Supabase:
+
+- GitHub: https://github.com/Kaylooww
+- LinkedIn: https://www.linkedin.com/in/kyle-angelo-castro-59a74b430/
+
+Normal admin writes use session + RLS. The server-only maintenance client has no
+current app callers; its secret key is optional for deployment.
+
+## Incomplete work / launch handoff
+
+- Publish to Vercel, set `NEXT_PUBLIC_SITE_URL` to the final HTTPS origin (currently
+  localhost), and execute the hosted checklist in [DEPLOYMENT.md](../DEPLOYMENT.md).
+- Owner confirmation of successful password sign-in remains pending. Generated
+  admin sessions and real non-admin password rejection were tested; no owner
+  password was requested or reset.
+- Review starter content: only Expedition Portfolio is published; the three sample
+  projects remain drafts. Verify journey entries and replace the hidden placeholder
+  contact email. Profile photo and résumé are not uploaded.
+- Confirm whether Java/C should remain in both Programming and Backend.
+  Uncategorised skills intentionally stay hidden from the public board.
+- Scene artwork remains SVG stand-ins; the optional mascot is omitted.
+- Safari, Firefox, physical mobile and screen-reader review remain outstanding.
+  Hosted cache behavior, actual social crawlers and field performance are unverified.
+  No Lighthouse/Core Web Vitals score is claimed.
 
 ## Known bugs
-None known in code. (Email provider setting above is a project configuration issue.)
 
-## Database state
-Live Supabase project: 3 migrations + seed applied; the public site reads it. Users: 1 (the admin).
+None known after the Phase 17 gallery-feedback fix. Coverage limits and owner
+content tasks above remain explicit release checks.
 
-## Architectural decisions
-See `ARCHITECTURE.md` → Decisions log (Phase 10: auth checks; Phase 11: direct-to-Storage uploads, shared zod schemas, URL-driven admin filters, renumbering reorder, `ActionResult`; Phase 12: server-only action helpers, in-category skill ordering, category delete keeps skills; Phase 13: shared InlineListManager, site-wide revalidation, usage-checked media deletes, useWatch; Phase 14: cookie-less public client + ISR with on-demand revalidation; Phase 15: CSS-only motion, no public loading UI, catch-all 404 inside the shell).
+## Working agreements
 
-## Open questions for the owner
-1. **Enable the Email provider** in Supabase (Authentication → Sign In / Providers → Email), keeping sign-ups off — then try signing in at `/admin/login`.
-2. **Real links** — GitHub, LinkedIn, contact email.
-3. **Journey entries** — confirm accuracy.
-4. **Skills** — keep Java/C under both Programming and Backend?
-5. **Scene artwork & mascot.**
-6. **Profile photo.**
-
-## Important notes
-- The site says **Summit** everywhere; "PEAK" is only the inspiration.
-- Reference project names (SkyTrack, CampNotes, Summit Social, Peak Planner) are not used.
-- The secret (service-role) key is used only in `src/lib/supabase/admin.ts` (`server-only`); admin reads/writes use the admin's own session + RLS.
+Read [CHECKPOINTS.md](../CHECKPOINTS.md) before future work; obtain scope for changes
+beyond the completed phase plan. Keep dynamic content in Supabase. The final
+destination is always **Summit**. Architecture and decisions are in
+[ARCHITECTURE.md](ARCHITECTURE.md); implementation history is in [CHANGELOG.md](CHANGELOG.md).

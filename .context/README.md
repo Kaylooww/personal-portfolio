@@ -18,6 +18,9 @@ Codex, or any future agent can pick up the work without re-deriving decisions.
 | Building or reusing UI | `COMPONENTS.md` |
 | Admin, auth, publishing | `ADMIN.md` |
 | General conduct | `DEVELOPMENT_RULES.md` |
+| Verification, browser checks, test results | `TESTING.md` |
+| Local setup, environment, troubleshooting | `../DEVELOPMENT.md` |
+| Supabase setup, Vercel release, maintenance | `../DEPLOYMENT.md`, `../supabase/README.md` |
 
 ## Writing rules
 

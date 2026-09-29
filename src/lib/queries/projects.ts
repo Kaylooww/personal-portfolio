@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import type { ProjectWithRelations, Skill } from "@/types";
 import { publicDb, queryFailed } from "./public-db";
 
@@ -28,16 +29,24 @@ function toProject(row: Row): ProjectWithRelations {
 }
 
 /** Published projects in display order. */
-export async function getPublishedProjects(): Promise<ProjectWithRelations[]> {
+export const getPublishedProjects = cache(async (): Promise<ProjectWithRelations[]> => {
   const { data, error } = await baseQuery().order("display_order");
   if (error) queryFailed("projects", error);
   return data.map(toProject);
-}
+});
 
 /** A single published project, or null (drafts, archived and hidden are treated as missing). */
-export async function getPublishedProjectBySlug(slug: string): Promise<ProjectWithRelations | null> {
+export const getPublishedProjectBySlug = cache(async (slug: string): Promise<ProjectWithRelations | null> => {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return null;
   const { data, error } = await baseQuery().eq("slug", slug).maybeSingle();
   if (error) queryFailed("the project", error);
   return data ? toProject(data) : null;
-}
+});
+
+/** Lightweight discovery/order query; no descriptions, galleries or technology joins. */
+export const getPublishedProjectIndex = cache(async () => {
+  const { data, error } = await publicDb().from("projects").select("id, slug")
+    .eq("content_state", "published").eq("is_visible", true).order("display_order");
+  if (error) queryFailed("project index", error);
+  return data;
+});

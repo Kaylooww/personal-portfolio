@@ -1,13 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import dynamic from "next/dynamic";
+import { useRef, useState } from "react";
 import { LogoMark } from "@/components/ui/LogoMark";
 import { UiIcon } from "@/components/ui/UiIcon";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { PORTFOLIO_SECTIONS } from "@/lib/constants/sections";
 import { cn } from "@/lib/utils/cn";
-import { CheckpointIcon } from "./CheckpointIcon";
+
+const MobileMapContents = dynamic(() => import("./MobileMapContents"), {
+  loading: () => <p role="status" className="mt-6 text-navy-700">Unfolding the map...</p>,
+});
 
 /**
  * Below lg: a compact paper bar (logo, current checkpoint, 7-dot progress, menu)
@@ -18,8 +22,12 @@ export function MobileNavigation() {
   const { section: active, index: activeIndex } = useActiveSection();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const total = PORTFOLIO_SECTIONS.length;
+  const [mapRequested, setMapRequested] = useState(false);
 
-  const open = () => dialogRef.current?.showModal();
+  const open = () => {
+    setMapRequested(true);
+    dialogRef.current?.showModal();
+  };
   const close = () => dialogRef.current?.close();
 
   return (
@@ -79,57 +87,7 @@ export function MobileNavigation() {
             </button>
           </div>
 
-          <nav aria-label="All checkpoints" className="mt-6 flex-1">
-            <ol>
-              {PORTFOLIO_SECTIONS.map((s, i) => {
-                const isActive = active?.id === s.id;
-                const isClimbed = i < activeIndex;
-                const isLast = i === total - 1;
-                return (
-                  <li key={s.id} className="relative">
-                    {!isLast && (
-                      <span
-                        aria-hidden
-                        className={cn(
-                          "absolute left-[1.3125rem] top-12 h-[calc(100%-2.25rem)] border-l-2",
-                          isClimbed ? "border-solid border-blue-500" : "border-dashed border-navy-300",
-                        )}
-                      />
-                    )}
-                    <Link
-                      href={s.href}
-                      onClick={close}
-                      aria-current={isActive ? "page" : undefined}
-                      className={cn(
-                        "flex items-center gap-4 rounded-card py-2 pr-3 transition-trail transition-colors",
-                        isActive ? "bg-blue-100" : "hover:bg-blue-50",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "grid size-11 shrink-0 place-items-center rounded-pill text-white",
-                          isActive ? "bg-blue-500 shadow-glow-blue" : isClimbed ? "bg-blue-500" : "bg-navy-700",
-                        )}
-                      >
-                        <CheckpointIcon icon={s.icon} />
-                      </span>
-                      <span className="min-w-0">
-                        <span
-                          className={cn(
-                            "block font-display-heavy text-xl uppercase leading-tight",
-                            isActive ? "text-blue-700" : "text-navy-900",
-                          )}
-                        >
-                          {s.label}
-                        </span>
-                        <span className="font-handwritten block truncate text-navy-700">{s.meaning}</span>
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ol>
-          </nav>
+          {mapRequested && <MobileMapContents activeIndex={activeIndex} onNavigate={close} />}
         </div>
       </dialog>
     </div>

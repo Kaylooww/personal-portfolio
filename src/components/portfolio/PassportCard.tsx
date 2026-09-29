@@ -19,7 +19,7 @@ export function PassportCard({ name, photoUrl, className }: PassportCardProps) {
     <PaperCard as="figure" variant="pinned" className={cn("-rotate-2 p-3 pb-14 sm:p-3.5 sm:pb-16", className)}>
       <div className="relative aspect-[4/5] overflow-hidden rounded-tag bg-blue-300/45">
         {photoUrl ? (
-          <SafeImage src={photoUrl} alt={`Portrait of ${name}`} fill sizes="(min-width: 640px) 13rem, 11rem" className="object-cover" priority fallback={<PhotoSilhouette />} />
+          <SafeImage src={photoUrl} alt={`Portrait of ${name}`} fill sizes="(min-width: 1536px) 11.25rem, (min-width: 1280px) 9.25rem, (min-width: 640px) 10.25rem, 9.5rem" className="object-cover" preload fallback={<PhotoSilhouette />} />
         ) : (
           <PhotoSilhouette />
         )}
