@@ -16,13 +16,13 @@ export function ExpeditionSidebar() {
   return (
     <nav
       aria-label="Expedition route"
-      className="fixed inset-y-0 left-0 z-(--z-sidebar) hidden w-(--sidebar-width) flex-col justify-center pl-6 lg:flex"
+      className="fixed inset-y-0 left-0 z-(--z-sidebar) hidden w-(--sidebar-width) flex-col justify-center overflow-y-auto pl-6 lg:flex"
     >
       {/* Trail stub leading into the first checkpoint */}
       <span
         aria-hidden
         className={cn(
-          "ml-[1.0625rem] h-10 border-l-2",
+          "ml-[1.0625rem] h-10 border-l-2 [@media(max-height:620px)]:h-4",
           activeIndex >= 0 ? "border-solid border-blue-500" : "border-dashed border-navy-300",
         )}
       />
@@ -32,7 +32,7 @@ export function ExpeditionSidebar() {
           const isClimbed = i < activeIndex;
           const isLast = i === PORTFOLIO_SECTIONS.length - 1;
           return (
-            <li key={s.id} className="relative flex h-16 items-start">
+            <li key={s.id} className="relative flex h-16 items-start [@media(max-height:620px)]:h-12">
               {!isLast && (
                 <span
                   aria-hidden

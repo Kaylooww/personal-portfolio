@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { StatusBadge } from "@/components/ui/StatusBadge";
 import { buttonClasses } from "@/components/ui/ButtonLink";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { SafeImage } from "@/components/ui/SafeImage";
+import { StatusBadge } from "@/components/ui/StatusBadge";
 import type { AdminProjectListItem } from "@/lib/queries/admin-projects";
 import { ContentStatePill } from "../ContentStatePill";
 import { ProjectRowActions } from "./ProjectRowActions";
@@ -39,7 +39,7 @@ export function ProjectAdminList({ projects, filtered }: ProjectAdminListProps) 
         <li key={p.id} className="surface-paper flex flex-col gap-4 rounded-card p-4 lg:flex-row lg:items-center">
           <div className="flex min-w-0 flex-1 items-center gap-4">
             <div className="relative aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-control bg-blue-100">
-              {p.thumbnail_url && <Image src={p.thumbnail_url} alt="" fill sizes="6rem" className="object-cover" />}
+              {p.thumbnail_url && <SafeImage src={p.thumbnail_url} alt="" fill sizes="6rem" className="object-cover" fallback={null} />}
             </div>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">

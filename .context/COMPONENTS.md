@@ -82,6 +82,45 @@ Rule: Server Component unless it needs state, effects, or browser APIs. One comp
 
 `UiIcon` gained `trash`. `AdminSidebar` scrolls the active tab into view on small screens.
 
+## Built (Phase 12 — skills management)
+
+| Component | Path | Kind | Purpose |
+|---|---|---|---|
+| `AdminFilters` | `components/admin/AdminFilters.tsx` | client | Generic URL-driven search + select filters (Projects and Skills use it) |
+| `RowIconButton`, `EyeIcon` | `components/admin/RowIconButton.tsx` | client | Row action button; show/hide icon |
+| `useAdminAction` | `components/admin/useAdminAction.ts` | client hook | Run a Server Action in a transition and toast the result |
+| `DangerDeleteButton` | `components/admin/DangerDeleteButton.tsx` | client | Confirmed delete via a bound Server Action, then redirect (replaced `DeleteProjectButton`) |
+| `FormSection` | `components/admin/FormSection.tsx` | server | Paper panel for form groups |
+| `IconPicker` | `components/forms/IconPicker.tsx` | client | Radio grid over `CONTENT_ICON_KEYS` (optional "none") |
+| `SkillAdminList`, `SkillRowActions`, `SkillForm` | `components/admin/skills/` | server / client / client | Grouped list; row actions; editor with logo + icon |
+| `CategoryManager`, `CategoryForm` | `components/admin/skills/` | client | Category list with inline edit; create/edit form |
+
+## Built (Phase 13 — content management)
+
+| Component | Path | Kind | Purpose |
+|---|---|---|---|
+| `InlineListManager` | `components/admin/InlineListManager.tsx` | client | Generic ordered list: inline create/edit, reorder, show/hide, confirmed delete |
+| `useFormAction`, `FormSaveBar` | `components/admin/` | client hook / server | RHF → Server Action submit with field errors; save footer (sticky or inline) |
+| `DocumentUploader` | `components/forms/DocumentUploader.tsx` | client | PDF upload to Storage (résumé) |
+| `ProfileForm`, `SiteSettingsForm` | `components/admin/content/` | client | Singleton editors (departures via `useFieldArray`) |
+| `AboutCardsManager` + `AboutCardForm` | `components/admin/content/` | client | About cards with repeatable lines + icons |
+| `JourneyManager` + `JourneyForm` | `components/admin/content/` | client | Journey checkpoints |
+| `SocialLinksManager` | `components/admin/content/` | client | Social links (email → `mailto:`) |
+| `MilestoneAdminList`, `MilestoneForm`, `MilestoneCategoryManager` | `components/admin/milestones/` | client | Grouped list + row actions; editor; categories with live badge preview |
+| `MediaBrowser` | `components/admin/MediaBrowser.tsx` | client | Storage browser with usage, filters, copy link, delete unused |
+
+Removed: `AdminComingSoon` (no placeholders left). `AdminNavItem.phase` removed.
+
+## Built (Phase 15 — polish)
+
+| Component | Path | Kind | Purpose |
+|---|---|---|---|
+| `SafeImage` | `components/ui/SafeImage.tsx` | client | next/image with a `fallback` when the file fails to load; used by every image |
+| `TrailMessage` | `components/ui/TrailMessage.tsx` | server | 404 / error message block (logo, eyebrow, title, handwritten note, actions) |
+| `LoadingSkeleton`, `SkeletonBlock` | `components/ui/LoadingSkeleton.tsx` | server | Page-shaped admin loading placeholder |
+
+`ButtonLink`/`buttonClasses`: disabled styles + trailing-icon hover nudge. `SkillMark` monogram tones all ≥ 4.5:1 with white text (`sunset-700` replaces `sunset-600`). `ExpeditionSidebar` compacts on short viewports (≤ 620px tall).
+
 Hook: `useActiveSection()` (`hooks/useActiveSection.ts`) → `{ section, index }` from the pathname; nested routes map to their parent.
 
 `SectionTitle` gained `subtitle` (line between title and note) and `titleClassName` (size override).
@@ -90,6 +129,5 @@ Hook: `useActiveSection()` (`hooks/useActiveSection.ts`) → `{ section, index }
 
 | Component | Folder | Phase |
 |---|---|---|
-| `LoadingSkeleton` | `ui/` | 15 |
 
 Update this table as components are built.

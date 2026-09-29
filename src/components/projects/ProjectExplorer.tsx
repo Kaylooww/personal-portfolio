@@ -78,7 +78,7 @@ export function ProjectExplorer({ projects }: { projects: ProjectWithRelations[]
       </div>
 
       <p aria-live="polite" className="mt-3 px-1 text-sm font-bold text-navy-700">
-        {isFiltered ? `${visible.length} of ${projects.length} expeditions` : `${projects.length} expeditions`}
+        {isFiltered ? `${visible.length} of ${projects.length} expeditions` : `${projects.length} ${projects.length === 1 ? "expedition" : "expeditions"}`}
       </p>
 
       {visible.length > 0 ? (

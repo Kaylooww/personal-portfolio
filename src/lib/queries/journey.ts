@@ -1,9 +1,10 @@
 import "server-only";
-import { MOCK_JOURNEY } from "@/lib/mock/journey";
-import { visibleInOrder } from "@/lib/utils/order";
 import type { JourneyEntry } from "@/types";
+import { publicDb, queryFailed } from "./public-db";
 
-/** Visible journey entries, oldest first (display order). Swaps to Supabase in Phase 14. */
+/** Visible journey entries, oldest first (display order). */
 export async function getJourneyEntries(): Promise<JourneyEntry[]> {
-  return visibleInOrder(MOCK_JOURNEY);
+  const { data, error } = await publicDb().from("journey_entries").select("*").eq("is_visible", true).order("display_order");
+  if (error) queryFailed("the journey", error);
+  return data;
 }

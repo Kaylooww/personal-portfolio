@@ -59,7 +59,7 @@ export function MobileNavigation() {
           if (e.target === e.currentTarget) close();
         }}
         className={cn(
-          "m-0 ml-auto h-dvh max-h-none w-[min(24rem,100%)] max-w-none bg-cream p-0 text-navy-900",
+          "sheet m-0 ml-auto h-dvh max-h-none w-[min(24rem,100%)] max-w-none bg-cream p-0 text-navy-900",
           "backdrop:bg-navy-950/45",
         )}
       >
@@ -79,7 +79,7 @@ export function MobileNavigation() {
             </button>
           </div>
 
-          <nav aria-label="Checkpoints" className="mt-6 flex-1">
+          <nav aria-label="All checkpoints" className="mt-6 flex-1">
             <ol>
               {PORTFOLIO_SECTIONS.map((s, i) => {
                 const isActive = active?.id === s.id;

@@ -2,8 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState, useTransition, type ReactNode } from "react";
+import { useState, useTransition } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
+import { FormSection } from "@/components/admin/FormSection";
 import { CheckboxField } from "@/components/forms/CheckboxField";
 import { ImageUploader } from "@/components/forms/ImageUploader";
 import { SelectField } from "@/components/forms/SelectField";
@@ -11,7 +12,8 @@ import { TextAreaField } from "@/components/forms/TextAreaField";
 import { TextField } from "@/components/forms/TextField";
 import { buttonClasses } from "@/components/ui/ButtonLink";
 import { useToast } from "@/components/ui/Toast";
-import { discardUpload, saveProject } from "@/lib/actions/projects";
+import { discardUpload } from "@/lib/actions/media";
+import { saveProject } from "@/lib/actions/projects";
 import { PROJECT_STATUS_LABEL, PROJECT_STATUSES } from "@/lib/constants/status";
 import type { SkillOption } from "@/lib/queries/admin-projects";
 import { projectFormSchema, slugify, type ProjectFormValues } from "@/lib/validation/project";
@@ -78,7 +80,7 @@ export function ProjectForm({ projectId, defaults, skillOptions, uploadFolder }:
 
   return (
     <form onSubmit={(e) => e.preventDefault()} noValidate className="flex flex-col gap-6">
-      <Section title="Basics">
+      <FormSection title="Basics">
         <TextField label="Title" {...titleField} error={errors.title?.message} autoComplete="off" />
         <TextField
           label="URL slug"
@@ -98,9 +100,9 @@ export function ProjectForm({ projectId, defaults, skillOptions, uploadFolder }:
           <SelectField label="Expedition status" options={STATUS_OPTIONS} {...register("status")} error={errors.status?.message} />
           <TextField label="Your role" placeholder="e.g. Full Stack Developer" {...register("role")} error={errors.role?.message} />
         </div>
-      </Section>
+      </FormSection>
 
-      <Section title="Thumbnail">
+      <FormSection title="Thumbnail">
         <Controller
           control={control}
           name="thumbnail_url"
@@ -116,9 +118,9 @@ export function ProjectForm({ projectId, defaults, skillOptions, uploadFolder }:
             />
           )}
         />
-      </Section>
+      </FormSection>
 
-      <Section title="Story">
+      <FormSection title="Story">
         <TextAreaField label="Overview" rows={5} {...register("description")} error={errors.description?.message} />
         <div className="grid gap-4 md:grid-cols-2">
           <TextAreaField label="The problem" {...register("problem")} error={errors.problem?.message} />
@@ -126,9 +128,9 @@ export function ProjectForm({ projectId, defaults, skillOptions, uploadFolder }:
         </div>
         <TextAreaField label="Features" rows={5} hint="One feature per line." {...register("features")} error={errors.features?.message} />
         <TextAreaField label="Process" {...register("process")} error={errors.process?.message} />
-      </Section>
+      </FormSection>
 
-      <Section title="Tech stack">
+      <FormSection title="Tech stack">
         <Controller
           control={control}
           name="technology_ids"
@@ -136,9 +138,9 @@ export function ProjectForm({ projectId, defaults, skillOptions, uploadFolder }:
             <TechnologyPicker options={skillOptions} value={field.value} onChange={field.onChange} error={fieldState.error?.message} />
           )}
         />
-      </Section>
+      </FormSection>
 
-      <Section title="Links & timeline">
+      <FormSection title="Links & timeline">
         <div className="grid gap-4 md:grid-cols-3">
           <TextField label="GitHub" type="url" placeholder="https://github.com/…" {...register("github_url")} error={errors.github_url?.message} />
           <TextField label="Live demo" type="url" placeholder="https://…" {...register("demo_url")} error={errors.demo_url?.message} />
@@ -148,12 +150,12 @@ export function ProjectForm({ projectId, defaults, skillOptions, uploadFolder }:
           <TextField label="Started" type="date" {...register("started_on")} error={errors.started_on?.message} />
           <TextField label="Finished" type="date" hint="Leave empty if still in progress." {...register("finished_on")} error={errors.finished_on?.message} />
         </div>
-      </Section>
+      </FormSection>
 
-      <Section title="Visibility">
+      <FormSection title="Visibility">
         <CheckboxField label="Featured" hint="Highlight this project." {...register("featured")} />
         <CheckboxField label="Visible" hint="Unticked hides it publicly even when published." {...register("is_visible")} />
-      </Section>
+      </FormSection>
 
       <div className="sticky bottom-0 z-10 -mx-(--page-gutter) flex flex-wrap items-center gap-3 border-t border-paper-edge bg-cream/95 px-(--page-gutter) py-4">
         <span className="mr-auto flex items-center gap-2 text-sm text-navy-700">
@@ -190,14 +192,5 @@ export function ProjectForm({ projectId, defaults, skillOptions, uploadFolder }:
         )}
       </div>
     </form>
-  );
-}
-
-function Section({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <section className="surface-paper flex flex-col gap-4 rounded-card p-5 sm:p-6">
-      <h2 className="font-display-heavy text-lg uppercase text-navy-900">{title}</h2>
-      {children}
-    </section>
   );
 }

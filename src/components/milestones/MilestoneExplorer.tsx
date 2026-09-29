@@ -41,7 +41,7 @@ export function MilestoneExplorer({ categories, milestones }: MilestoneExplorerP
             Milestone log
           </h2>
           <p aria-live="polite" className="flex items-center gap-3 text-sm font-bold text-navy-700">
-            {selected ? `Showing ${selected.name}` : `All ${milestones.length} milestones`}
+            {selected ? `Showing ${selected.name}` : milestones.length === 1 ? "1 milestone" : `All ${milestones.length} milestones`}
             {selected && (
               <button type="button" onClick={() => setSelectedId(null)} className="rounded-pill bg-navy-900 px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.06em] text-paper">
                 Show all

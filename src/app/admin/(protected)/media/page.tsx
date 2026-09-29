@@ -1,13 +1,24 @@
 import type { Metadata } from "next";
-import { AdminComingSoon } from "@/components/admin/AdminComingSoon";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { MediaBrowser } from "@/components/admin/MediaBrowser";
 import { requireAdmin } from "@/lib/auth/admin";
-import { getAdminNavItem } from "@/lib/constants/admin-nav";
+import { listMediaFiles } from "@/lib/queries/admin-content";
 
-const section = getAdminNavItem("/admin/media");
-
-export const metadata: Metadata = { title: section.label };
+export const metadata: Metadata = { title: "Media" };
 
 export default async function AdminMediaPage() {
-  await requireAdmin(section.href);
-  return <AdminComingSoon section={section} />;
+  await requireAdmin("/admin/media");
+  const { files, referencesKnown } = await listMediaFiles();
+
+  return (
+    <>
+      <AdminPageHeader
+        title="Media"
+        description="Everything in storage. Upload files from the editors (profile, projects, skills, milestones, settings); clean up unused ones here."
+      />
+      <div className="mt-8">
+        <MediaBrowser files={files} referencesKnown={referencesKnown} />
+      </div>
+    </>
+  );
 }

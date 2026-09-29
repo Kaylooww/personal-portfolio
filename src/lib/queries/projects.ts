@@ -1,36 +1,43 @@
 import "server-only";
-import { MOCK_PROJECT_IMAGES, MOCK_PROJECT_TECHNOLOGIES, MOCK_PROJECTS } from "@/lib/mock/projects";
-import type { Project, ProjectWithRelations } from "@/types";
-import { getSkillsById } from "./skills";
+import type { ProjectWithRelations, Skill } from "@/types";
+import { publicDb, queryFailed } from "./public-db";
 
-/** Public rule: published AND visible. RLS enforces the same once Supabase lands. */
-function isPublic(p: Project): boolean {
-  return p.content_state === "published" && p.is_visible;
+/*
+ * Public rule: content_state = 'published' AND is_visible. RLS enforces the
+ * same; technologies whose skill is hidden come back as null and are dropped.
+ */
+
+const SELECT = "*, project_technologies(display_order, skills(*)), project_images(*)";
+
+type Row = Awaited<ReturnType<typeof baseQuery>>["data"] extends (infer R)[] | null ? R : never;
+
+function baseQuery() {
+  return publicDb().from("projects").select(SELECT).eq("content_state", "published").eq("is_visible", true);
 }
 
-async function withRelations(projects: Project[]): Promise<ProjectWithRelations[]> {
-  const skills = await getSkillsById();
-  return projects.map((p) => ({
-    ...p,
-    technologies: MOCK_PROJECT_TECHNOLOGIES.filter((t) => t.project_id === p.id)
+function toProject(row: Row): ProjectWithRelations {
+  const { project_technologies, project_images, ...project } = row;
+  return {
+    ...project,
+    technologies: [...project_technologies]
       .sort((a, b) => a.display_order - b.display_order)
-      .flatMap((t) => {
-        const skill = skills.get(t.skill_id);
-        return skill ? [skill] : [];
-      }),
-    images: MOCK_PROJECT_IMAGES.filter((i) => i.project_id === p.id).sort((a, b) => a.display_order - b.display_order),
-  }));
+      .map((t) => t.skills)
+      .filter((s): s is Skill => s !== null),
+    images: [...project_images].sort((a, b) => a.display_order - b.display_order),
+  };
 }
 
-/** Published projects in display order. Swaps to Supabase in Phase 14. */
+/** Published projects in display order. */
 export async function getPublishedProjects(): Promise<ProjectWithRelations[]> {
-  return withRelations(MOCK_PROJECTS.filter(isPublic).sort((a, b) => a.display_order - b.display_order));
+  const { data, error } = await baseQuery().order("display_order");
+  if (error) queryFailed("projects", error);
+  return data.map(toProject);
 }
 
-/** A single published project, or null (drafts and archived are treated as missing). */
+/** A single published project, or null (drafts, archived and hidden are treated as missing). */
 export async function getPublishedProjectBySlug(slug: string): Promise<ProjectWithRelations | null> {
-  const project = MOCK_PROJECTS.find((p) => p.slug === slug && isPublic(p));
-  if (!project) return null;
-  const [withRel] = await withRelations([project]);
-  return withRel ?? null;
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return null;
+  const { data, error } = await baseQuery().eq("slug", slug).maybeSingle();
+  if (error) queryFailed("the project", error);
+  return data ? toProject(data) : null;
 }

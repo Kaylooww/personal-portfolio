@@ -8,8 +8,8 @@ const PLATFORM_ICON: Partial<Record<SocialPlatform, UiIconName>> = {
   email: "mail",
 };
 
-/** Contact first, then View Projects, then the remaining social links. Missing links are simply not shown. */
-export function SummitActions({ links }: { links: SocialLink[] }) {
+/** Contact first, then View Projects, résumé (if offered), then social links. Missing links are simply not shown. */
+export function SummitActions({ links, resumeUrl = null }: { links: SocialLink[]; resumeUrl?: string | null }) {
   const email = links.find((l) => l.platform === "email");
   const others = links.filter((l) => l.platform !== "email");
 
@@ -24,6 +24,13 @@ export function SummitActions({ links }: { links: SocialLink[] }) {
       <ButtonLink href="/projects" variant="secondary" size="lg" icon={<UiIcon name="folder" className="size-5" />}>
         View projects
       </ButtonLink>
+      {resumeUrl && (
+        <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className={buttonClasses("secondary", "lg")}>
+          <UiIcon name="arrow-down-right" className="size-5" />
+          Résumé
+          <span className="sr-only"> (PDF, opens in a new tab)</span>
+        </a>
+      )}
       {others.map((l) => (
         <a
           key={l.id}

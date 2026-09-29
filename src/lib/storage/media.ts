@@ -17,7 +17,16 @@ const EXTENSIONS: Record<string, string> = {
   "application/pdf": "pdf",
 };
 
-export type MediaFolder = `projects/${string}` | "profile" | "skills" | "milestones" | "resume";
+export type MediaFolder = `projects/${string}` | "profile" | "skills" | "milestones" | "resume" | "site";
+
+/** Top-level folders the media browser lists. */
+export const MEDIA_ROOTS = ["profile", "resume", "site", "skills", "milestones", "projects"] as const;
+
+export function validateDocumentFile(file: { type: string; size: number }): string | null {
+  if (!(DOCUMENT_TYPES as readonly string[]).includes(file.type)) return "Use a PDF file.";
+  if (file.size > MAX_DOCUMENT_BYTES) return `PDFs must be ${MAX_DOCUMENT_BYTES / 1024 / 1024} MB or smaller.`;
+  return null;
+}
 
 export function validateImageFile(file: { type: string; size: number }): string | null {
   if (!(IMAGE_TYPES as readonly string[]).includes(file.type)) return "Use a PNG, JPG, WebP or AVIF image.";

@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useId, useRef, useState } from "react";
 import { buttonClasses } from "@/components/ui/ButtonLink";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { UiIcon } from "@/components/ui/UiIcon";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { IMAGE_TYPES, MEDIA_BUCKET, buildMediaPath, validateImageFile, type MediaFolder } from "@/lib/storage/media";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils/cn";
 
 /**
@@ -78,7 +78,7 @@ export function ImageUploader({ label, hint, value, folder, onChange, onDiscard,
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
         <div className={cn("relative w-full overflow-hidden rounded-control border border-paper-edge bg-paper-shade sm:w-56", ASPECT[aspect])}>
           {value ? (
-            <Image src={value} alt="" fill sizes="14rem" className="object-cover" />
+            <SafeImage src={value} alt="" fill sizes="14rem" className="object-cover" fallback={<span className="absolute inset-0 grid place-items-center text-xs font-bold text-danger-600">Can’t load image</span>} />
           ) : (
             <span className="absolute inset-0 grid place-items-center text-sm font-bold text-navy-500">No image</span>
           )}

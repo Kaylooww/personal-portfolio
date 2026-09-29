@@ -1,19 +1,29 @@
 import type { Metadata } from "next";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { LogoMark } from "@/components/ui/LogoMark";
+import { TrailMessage } from "@/components/ui/TrailMessage";
 
 export const metadata: Metadata = { title: "Off the map" };
 
+/**
+ * The single 404 page. Public URLs always reach it through the (portfolio)
+ * layout — unknown paths via the catch-all route, unpublished projects via
+ * notFound() — so it renders inside the site shell and doesn't add its own.
+ */
 export default function NotFound() {
   return (
-    <main id="main" className="flex min-h-dvh flex-col items-center justify-center gap-5 px-6 text-center">
-      <LogoMark className="h-10 text-blue-500" />
-      <p className="eyebrow text-blue-600">Error 404</p>
-      <h1 className="font-display-heavy text-title uppercase text-navy-900">Off the map</h1>
-      <p className="font-handwritten max-w-md text-hand-lg text-navy-700">
-        No trail leads here. Head back and pick a checkpoint.
-      </p>
-      <ButtonLink href="/">Back to the airport</ButtonLink>
-    </main>
+    <TrailMessage
+      className="min-h-dvh"
+      eyebrow="Error 404"
+      title="Off the map"
+      message="No trail leads here — it may have moved or isn't public yet. Pick another checkpoint."
+      actions={
+        <>
+          <ButtonLink href="/">Back to the airport</ButtonLink>
+          <ButtonLink href="/projects" variant="secondary">
+            All expeditions
+          </ButtonLink>
+        </>
+      }
+    />
   );
 }

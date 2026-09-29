@@ -40,10 +40,10 @@ export default async function AdminDashboardPage() {
           <Link href="/admin/projects/new" className={buttonClasses("primary", "md")}>
             + Add project
           </Link>
-          <Link href="/admin/skills" className={buttonClasses("secondary", "md")}>
+          <Link href="/admin/skills/new" className={buttonClasses("secondary", "md")}>
             + Add skill
           </Link>
-          <Link href="/admin/milestones" className={buttonClasses("secondary", "md")}>
+          <Link href="/admin/milestones/new" className={buttonClasses("secondary", "md")}>
             + Add milestone
           </Link>
         </div>
@@ -52,8 +52,8 @@ export default async function AdminDashboardPage() {
       <PaperCard className="mt-10 flex gap-3 border-blue-300 bg-blue-50 [background-image:none]">
         <ContentIcon icon="compass" className="mt-0.5 size-5 text-blue-600" />
         <p className="text-sm leading-relaxed text-navy-800">
-          These totals come from the live database. The public site still shows its built-in placeholder content until
-          it is switched over to the database (Phase 14), so edits made here won&apos;t appear publicly yet.
+          Changes you save here update the public site straight away. Drafts, hidden items and archived projects stay
+          private until you publish or show them.
         </p>
       </PaperCard>
     </>

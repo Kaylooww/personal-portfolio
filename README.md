@@ -15,7 +15,7 @@ Built phase by phase — see [`CHECKPOINTS.md`](./CHECKPOINTS.md) and [`.context
 Currently: **Phase 1 — Foundation** complete.
 
 ## Stack
-Next.js 16 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS v4 · Motion · Supabase (PostgreSQL, Auth, Storage) · React Hook Form + Zod · Vercel.
+Next.js 16 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS v4 · Supabase (PostgreSQL, Auth, Storage) · React Hook Form + Zod · Vercel.
 
 ## Quick start
 ```bash

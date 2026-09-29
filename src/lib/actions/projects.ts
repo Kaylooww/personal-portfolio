@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth/admin";
-import { MEDIA_BUCKET, storagePathFromPublicUrl } from "@/lib/storage/media";
+import { fieldErrorsFrom, removeStoredFiles, renumber, swapInOrder, type ServerSupabase as Supabase } from "@/lib/admin/helpers";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { projectFormSchema, projectImageSchema, toProjectRow, type ProjectFormValues } from "@/lib/validation/project";
 import type { ContentState } from "@/types";
@@ -17,7 +17,6 @@ import { fail, fromDbError, ok, type ActionResult } from "./result";
 
 const idSchema = z.uuid();
 const direction = z.enum(["up", "down"]);
-type Supabase = Awaited<ReturnType<typeof createSupabaseServerClient>>;
 
 function revalidateProjects(slugs: (string | null | undefined)[] = []) {
   revalidatePath("/admin", "layout");
@@ -26,28 +25,8 @@ function revalidateProjects(slugs: (string | null | undefined)[] = []) {
   for (const slug of slugs) if (slug) revalidatePath(`/projects/${slug}`);
 }
 
-function fieldErrorsFrom(error: z.ZodError): Record<string, string> {
-  const out: Record<string, string> = {};
-  for (const issue of error.issues) {
-    const key = issue.path.join(".");
-    if (key && !out[key]) out[key] = issue.message;
-  }
-  return out;
-}
 
-/** Best-effort removal of files we host; external URLs are ignored. */
-async function removeStoredFiles(supabase: Supabase, urls: (string | null | undefined)[]) {
-  const paths = urls.map(storagePathFromPublicUrl).filter((p): p is string => p !== null);
-  if (paths.length === 0) return;
-  const { error } = await supabase.storage.from(MEDIA_BUCKET).remove(paths);
-  if (error) console.error("[admin] storage cleanup failed", error);
-}
 
-/** Rewrites display_order as 1..n in the given id order. */
-async function renumber(supabase: Supabase, table: "projects" | "project_images", ids: string[]) {
-  const results = await Promise.all(ids.map((id, i) => supabase.from(table).update({ display_order: i + 1 }).eq("id", id)));
-  return results.find((r) => r.error)?.error ?? null;
-}
 
 async function syncTechnologies(supabase: Supabase, projectId: string, skillIds: string[]) {
   const unique = [...new Set(skillIds)];
@@ -151,11 +130,12 @@ export async function moveProject(projectId: string, dir: "up" | "down"): Promis
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.from("projects").select("id").order("display_order").order("created_at");
   if (error) return fromDbError(error);
-  const ids = data.map((r) => r.id);
-  const i = ids.indexOf(id.data);
-  const j = d.data === "up" ? i - 1 : i + 1;
-  if (i === -1 || j < 0 || j >= ids.length) return ok(undefined);
-  [ids[i], ids[j]] = [ids[j]!, ids[i]!];
+  const ids = swapInOrder(
+    data.map((r) => r.id),
+    id.data,
+    d.data,
+  );
+  if (!ids) return ok(undefined);
   const err = await renumber(supabase, "projects", ids);
   if (err) return fromDbError(err);
   revalidateProjects();
@@ -254,11 +234,12 @@ export async function moveProjectImage(imageId: string, dir: "up" | "down"): Pro
   if (!owner.data) return fail("That screenshot no longer exists.");
   const { data, error } = await supabase.from("project_images").select("id").eq("project_id", owner.data.project_id).order("display_order");
   if (error) return fromDbError(error);
-  const ids = data.map((r) => r.id);
-  const i = ids.indexOf(id.data);
-  const j = d.data === "up" ? i - 1 : i + 1;
-  if (j < 0 || j >= ids.length) return ok(undefined);
-  [ids[i], ids[j]] = [ids[j]!, ids[i]!];
+  const ids = swapInOrder(
+    data.map((r) => r.id),
+    id.data,
+    d.data,
+  );
+  if (!ids) return ok(undefined);
   const err = await renumber(supabase, "project_images", ids);
   if (err) return fromDbError(err);
   revalidateProjects([await slugOfProject(supabase, owner.data.project_id)]);
@@ -277,19 +258,4 @@ export async function deleteProjectImage(imageId: string): Promise<ActionResult>
   await removeStoredFiles(supabase, [data.url]);
   revalidateProjects([await slugOfProject(supabase, data.project_id)]);
   return ok(undefined, "Screenshot deleted");
-}
-
-/** Removes an uploaded-but-unsaved file (e.g. a replaced thumbnail the admin abandoned). */
-export async function discardUpload(url: string): Promise<ActionResult> {
-  await requireAdmin("/admin/projects");
-  const path = storagePathFromPublicUrl(url);
-  if (!path || !path.startsWith("projects/")) return fail("Invalid file.");
-  const supabase = await createSupabaseServerClient();
-  const inUse = await Promise.all([
-    supabase.from("projects").select("id", { count: "exact", head: true }).eq("thumbnail_url", url),
-    supabase.from("project_images").select("id", { count: "exact", head: true }).eq("url", url),
-  ]);
-  if (inUse.some((r) => (r.count ?? 0) > 0)) return ok(undefined);
-  await removeStoredFiles(supabase, [url]);
-  return ok(undefined);
 }

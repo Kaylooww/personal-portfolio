@@ -14,20 +14,20 @@ Browser ──► Vercel (Next.js App Router)
 
 ## Frontend
 - **App Router** with two route groups: `(portfolio)` for the public expedition, `admin/` for the dashboard. They have separate layouts so the admin never loads scenic assets and the public site never loads admin code.
-- **Server Components by default.** Client Components only for: navigation active state and mobile menu, search/filter inputs, forms, uploaders, drag-reorder, dialogs, motion wrappers. Keep client islands small and leaf-level.
+- **Server Components by default.** Client Components only for: navigation active state and mobile menu, search/filter inputs, forms, uploaders, reorder controls, dialogs, image fallbacks (`SafeImage`). Keep client islands small and leaf-level.
 - **Styling:** Tailwind v4, tokens in `src/styles/globals.css` (`@theme`). No `tailwind.config.*` file — v4 is CSS-first. Default Tailwind palette is intentionally reset; only expedition tokens exist.
 - **Fonts:** self-hosted via `next/font/local` (`src/styles/fonts.ts`) — no runtime request to Google, works offline and in CI.
 - **Path alias:** `@/*` → `src/*`.
 
-## Backend (clients built Phase 9; wired to pages in Phase 14)
+## Backend (clients built Phase 9; public pages read Supabase since Phase 14)
 - `src/lib/supabase/env.ts` — reads/validates `NEXT_PUBLIC_SUPABASE_*`; `isSupabaseConfigured()`; `STORAGE_BUCKET`.
 - `src/lib/supabase/client.ts` — browser client (`"use client"`, anon key). Only for client islands that need it (admin login).
 - `src/lib/supabase/server.ts` — request-scoped server client bound to cookies (anon key + user session). Admin pages and Server Actions.
 - `src/lib/supabase/public.ts` — cookie-less anon client for public reads, so public pages stay static/cacheable. RLS limits it to published, visible rows.
 - `src/lib/supabase/admin.ts` — service-role client, `import "server-only"`, only when RLS must be bypassed. Never imported by client code.
 - All clients are typed with `Database` (`src/types/database.ts`).
-- `src/lib/queries/*` — typed read functions per entity (`server-only`). **Currently backed by `src/lib/mock/*`**; Phase 14 swaps the bodies to Supabase. Public rules: `content_state = 'published'` and `is_visible` — the mocks apply the same filters; RLS enforces them in the database.
-- `src/lib/actions/*` — Server Actions for admin writes (Phase 11+). Each action: verify session → validate with Zod → write → `revalidateTag`/`revalidatePath`.
+- `src/lib/queries/*` — typed read functions per entity (`server-only`), reading Supabase via the shared cookie-less `publicDb()` (Phase 14). Public rules: `content_state = 'published'` and `is_visible`, filtered in the query and enforced by RLS. Singletons are wrapped in React `cache()`.
+- `src/lib/actions/*` — Server Actions for admin writes (Phase 11+). Each action: verify session → validate with Zod → write → `revalidatePath`.
 
 ## Authentication (built Phase 10)
 - Supabase Auth, email + password, **no public sign-up**. The single admin user is created in the Supabase dashboard.
@@ -40,11 +40,14 @@ Browser ──► Vercel (Next.js App Router)
 - Images are rendered through `next/image` (AVIF/WebP, responsive `sizes`); `*.supabase.co` is allowed in `next.config.ts`.
 
 ## Data fetching & caching
-- Public pages read in Server Components and are statically generated where possible; admin writes call `revalidateTag` for the affected entity so published changes appear without a redeploy.
+- Public pages read in Server Components and are statically generated (ISR). Admin Server Actions call `revalidatePath` for the affected pages (content edits revalidate the whole public layout), so changes appear on the next request without a redeploy; an hourly `revalidate` catches edits made directly in Supabase.
 - No client-side fetching for public content. Search/filter on Projects operates on server-provided data (or URL search params) to keep JS minimal.
 
 ## Error handling
-- `app/error.tsx` (route errors), `app/not-found.tsx` (404, also catches `/peak`), `app/loading.tsx`. Admin-specific error/unauthorized pages arrive in Phase 10.
+- 404: one `app/not-found.tsx`, always rendered **inside** the public shell — unknown public URLs hit `(portfolio)/[...rest]` (calls `notFound()`), unpublished projects call `notFound()`. Returns HTTP 404.
+- Errors: `(portfolio)/error.tsx` (keeps navigation), `admin/(protected)/error.tsx` (keeps admin shell), `app/error.tsx` (fallback), `app/global-error.tsx` (root layout crash).
+- Loading: no public loading UI (pages are static; a root `loading.tsx` also forced HTTP 200 on 404s by streaming first — removed in Phase 15). `admin/(protected)/loading.tsx` shows `LoadingSkeleton` inside the admin shell.
+- Images: `SafeImage` swaps a broken remote image for a themed fallback (silhouette, plate, monogram, "can't load").
 - Never surface raw Supabase/Postgres errors to users; map to friendly messages and log server-side.
 
 ## Decisions log
@@ -75,3 +78,15 @@ Browser ──► Vercel (Next.js App Router)
 | 2026-09-27 | Admin list filters live in URL search params, rendered on the server | Shareable/back-button friendly; no client data fetching |
 | 2026-09-27 | Reordering = move up/down + renumber 1..n | Simple, accessible, robust to gaps; drag-and-drop not needed yet |
 | 2026-09-27 | Actions return `ActionResult` and map Postgres errors (`23505` → field error) | Friendly messages; raw DB errors never reach the UI |
+| 2026-09-29 | Shared action helpers live in server-only `src/lib/admin/helpers.ts`, not in `"use server"` files | Every export of a `"use server"` module becomes a callable endpoint |
+| 2026-09-29 | Skills reorder within their category, then the whole list is renumbered | Matches how the public board groups skills; keeps `display_order` gap-free |
+| 2026-09-29 | Deleting a category keeps its skills (uncategorised, hidden publicly) | Avoids accidental data loss; admin reassigns them |
+| 2026-09-29 | One `InlineListManager` for About / Journey / social links / milestone categories | Same interaction everywhere; entity-specific forms plug in |
+| 2026-09-29 | Content actions revalidate `/` with the `layout` scope | Profile/settings/links appear on several pages |
+| 2026-09-29 | Media deletes allowed only for files no row references (`findMediaReferences`) | Prevents broken images; checked again on the server |
+| 2026-09-29 | Use `useWatch` (not `watch()`) in RHF forms | React Compiler can't memoize `watch()` safely (lint `incompatible-library`) |
+| 2026-09-29 | Public pages stay static (ISR): admin actions call `revalidatePath`; `(portfolio)/layout.tsx` sets `revalidate = 3600` as a safety net | Fast static pages, edits visible on the next request, direct DB edits picked up within an hour |
+| 2026-09-29 | Unpublished project slugs render on demand and resolve to 404 | New projects work without a rebuild (`dynamicParams`); drafts never leak (verified in raw HTML) |
+| 2026-09-29 | Removed root `loading.tsx`; loading UI only in the admin | Public pages are static; the streaming boundary made 404s return HTTP 200 |
+| 2026-09-29 | Catch-all `(portfolio)/[...rest]` + a single shell-less `not-found.tsx` | Every public 404 keeps exactly one navigation and returns 404 |
+| 2026-09-29 | All motion in CSS; `motion` package removed | Nothing needed JS-driven animation; smaller dependency surface |

@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { LogoMark } from "@/components/ui/LogoMark";
 import { PaperCard } from "@/components/ui/PaperCard";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { UiIcon } from "@/components/ui/UiIcon";
 import { cn } from "@/lib/utils/cn";
 
@@ -19,7 +19,7 @@ export function PassportCard({ name, photoUrl, className }: PassportCardProps) {
     <PaperCard as="figure" variant="pinned" className={cn("-rotate-2 p-3 pb-14 sm:p-3.5 sm:pb-16", className)}>
       <div className="relative aspect-[4/5] overflow-hidden rounded-tag bg-blue-300/45">
         {photoUrl ? (
-          <Image src={photoUrl} alt={`Portrait of ${name}`} fill sizes="(min-width: 640px) 13rem, 11rem" className="object-cover" priority />
+          <SafeImage src={photoUrl} alt={`Portrait of ${name}`} fill sizes="(min-width: 640px) 13rem, 11rem" className="object-cover" priority fallback={<PhotoSilhouette />} />
         ) : (
           <PhotoSilhouette />
         )}

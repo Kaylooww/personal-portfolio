@@ -1,13 +1,21 @@
 import type { Metadata } from "next";
-import { AdminComingSoon } from "@/components/admin/AdminComingSoon";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AboutCardsManager } from "@/components/admin/content/AboutCardsManager";
 import { requireAdmin } from "@/lib/auth/admin";
-import { getAdminNavItem } from "@/lib/constants/admin-nav";
+import { listAdminAboutCards } from "@/lib/queries/admin-content";
 
-const section = getAdminNavItem("/admin/about");
-
-export const metadata: Metadata = { title: section.label };
+export const metadata: Metadata = { title: "About" };
 
 export default async function AdminAboutPage() {
-  await requireAdmin(section.href);
-  return <AdminComingSoon section={section} />;
+  await requireAdmin("/admin/about");
+  const cards = await listAdminAboutCards();
+
+  return (
+    <>
+      <AdminPageHeader title="About" description="The paper notes pinned to the About page's notice board, in this order. The intro text lives in Profile." />
+      <div className="mt-8">
+        <AboutCardsManager cards={cards} />
+      </div>
+    </>
+  );
 }

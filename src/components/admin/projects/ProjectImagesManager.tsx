@@ -1,13 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import { useId, useRef, useState, useTransition } from "react";
 import { uploadImage } from "@/components/forms/ImageUploader";
 import { buttonClasses } from "@/components/ui/ButtonLink";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { useToast } from "@/components/ui/Toast";
 import { UiIcon } from "@/components/ui/UiIcon";
-import { addProjectImage, deleteProjectImage, discardUpload, moveProjectImage, updateProjectImage } from "@/lib/actions/projects";
+import { discardUpload } from "@/lib/actions/media";
+import { addProjectImage, deleteProjectImage, moveProjectImage, updateProjectImage } from "@/lib/actions/projects";
 import { IMAGE_TYPES } from "@/lib/storage/media";
 import type { ProjectImage } from "@/types";
 
@@ -124,7 +125,7 @@ function ImageRow({ image, index, total, busy, onMove, onSave, onDelete }: Image
   return (
     <li className="flex flex-col gap-3 rounded-control border border-paper-edge bg-white/60 p-3">
       <div className="relative aspect-video overflow-hidden rounded-tag bg-paper-shade">
-        <Image src={image.url} alt="" fill sizes="(min-width: 768px) 30vw, 90vw" className="object-cover" />
+        <SafeImage src={image.url} alt="" fill sizes="(min-width: 768px) 30vw, 90vw" className="object-cover" fallback={<span className="absolute inset-0 grid place-items-center text-xs font-bold text-danger-600">Can’t load image</span>} />
         <span className="absolute left-2 top-2 rounded-tag bg-navy-900/80 px-2 py-0.5 text-xs font-extrabold text-paper">{index + 1}</span>
       </div>
       <label htmlFor={altId} className="text-xs font-extrabold text-navy-900">

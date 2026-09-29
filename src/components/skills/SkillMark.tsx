@@ -1,7 +1,8 @@
-import Image from "next/image";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { cn } from "@/lib/utils/cn";
 
-const TONES = ["bg-blue-500", "bg-navy-700", "bg-moss-600", "bg-sunset-600", "bg-wood-700", "bg-flag-red"] as const;
+// Every tone keeps white text at ≥ 4.5:1 (WCAG AA).
+const TONES = ["bg-blue-500", "bg-navy-700", "bg-moss-600", "bg-sunset-700", "bg-wood-700", "bg-flag-red"] as const;
 
 /** "JavaScript" → "JS", "HTML" → "HTML", "React" → "Re". */
 export function monogram(name: string): string {
@@ -26,15 +27,8 @@ interface SkillMarkProps {
 
 /** A skill's logo, or a coloured monogram until one is uploaded. Decorative: the name is always shown beside it. */
 export function SkillMark({ name, logoUrl, className }: SkillMarkProps) {
-  if (logoUrl) {
-    return (
-      <span className={cn("relative block size-10", className)}>
-        <Image src={logoUrl} alt="" fill sizes="40px" className="object-contain" />
-      </span>
-    );
-  }
   const text = monogram(name);
-  return (
+  const badge = (
     <span
       aria-hidden
       className={cn(
@@ -45,6 +39,13 @@ export function SkillMark({ name, logoUrl, className }: SkillMarkProps) {
       )}
     >
       {text}
+    </span>
+  );
+  if (!logoUrl) return badge;
+  return (
+    <span className={cn("relative block size-10", className)}>
+      {/* A logo that fails to load falls back to the monogram. */}
+      <SafeImage src={logoUrl} alt="" fill sizes="40px" className="object-contain" fallback={badge} />
     </span>
   );
 }

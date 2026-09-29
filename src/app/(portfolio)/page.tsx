@@ -21,7 +21,7 @@ export default async function AirportPage() {
       <SceneBackground scene="terminal" />
 
       <div className="flex min-h-dvh flex-col pb-6 pt-24 lg:pt-28">
-        <Container className="grid flex-1 content-center items-center gap-x-12 gap-y-12 xl:grid-cols-[minmax(0,1fr)_minmax(22rem,26rem)] 2xl:grid-cols-[minmax(0,1fr)_minmax(24rem,30rem)] 2xl:gap-x-20">
+        <Container className="reveal-stagger grid flex-1 content-center items-center gap-x-12 gap-y-12 xl:grid-cols-[minmax(0,1fr)_minmax(22rem,26rem)] 2xl:grid-cols-[minmax(0,1fr)_minmax(24rem,30rem)] 2xl:gap-x-20">
           <div className="grid items-center gap-x-10 gap-y-10 sm:grid-cols-[12rem_minmax(0,1fr)] xl:grid-cols-[11rem_minmax(0,1fr)] xl:gap-x-8 2xl:grid-cols-[13rem_minmax(0,1fr)] 2xl:gap-x-10">
             <PassportCard name={profile.full_name} photoUrl={profile.photo_url} className="w-44 sm:w-auto" />
             <AirportIntro profile={profile} />
@@ -37,7 +37,7 @@ export default async function AirportPage() {
         <Container className="mt-10 flex items-end justify-between gap-4">
           <p
             aria-hidden
-            className="hidden items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-blue-600/70 lg:flex"
+            className="hidden items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-blue-600 lg:flex"
           >
             <UiIcon name="chevron-up" className="size-4 rotate-90" />
             This way to the climb

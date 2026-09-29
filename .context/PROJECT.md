@@ -39,7 +39,7 @@ Single source of truth in code: `src/lib/constants/sections.ts`.
 | Framework | Next.js 16 (App Router, Turbopack) |
 | UI | React 19, TypeScript 6 (strict) |
 | Styling | Tailwind CSS v4 (CSS-first `@theme` tokens) |
-| Animation | Motion (`motion/react`) — used from Phase 2 onward |
+| Animation | CSS only (keyframes, transitions, `@starting-style`) — the Motion library was removed in Phase 15 as unused |
 | Backend / DB / Auth / Storage | Supabase (PostgreSQL, Auth, Storage) — Phase 9+ |
 | Forms / validation | React Hook Form + Zod — Phase 10+ |
 | Deployment | Vercel |

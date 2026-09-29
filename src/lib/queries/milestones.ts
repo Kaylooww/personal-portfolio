@@ -1,15 +1,21 @@
 import "server-only";
-import { MOCK_MILESTONE_CATEGORIES, MOCK_MILESTONES } from "@/lib/mock/milestones";
-import { visibleInOrder } from "@/lib/utils/order";
 import type { Milestone, MilestoneCategory } from "@/types";
+import { publicDb, queryFailed } from "./public-db";
 
-/** Visible milestone categories in display order. Swaps to Supabase in Phase 14. */
+/** Visible milestone categories in display order. */
 export async function getMilestoneCategories(): Promise<MilestoneCategory[]> {
-  return visibleInOrder(MOCK_MILESTONE_CATEGORIES);
+  const { data, error } = await publicDb().from("milestone_categories").select("*").eq("is_visible", true).order("display_order");
+  if (error) queryFailed("milestone categories", error);
+  return data;
 }
 
 /** Visible milestones whose category is visible (uncategorised ones are kept). */
 export async function getMilestones(): Promise<Milestone[]> {
-  const visibleCategories = new Set((await getMilestoneCategories()).map((c) => c.id));
-  return visibleInOrder(MOCK_MILESTONES).filter((m) => m.category_id === null || visibleCategories.has(m.category_id));
+  const [categories, milestones] = await Promise.all([
+    getMilestoneCategories(),
+    publicDb().from("milestones").select("*").eq("is_visible", true).order("display_order"),
+  ]);
+  if (milestones.error) queryFailed("milestones", milestones.error);
+  const visible = new Set(categories.map((c) => c.id));
+  return milestones.data.filter((m) => m.category_id === null || visible.has(m.category_id));
 }

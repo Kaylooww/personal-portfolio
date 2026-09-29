@@ -12,9 +12,9 @@ verified, documented, reported to the owner, and **explicitly approved**.
 
 | Field | Value |
 |---|---|
-| Current phase | **Phase 11 — Project Management** |
+| Current phase | **Phase 15 — Polish** |
 | Phase status | ✅ Complete — **awaiting owner approval** |
-| Next phase | Phase 12 — Skills Management (blocked until approved) |
+| Next phase | Phase 16 — Performance + SEO (blocked until approved) |
 
 Update this table whenever a phase changes state.
 
@@ -64,11 +64,11 @@ If the owner requests changes, you stay in the **current** phase: fix → verify
 | 8 | Summit | ✅ Complete (batch-approved 3–9) |
 | 9 | Supabase + Database | ✅ Approved |
 | 10 | Authentication + Admin Foundation | ✅ Approved |
-| 11 | Project Management | ✅ Complete — awaiting approval |
-| 12 | Skills Management | ⏸ Not started |
-| 13 | Content Management | ⏸ Not started |
-| 14 | Public Database Integration | ⏸ Not started |
-| 15 | Polish | ⏸ Not started |
+| 11 | Project Management | ✅ Approved |
+| 12 | Skills Management | ✅ Approved |
+| 13 | Content Management | ✅ Approved |
+| 14 | Public Database Integration | ✅ Approved |
+| 15 | Polish | ✅ Complete — awaiting approval |
 | 16 | Performance + SEO | ⏸ Not started |
 | 17 | Final Testing | ⏸ Not started |
 | 18 | Documentation + Deployment | ⏸ Not started |

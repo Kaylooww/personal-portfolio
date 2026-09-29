@@ -16,7 +16,7 @@ export function CheckpointPage({ scene, children, className }: CheckpointPagePro
     <>
       <SceneBackground scene={scene} />
       <div className="pb-16 pt-24 lg:pt-28">
-        <Container className={cn("relative", className)}>{children}</Container>
+        <Container className={cn("reveal-stagger relative", className)}>{children}</Container>
       </div>
     </>
   );

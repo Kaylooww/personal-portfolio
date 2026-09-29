@@ -68,7 +68,14 @@ Tailwind 4px scale. Layout variables: `--nav-height` 4rem, `--sidebar-width` 12.
 
 ## Motion
 Durations `--duration-quick` 150ms · `-base` 250ms · `-slow` 400ms. Easing `--ease-trail` (default), `--ease-snap` (small bounces on badges). Keyframes: `flag-wave`, `cloud-drift`.
-Rules: one orchestrated reveal per page at most; hover lift ≤ 2px; no long intros; everything respects `prefers-reduced-motion` (global CSS guard + `motion-reduce:` variants + Motion's `useReducedMotion`).
+Rules: one orchestrated reveal per page at most; hover lift ≤ 2px; no long intros; everything respects `prefers-reduced-motion` (global CSS guard + `motion-reduce:` variants).
+
+Built (Phase 15, all CSS):
+- `reveal-stagger` utility — direct children rise in (`--animate-rise`, 12px, 400ms) with 80ms steps; applied to each page's top-level container (`CheckpointPage`, Airport grid). This is the page's one orchestrated reveal.
+- `animate-trail-march` — Journey route dots walk up the trail; `animate-nudge` — departure board "boarding next" arrow.
+- Dialogs: `dialog` fades/scales in, `dialog.sheet` (mobile map) slides from the right, backdrops fade — via `@starting-style` + `allow-discrete`.
+- Toasts rise in; buttons' trailing icons nudge on hover (`group/btn`); project cards lift and thumbnails zoom 3%.
+- Verified: with reduced motion emulated, nothing starts transparent and the trail doesn't animate.
 
 ## Responsive
 Breakpoints: `xs` 375 · `sm` 640 · `md` 768 · `lg` 1024 (sidebar appears) · `xl` 1280 · `2xl` 1536 · `3xl` 1920. Design targets 320/375/430/768/1024/1440/1920+. Adapt layouts (stack boards into cards, vertical journey) — never scale the desktop down.

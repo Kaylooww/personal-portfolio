@@ -122,6 +122,9 @@
   /* ── Animations ── */
   --animate-flag-wave: flag-wave 3.2s var(--ease-trail) infinite;
   --animate-cloud-drift: cloud-drift 60s linear infinite;
+  --animate-rise: rise var(--duration-slow) var(--ease-trail) both;
+  --animate-trail-march: trail-march 1.6s linear infinite;
+  --animate-nudge: nudge 1.4s var(--ease-trail) infinite;
 
   @keyframes flag-wave {
     0%, 100% { transform: skewY(0deg) scaleX(1); }
@@ -130,6 +133,18 @@
   @keyframes cloud-drift {
     from { transform: translateX(0); }
     to { transform: translateX(-4%); }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+  /* Dots in a `0 13` dash pattern appear to walk up the route. */
+  @keyframes trail-march {
+    to { stroke-dashoffset: -26; }
+  }
+  @keyframes nudge {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(2px, 2px); }
   }
 }
 
@@ -265,4 +280,62 @@
 @utility transition-trail {
   transition-timing-function: var(--ease-trail);
   transition-duration: var(--duration-base);
+}
+
+
+/* ── Dialog motion (native <dialog>; reduced-motion users get the global guard) ── */
+@layer components {
+  dialog {
+    transition:
+      opacity var(--duration-base) var(--ease-trail),
+      translate var(--duration-base) var(--ease-trail),
+      scale var(--duration-base) var(--ease-trail),
+      overlay var(--duration-base) allow-discrete,
+      display var(--duration-base) allow-discrete;
+    opacity: 0;
+    scale: 0.97;
+  }
+  dialog[open] {
+    opacity: 1;
+    scale: 1;
+    @starting-style {
+      opacity: 0;
+      scale: 0.97;
+    }
+  }
+  /* The mobile map slides in from the right instead of scaling. */
+  dialog.sheet {
+    scale: 1;
+    translate: 100% 0;
+  }
+  dialog.sheet[open] {
+    translate: 0 0;
+    @starting-style {
+      translate: 100% 0;
+    }
+  }
+  dialog::backdrop {
+    transition:
+      opacity var(--duration-base) var(--ease-trail),
+      overlay var(--duration-base) allow-discrete,
+      display var(--duration-base) allow-discrete;
+    opacity: 0;
+  }
+  dialog[open]::backdrop {
+    opacity: 1;
+    @starting-style {
+      opacity: 0;
+    }
+  }
+}
+
+/* Staggers a container's direct children (page-level blocks) with the rise-in. */
+@utility reveal-stagger {
+  & > * {
+    animation: var(--animate-rise);
+  }
+  & > :nth-child(2) { animation-delay: 80ms; }
+  & > :nth-child(3) { animation-delay: 160ms; }
+  & > :nth-child(4) { animation-delay: 240ms; }
+  & > :nth-child(n + 5) { animation-delay: 320ms; }
 }

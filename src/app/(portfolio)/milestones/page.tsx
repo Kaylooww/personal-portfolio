@@ -29,13 +29,16 @@ export default async function MilestonesPage() {
               <p className="max-w-[36rem] text-xs font-extrabold uppercase leading-relaxed tracking-[0.14em] text-navy-800 sm:text-sm">
                 {categories.map((c, i) => (
                   <span key={c.id}>
-                    {i > 0 && (
+                    {c.name}
+                    {/* Bullet sticks to the preceding name (nbsp) so no line starts with one. */}
+                    {i < categories.length - 1 && (
                       <>
-                        {" "}
-                        <span aria-hidden className="mx-1 text-blue-500">•</span>{" "}
+                        {" "}
+                        <span aria-hidden className="mx-1 text-blue-500">
+                          •
+                        </span>{" "}
                       </>
                     )}
-                    {c.name}
                   </span>
                 ))}
               </p>

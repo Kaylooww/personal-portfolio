@@ -34,3 +34,6 @@ Thumbs.db
 .idea/
 
 # NOTE: .context/, CHECKPOINTS.md, CLAUDE.md and AGENTS.md are intentionally committed.
+
+# text files
+*.txt

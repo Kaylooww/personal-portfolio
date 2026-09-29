@@ -3,10 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
-import { DeleteProjectButton } from "@/components/admin/projects/DeleteProjectButton";
+import { DangerDeleteButton } from "@/components/admin/DangerDeleteButton";
 import { ProjectForm } from "@/components/admin/projects/ProjectForm";
 import { ProjectImagesManager } from "@/components/admin/projects/ProjectImagesManager";
 import { UiIcon } from "@/components/ui/UiIcon";
+import { deleteProject } from "@/lib/actions/projects";
 import { requireAdmin } from "@/lib/auth/admin";
 import { getAdminProject, listSkillOptions } from "@/lib/queries/admin-projects";
 import { projectToFormValues } from "@/lib/validation/project";
@@ -59,7 +60,14 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
             <h2 className="font-display-heavy text-lg uppercase text-danger-600">Danger zone</h2>
             <p className="text-sm text-navy-700">Prefer archiving if you might want it back.</p>
           </div>
-          <DeleteProjectButton projectId={project.id} title={project.title} />
+          <DangerDeleteButton
+            action={deleteProject.bind(null, project.id)}
+            buttonLabel="Delete project"
+            title={`Delete "${project.title}"?`}
+            message="This action cannot be undone. Its screenshots and thumbnail are deleted too."
+            confirmLabel="Delete project"
+            redirectTo="/admin/projects"
+          />
         </section>
       </div>
     </>

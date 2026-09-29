@@ -2,6 +2,81 @@
 
 All meaningful implementation changes, newest first.
 
+## 2026-09-29 — Phase 15: Polish
+
+### Added
+- Motion (CSS): page-level `reveal-stagger` rise-in, Journey trail march, departure-arrow nudge, dialog open/close transitions (map sheet slides in), toast rise-in, button trailing-icon nudge, project card lift + thumbnail zoom. All disabled under reduced motion.
+- `SafeImage` (broken-image fallbacks) used by passport photo, project thumbnails/gallery, skill logos (→ monogram), and all admin previews.
+- `TrailMessage`; public `(portfolio)/error.tsx`; admin `error.tsx` + `loading.tsx` (`LoadingSkeleton`); `global-error.tsx`; catch-all `(portfolio)/[...rest]`.
+- Button disabled styles.
+
+### Changed
+- One 404 page, rendered inside the public shell for every public 404 (fixes doubled navigation on unpublished-project 404s and missing navigation on unknown URLs).
+- Contrast: skill monogram orange → `sunset-700`; Airport "This way to the climb" marker → solid `blue-600`.
+- Sidebar compacts on short screens; mobile map nav labelled "All checkpoints" (unique landmark name).
+
+### Removed
+- Root `app/loading.tsx` (it made 404s return HTTP 200) and the unused `motion` dependency.
+
+### Verified
+- axe-core WCAG 2.1 A/AA: 0 violations on all public pages (desktop + 375px), the 404, login, and 14 admin pages.
+- Keyboard: skip link → main, visible focus rings, mobile map opens with Enter, traps focus, closes with Esc, returns focus.
+- Reduced motion: content visible immediately; trail not animated.
+- HTTP 404 for unknown URLs and unpublished projects, each with exactly one navigation/main/h1.
+- No horizontal overflow at 320/375/430/768/1024; screenshots at 430, 768, 1024, 1920, landscape phone and 1280×540.
+
+## 2026-09-29 — Phase 14: Public Database Integration
+
+### Changed
+- Every public query (`profile`, `site-settings`, `about`, `skills`, `projects`, `journey`, `milestones`, `social-links`) now reads Supabase through a shared cookie-less anon client (`src/lib/queries/public-db.ts`), with explicit published/visible filters on top of RLS. Singletons use React `cache()`; missing singletons fall back safely.
+- Project queries join technologies (hidden skills dropped) and screenshots in one request.
+- `(portfolio)/layout.tsx`: `revalidate = 3600` safety net; pages remain static (ISR) and admin saves revalidate them on demand.
+- Summit shows a **Résumé** button when downloads are enabled and a PDF is uploaded (`getResumeUrl()`).
+- Admin dashboard note now says edits go live immediately.
+- Copy: singular "1 expedition" / "1 milestone"; milestone category bullets never start a line.
+
+### Removed
+- `src/lib/mock/*` and `src/lib/utils/order.ts`.
+
+### Verified (production build, live Supabase)
+- Public pages render DB content; drafts, hidden and archived items absent — including from the raw HTML / streamed payload.
+- Admin → public: project draft (not public, detail 404) → publish (listed, detail renders on demand) → hide (gone, 404) → show → archive (gone, 404); profile tagline → Airport; skill hide/show → Skills; social link shown → Summit; milestone hidden → Milestones.
+- All touched tables restored identically; every public page matched its pre-test HTML after revalidation. No horizontal overflow at 320px.
+
+## 2026-09-29 — Phase 13: Content Management
+
+### Added
+- `/admin/profile` (name lines, roles, tagline, intro/bio, location, email, photo, résumé PDF), `/admin/about` (cards with repeatable lines + icons), `/admin/journey` (checkpoints), `/admin/milestones` (+ new/edit/categories), `/admin/settings` (SEO text, share image, departure board, Summit text, résumé toggle, social links), `/admin/media` (storage browser with usage, delete unused).
+- Actions `src/lib/actions/content.ts`, `src/lib/actions/milestones.ts`, `deleteMediaFile`; schemas `src/lib/validation/content.ts`; reads `src/lib/queries/admin-content.ts`; `src/lib/admin/media-references.ts`.
+- Helpers `nextDisplayOrder`, `moveRow`, `moveRowInCategory`, `setVisibility`, `deleteById`; components `InlineListManager`, `useFormAction`, `FormSaveBar`, `DocumentUploader`, content/milestone editors, `MediaBrowser`.
+- `validateDocumentFile`, `MEDIA_ROOTS`, `site` media folder; `discardUpload` covers every folder and checks all references.
+- Dashboard "+ Add milestone" → `/admin/milestones/new`.
+
+### Changed
+- Skill actions use the new generic ordering helpers.
+
+### Removed
+- `AdminComingSoon` placeholder and `AdminNavItem.phase`.
+
+### Verified (live Supabase, admin session)
+- 61-check browser run across profile (validation, photo/PDF upload, save, photo removal deletes file), About (add with lines/icons, reorder, hide + RLS, inline edit, delete), Journey (validation, add, reorder, delete), Settings (summit text, new departure, résumé toggle), social links (https validation, email → mailto:, RLS, delete), milestone categories + milestones (auto slug, accent/icon, image upload, grouping, in-category reorder, feature, hide + RLS, image removal deletes file, delete, category delete → uncategorised), Media (in-use file locked, unused filter, delete unused). Two script expectations were wrong (uppercase button text; jsonb key order); behaviour was correct.
+- All seven touched tables and the storage bucket verified identical to before the run.
+
+## 2026-09-29 — Phase 12: Skills Management
+
+### Added
+- `/admin/skills` (grouped by category like the public board, Uncategorised group, URL search + category filter, in-category reorder, featured/visible, delete with project-usage warning), `/admin/skills/new`, `/admin/skills/[id]/edit` (logo upload, fallback icon, proficiency, live preview, danger zone), `/admin/skills/categories` (add, inline edit, reorder, show/hide, delete → skills become uncategorised).
+- `src/lib/actions/skills.ts` (8 actions), `src/lib/validation/skill.ts`, `src/lib/queries/admin-skills.ts`.
+- Shared: `AdminFilters`, `RowIconButton`/`EyeIcon`, `useAdminAction`, `DangerDeleteButton`, `FormSection`, `IconPicker`; server-only `src/lib/admin/helpers.ts`; `src/lib/actions/media.ts` (`discardUpload` for projects/ and skills/).
+- Dashboard "+ Add skill" → `/admin/skills/new`.
+
+### Changed
+- Project actions/components refactored onto the shared helpers (`ProjectFilters` → `AdminFilters`, `DeleteProjectButton` → `DangerDeleteButton`, shared `FormSection`/`EyeIcon`); behaviour unchanged.
+
+### Verified (live Supabase, admin session)
+- 47-step browser run: grouping, search, category filter; category create (auto slug, icon), reorder, hide (RLS), show, inline edit; skill validation (required, proficiency range, duplicate slug), logo upload, create in category, in-category reorder (other skills' order untouched), unfeature, hide (RLS), appears in project tech picker, logo removal deletes file, delete with project-usage warning cascades the tech link, category delete leaves skill uncategorised. (One expectation in the script was wrong: "java" correctly matches 3 skills incl. JavaScript.)
+- Categories, skills and project technologies verified byte-identical to before the run; no files left in storage.
+
 ## 2026-09-27 — Phase 11: Project Management
 
 ### Added

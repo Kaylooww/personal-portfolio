@@ -3,26 +3,32 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { buttonClasses } from "@/components/ui/ButtonLink";
+import { TrailMessage } from "@/components/ui/TrailMessage";
 
+/** Last-resort boundary for anything outside the public and admin layouts. */
 export default function RouteError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
     console.error(error);
   }, [error]);
 
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center gap-5 px-6 text-center">
-      <h1 className="font-display-heavy text-heading uppercase text-navy-900">The trail washed out</h1>
-      <p className="max-w-md text-navy-700">
-        This page could not load. Try again, or head back to the start of the route.
-      </p>
-      <div className="flex flex-wrap justify-center gap-3">
-        <button type="button" onClick={reset} className={buttonClasses("primary")}>
-          Try again
-        </button>
-        <Link href="/" className={buttonClasses("secondary")}>
-          Back to the airport
-        </Link>
-      </div>
-    </div>
+    <main id="main" className="grid min-h-dvh place-items-center">
+      <TrailMessage
+        tone="red"
+        eyebrow="Something went wrong"
+        title="The trail washed out"
+        message="This page couldn't load. Try again, or head back to the start of the route."
+        actions={
+          <>
+            <button type="button" onClick={reset} className={buttonClasses("primary")}>
+              Try again
+            </button>
+            <Link href="/" className={buttonClasses("secondary")}>
+              Back to the airport
+            </Link>
+          </>
+        }
+      />
+    </main>
   );
 }

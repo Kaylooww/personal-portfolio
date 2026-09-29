@@ -1,9 +1,10 @@
 import "server-only";
-import { MOCK_ABOUT_CARDS } from "@/lib/mock/about";
-import { visibleInOrder } from "@/lib/utils/order";
 import type { AboutCard } from "@/types";
+import { publicDb, queryFailed } from "./public-db";
 
-/** Visible About cards in display order. Swaps to Supabase in Phase 14. */
+/** Visible About cards in display order. */
 export async function getAboutCards(): Promise<AboutCard[]> {
-  return visibleInOrder(MOCK_ABOUT_CARDS);
+  const { data, error } = await publicDb().from("about_cards").select("*").eq("is_visible", true).order("display_order");
+  if (error) queryFailed("About cards", error);
+  return data;
 }

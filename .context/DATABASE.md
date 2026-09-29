@@ -1,7 +1,7 @@
 # Database
 
 > **Status: built in Phase 9** (`supabase/migrations/`), verified with `npm run db:test`.
-> Not yet applied to a live project (credentials pending); the site still reads mock data until Phase 14.
+> Applied to the live project; the public site reads it since Phase 14.
 
 PostgreSQL via Supabase. Normalised tables — no "whole portfolio in one JSON column".
 Small, fixed-shape lists (an About card's items, a project's feature bullets, the departure board) use `jsonb`/`text[]` columns on their parent row because they have no identity of their own.

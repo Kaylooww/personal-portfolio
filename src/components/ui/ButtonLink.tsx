@@ -20,9 +20,9 @@ const SIZES: Record<Size, string> = {
 
 export function buttonClasses(variant: Variant = "primary", size: Size = "md", className?: string) {
   return cn(
-    "inline-flex items-center justify-center gap-2.5 rounded-control font-body font-extrabold uppercase tracking-[0.08em]",
+    "group/btn inline-flex items-center justify-center gap-2.5 rounded-control font-body font-extrabold uppercase tracking-[0.08em]",
     "transition-trail transition-[background-color,transform,box-shadow,border-color] select-none",
-    "motion-reduce:active:translate-y-0",
+    "motion-reduce:active:translate-y-0 disabled:pointer-events-none disabled:opacity-60",
     VARIANTS[variant],
     SIZES[size],
     className,
@@ -50,7 +50,9 @@ export function ButtonLink({
     <Link className={buttonClasses(variant, size, className)} {...rest}>
       {icon}
       <span>{children}</span>
-      {trailingIcon}
+      {trailingIcon && (
+        <span className="transition-trail transition-transform group-hover/btn:translate-x-0.5 motion-reduce:group-hover/btn:translate-x-0">{trailingIcon}</span>
+      )}
     </Link>
   );
 }

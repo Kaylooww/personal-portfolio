@@ -9,6 +9,7 @@ import { UiIcon } from "@/components/ui/UiIcon";
 import { deleteProject, moveProject, setProjectContentState, setProjectFlag } from "@/lib/actions/projects";
 import type { ActionResult } from "@/lib/actions/result";
 import { cn } from "@/lib/utils/cn";
+import { EyeIcon } from "../RowIconButton";
 import type { AdminProjectListItem } from "@/lib/queries/admin-projects";
 
 interface ProjectRowActionsProps {
@@ -114,15 +115,5 @@ export function ProjectRowActions({ project, canMoveUp, canMoveDown, reorderable
         onConfirm={() => run(() => deleteProject(project.id), () => setConfirmOpen(false))}
       />
     </div>
-  );
-}
-
-function EyeIcon({ off }: { off: boolean }) {
-  return (
-    <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
-      <circle cx="12" cy="12" r="3" />
-      {off && <path d="m3 3 18 18" />}
-    </svg>
   );
 }

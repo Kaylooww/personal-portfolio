@@ -26,21 +26,19 @@ A project can be *Published* with status *Planned* (a public plan), or *Draft* w
 ## Ordering
 Every orderable list uses `display_order` (ascending). Admin reorders with Move Up/Move Down (drag-and-drop if stable).
 
-## Placeholder content
-Until Phase 14, public pages use mock data from a single module per entity under `src/lib/mock/` (created in the phase that needs it), read **only** through `src/lib/queries/*`. Phase 14 deletes these modules and rewrites the query bodies.
+## Public reads (Phase 14)
+All public pages read Supabase through `src/lib/queries/*` with the cookie-less anon client (`publicDb()` in `queries/public-db.ts`). Each query filters explicitly **and** RLS enforces the same rules:
 
-Existing mocks → query functions:
+| Query | Rule |
+|---|---|
+| `getProfile()`, `getSiteSettings()` | singleton; safe fallbacks if the row is missing |
+| `getResumeUrl()` | only when `site_settings.resume_enabled` **and** a résumé is uploaded |
+| `getAboutCards()`, `getJourneyEntries()`, `getSocialLinks()` | `is_visible`, display order |
+| `getSkillCategoriesWithSkills()` | visible categories × visible, categorised skills; empty categories dropped |
+| `getPublishedProjects()`, `getPublishedProjectBySlug()` | `content_state = 'published'` **and** `is_visible`; hidden skills dropped from tech stacks |
+| `getMilestoneCategories()`, `getMilestones()` | visible categories; visible milestones in visible (or no) category |
 
-| Mock | Query | Notes |
-|---|---|---|
-| `mock/profile.ts` | `getProfile()` | |
-| `mock/site-settings.ts` | `getSiteSettings()` | departures, `departures_note`, `summit_note`, `summit_message` |
-| `mock/about.ts` | `getAboutCards()` | |
-| `mock/skills.ts` | `getSkillCategoriesWithSkills()`, `getSkillsById()` | empty categories dropped |
-| `mock/projects.ts` | `getPublishedProjects()`, `getPublishedProjectBySlug()` | includes 1 draft + 1 archived to prove filtering |
-| `mock/journey.ts` | `getJourneyEntries()` | reference text — owner to verify |
-| `mock/milestones.ts` | `getMilestoneCategories()`, `getMilestones()` | includes 1 hidden to prove filtering |
-| `mock/social-links.ts` | `getSocialLinks()` | **placeholder URLs** — replace before launch |
+The mock modules (`src/lib/mock/*`) were deleted in Phase 14. Starter content lives in `supabase/seed.sql`.
 
 ## Media
 Stored in the Supabase Storage bucket; the database stores the public URL. Missing images fall back to themed placeholders (profile silhouette, expedition placeholder, default badge) — a broken `<img>` is never rendered.

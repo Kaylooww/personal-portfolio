@@ -19,7 +19,7 @@ export function ProjectCard({ project, number }: ProjectCardProps) {
   const href = `/projects/${project.slug}`;
 
   return (
-    <article className="surface-paper relative w-full rounded-card p-4 pt-8 sm:p-5 sm:pt-8 md:grid md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] md:gap-5">
+    <article className="surface-paper group/card relative w-full rounded-card p-4 pt-8 transition-trail transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-paper-lift motion-reduce:hover:translate-y-0 sm:p-5 sm:pt-8 md:grid md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] md:gap-5">
       <FlagTab number={number} />
 
       <Link href={href} tabIndex={-1} aria-hidden className="block self-start">
@@ -27,7 +27,7 @@ export function ProjectCard({ project, number }: ProjectCardProps) {
           src={project.thumbnail_url}
           alt=""
           sizes="(min-width: 768px) 14rem, 100vw"
-          className="shadow-paper"
+          className="shadow-paper [&_img]:transition-transform [&_img]:duration-(--duration-slow) group-hover/card:[&_img]:scale-[1.03] motion-reduce:group-hover/card:[&_img]:scale-100"
         />
       </Link>
 

@@ -82,7 +82,7 @@ export function DepartureBoard({ rows, note, className }: DepartureBoardProps) {
                   <td className="py-3 text-center text-paper">
                     {row.status === "up_next" ? (
                       <>
-                        <UiIcon name="arrow-down-right" className="mx-auto size-5" />
+                        <UiIcon name="arrow-down-right" className="mx-auto size-5 animate-nudge motion-reduce:animate-none" />
                         <span className="sr-only">Boarding next</span>
                       </>
                     ) : (

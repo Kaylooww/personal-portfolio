@@ -72,7 +72,15 @@ export function JourneyRoute({ entries, className }: { entries: JourneyEntry[]; 
         preserveAspectRatio="none"
       >
         <path d={d} className="stroke-sunset-500" strokeWidth="14" strokeOpacity="0.25" fill="none" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-        <path d={d} className="stroke-sunset-500" strokeWidth="5" strokeDasharray="0 13" fill="none" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+        <path
+          d={d}
+          className="stroke-sunset-500 animate-trail-march motion-reduce:animate-none"
+          strokeWidth="5"
+          strokeDasharray="0 13"
+          fill="none"
+          strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
+        />
       </svg>
 
       <ol className="contents">

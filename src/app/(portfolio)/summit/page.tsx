@@ -3,7 +3,7 @@ import { CheckpointPage } from "@/components/portfolio/CheckpointPage";
 import { SummitActions } from "@/components/portfolio/SummitActions";
 import { LogoMark } from "@/components/ui/LogoMark";
 import { SectionTitle } from "@/components/ui/SectionTitle";
-import { getSiteSettings } from "@/lib/queries/site-settings";
+import { getResumeUrl, getSiteSettings } from "@/lib/queries/site-settings";
 import { getSocialLinks } from "@/lib/queries/social-links";
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 /** Checkpoint 7 — the Summit: where the next climb begins. Kept deliberately calm and uncluttered. */
 export default async function SummitPage() {
-  const [settings, links] = await Promise.all([getSiteSettings(), getSocialLinks()]);
+  const [settings, links, resumeUrl] = await Promise.all([getSiteSettings(), getSocialLinks(), getResumeUrl()]);
 
   return (
     <CheckpointPage scene="sunset" className="flex min-h-[calc(100dvh-10rem)] flex-col justify-center">
@@ -30,7 +30,7 @@ export default async function SummitPage() {
           <p className="mt-8 max-w-xl text-lg leading-relaxed text-navy-800">{settings.summit_message}</p>
         )}
         <div className="mt-8">
-          <SummitActions links={links} />
+          <SummitActions links={links} resumeUrl={resumeUrl} />
         </div>
       </div>
     </CheckpointPage>

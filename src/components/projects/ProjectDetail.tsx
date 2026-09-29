@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { buttonClasses } from "@/components/ui/ButtonLink";
 import { PaperCard } from "@/components/ui/PaperCard";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { UiIcon } from "@/components/ui/UiIcon";
@@ -73,7 +73,14 @@ export function ProjectDetail({ project, number }: ProjectDetailProps) {
                   <li key={img.id}>
                     <figure>
                       <div className="relative aspect-[4/3] overflow-hidden rounded-control bg-blue-100">
-                        <Image src={img.url} alt={img.alt} fill sizes="(min-width: 640px) 30vw, 100vw" className="object-cover" />
+                        <SafeImage
+                          src={img.url}
+                          alt={img.alt}
+                          fill
+                          sizes="(min-width: 640px) 30vw, 100vw"
+                          className="object-cover"
+                          fallback={<span className="absolute inset-0 grid place-items-center text-sm font-bold text-navy-500">Image unavailable</span>}
+                        />
                       </div>
                       {img.caption && <figcaption className="font-handwritten mt-1.5 text-navy-700">{img.caption}</figcaption>}
                     </figure>
