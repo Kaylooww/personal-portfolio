@@ -9,11 +9,14 @@ export async function getMilestoneCategories(): Promise<MilestoneCategory[]> {
   return data;
 }
 
-/** Visible milestones whose category is visible (uncategorised ones are kept). */
+/** Visible milestones: featured first, newest dates first, undated last in each group. */
 export async function getMilestones(): Promise<Milestone[]> {
   const [categories, milestones] = await Promise.all([
     getMilestoneCategories(),
-    publicDb().from("milestones").select("*").eq("is_visible", true).order("display_order"),
+    publicDb().from("milestones").select("*").eq("is_visible", true)
+      .order("featured", { ascending: false })
+      .order("date", { ascending: false, nullsFirst: false })
+      .order("display_order").order("id"),
   ]);
   if (milestones.error) queryFailed("milestones", milestones.error);
   const visible = new Set(categories.map((c) => c.id));

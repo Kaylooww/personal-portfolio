@@ -1,5 +1,30 @@
 # Final Testing — Phase 17
 
+## Follow-up — automatic milestone dates (2026-09-30)
+
+- Lint, typecheck and production build passed.
+- Read-only Edge checks verified featured/newest-date order for six public
+  milestones, their category filters and the corresponding admin category groups.
+- Confirmed milestone move arrows removed and date-field hint present. Admin
+  horizontal-overflow and WCAG A/AA audits passed at 320/1440px.
+- No milestone records, dates or media were changed during verification.
+
+## Follow-up — milestone details and featured ordering (2026-09-30)
+
+- Lint/typecheck/build passed. Public smoke: 9 pages, 63 layouts, 18 WCAG A/AA
+  audits, six milestone dialog keyboard/focus checks, and existing navigation,
+  filter, 404 and signed-out auth checks passed.
+- Focused read-only verification: six details at 320/375/768/1440px; real uploaded
+  images load; complete descriptions and original-image links; imageless entry;
+  preview click, Escape, close/backdrop, focus return and filter retention.
+- Verified featured/manual order in milestones, public projects and skills within
+  their categories against public Supabase reads. Modal axe audit passed and mobile/
+  desktop screenshots were inspected. No database writes or uploaded-file changes.
+- Owner content can change during testing; the production build contained two
+  projects. This does not extend the browser/device coverage beyond Edge emulation.
+
+## Original Phase 17 record
+
 Tested on 2026-09-29 against a local **production build** and the configured Supabase project. Browser: headless Microsoft Edge 154 through Playwright; mobile sizes are viewport emulation, not physical devices.
 
 ## Repeatable checks

@@ -5,6 +5,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import type { Milestone, MilestoneCategory } from "@/types";
 import { MilestoneCard } from "./MilestoneCard";
 import { MilestoneCategoryCard } from "./MilestoneCategoryCard";
+import { MilestoneDetailDialog } from "./MilestoneDetailDialog";
 
 interface MilestoneExplorerProps {
   categories: MilestoneCategory[];
@@ -14,6 +15,7 @@ interface MilestoneExplorerProps {
 /** Category badge grid (acts as the filter) above the milestone log. */
 export function MilestoneExplorer({ categories, milestones }: MilestoneExplorerProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [opened, setOpened] = useState<Milestone | null>(null);
   const logId = useId();
 
   const byId = new Map(categories.map((c) => [c.id, c]));
@@ -54,7 +56,7 @@ export function MilestoneExplorer({ categories, milestones }: MilestoneExplorerP
           <ul className="mt-5 grid gap-4 md:grid-cols-2">
             {shown.map((m) => (
               <li key={m.id}>
-                <MilestoneCard milestone={m} category={m.category_id ? (byId.get(m.category_id) ?? null) : null} />
+                <MilestoneCard milestone={m} category={m.category_id ? (byId.get(m.category_id) ?? null) : null} onOpen={() => setOpened(m)} />
               </li>
             ))}
           </ul>
@@ -67,6 +69,7 @@ export function MilestoneExplorer({ categories, milestones }: MilestoneExplorerP
           />
         )}
       </section>
+      <MilestoneDetailDialog milestone={opened} category={opened?.category_id ? (byId.get(opened.category_id) ?? null) : null} onDismiss={() => setOpened(null)} />
     </div>
   );
 }

@@ -28,9 +28,9 @@ function toProject(row: Row): ProjectWithRelations {
   };
 }
 
-/** Published projects in display order. */
+/** Published projects, featured first, then manual display order. */
 export const getPublishedProjects = cache(async (): Promise<ProjectWithRelations[]> => {
-  const { data, error } = await baseQuery().order("display_order");
+  const { data, error } = await baseQuery().order("featured", { ascending: false }).order("display_order");
   if (error) queryFailed("projects", error);
   return data.map(toProject);
 });
@@ -46,7 +46,7 @@ export const getPublishedProjectBySlug = cache(async (slug: string): Promise<Pro
 /** Lightweight discovery/order query; no descriptions, galleries or technology joins. */
 export const getPublishedProjectIndex = cache(async () => {
   const { data, error } = await publicDb().from("projects").select("id, slug")
-    .eq("content_state", "published").eq("is_visible", true).order("display_order");
+    .eq("content_state", "published").eq("is_visible", true).order("featured", { ascending: false }).order("display_order");
   if (error) queryFailed("project index", error);
   return data;
 });

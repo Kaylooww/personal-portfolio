@@ -2,6 +2,26 @@
 
 All meaningful implementation changes, newest first.
 
+## 2026-09-30 — Automatic milestone date ordering
+
+- Public and admin milestone queries now order by featured first, then newest date, with undated entries last within each featured group. Existing `display_order` and `id` provide stable ties.
+- Removed milestone Move Up/Down controls and their unused Server Action. Category ordering remains manual. Updated the admin page and date-field hint to explain automatic placement after saving; existing save/feature actions already revalidate both views.
+- Verified lint, typecheck and production build. Read-only Edge checks confirmed all six public milestones and every admin category follow date order, public filters retain it, move arrows are absent, and the new field hint is present. Admin layouts and WCAG A/AA audits passed at 320/1440px. No portfolio content or media changed.
+
+## 2026-09-30 — Milestone details and featured ordering
+
+### Changed
+- Public milestone logs render the admin-uploaded image as a preview. Clicking a card opens a native dialog with the full image, description, issuer/organization/date, certificate/details links and an option to open the original image. Logs without images still open normally; image failures use `SafeImage` fallbacks.
+- Dialog supports keyboard opening, Escape, close button, backdrop dismissal, background scroll locking and focus return. Closing preserves the selected category. Proof links remain independent of the card's open action.
+- Public projects and milestones order featured items first, then manual display order. Skills follow that order within each category. The project index uses matching ordering so expedition numbers agree across list/detail pages. Admin reorder controls continue using manual order.
+- Browser smoke checks now exercise each milestone dialog and scope mobile-map assertions to its own dialog.
+
+### Verified
+- Lint, typecheck and production build passed (build workers required the existing sandbox escalation).
+- Public browser smoke passed: 9 pages, 63 layouts, 18 WCAG A/AA audits, navigation/filter/404/auth checks and all 6 milestone dialogs.
+- Focused read-only checks passed for all 6 milestone details at 320/375/768/1440px, image loading, complete descriptions, keyboard/focus, preview clicks, close/backdrop dismissal, category preservation, featured ordering and modal accessibility. Desktop/mobile screenshots inspected; no browser exceptions.
+- No database records or uploaded files changed. The owner is editing live content; the test build contained two published projects, with subsequent additions left untouched.
+
 ## 2026-09-30 — Phase 18: Documentation + Deployment
 
 ### Completed

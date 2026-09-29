@@ -29,7 +29,7 @@ export default async function AdminMilestonesPage({ searchParams }: AdminMilesto
     <>
       <AdminPageHeader
         title="Milestones"
-        description="Certifications, competitions, awards and achievements. Arrows set the order within each category."
+        description="Featured milestones appear first, then newest dates. Entries without dates follow dated entries within each group."
         actions={
           <>
             <Link href="/admin/milestones/categories" className={buttonClasses("secondary", "md")}>

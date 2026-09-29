@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { deleteById, fieldErrorsFrom, moveRow, moveRowInCategory, nextDisplayOrder, removeStoredFiles, setVisibility } from "@/lib/admin/helpers";
+import { deleteById, fieldErrorsFrom, moveRow, nextDisplayOrder, removeStoredFiles, setVisibility } from "@/lib/admin/helpers";
 import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
@@ -72,18 +72,6 @@ export async function setMilestoneFlag(milestoneId: string, flag: "featured" | "
   revalidateMilestones();
   const message = f.data === "featured" ? (value ? "Marked as featured" : "Removed from featured") : value ? "Milestone shown" : "Milestone hidden";
   return ok(undefined, message);
-}
-
-export async function moveMilestone(milestoneId: string, dir: "up" | "down"): Promise<ActionResult> {
-  await requireAdmin("/admin/milestones");
-  const id = idSchema.safeParse(milestoneId);
-  const d = direction.safeParse(dir);
-  if (!id.success || !d.success) return fail("Invalid request.");
-  const supabase = await createSupabaseServerClient();
-  const err = await moveRowInCategory(supabase, "milestones", id.data, d.data);
-  if (err) return fromDbError(err);
-  revalidateMilestones();
-  return ok(undefined, "Order updated");
 }
 
 export async function deleteMilestone(milestoneId: string): Promise<ActionResult> {

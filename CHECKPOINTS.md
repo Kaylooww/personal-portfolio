@@ -13,7 +13,7 @@ verified, documented, reported to the owner, and **explicitly approved**.
 | Field | Value |
 |---|---|
 | Current phase | **Phase 18 — Documentation + Deployment** |
-| Phase status | ✅ Complete — **awaiting final owner approval** |
+| Phase status | ✅ Complete, including milestone details, featured and automatic date ordering — **awaiting final owner approval** |
 | Next phase | None — final planned phase; hosting launch tracked in DEPLOYMENT.md |
 
 Update this table whenever a phase changes state.

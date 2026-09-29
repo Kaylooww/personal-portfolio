@@ -8,7 +8,7 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { ContentIcon } from "@/components/ui/ContentIcon";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { UiIcon } from "@/components/ui/UiIcon";
-import { deleteMilestone, moveMilestone, setMilestoneFlag } from "@/lib/actions/milestones";
+import { deleteMilestone, setMilestoneFlag } from "@/lib/actions/milestones";
 import type { AdminMilestoneCategory } from "@/lib/queries/admin-content";
 import { cn } from "@/lib/utils/cn";
 import { formatMonthYear } from "@/lib/utils/format";
@@ -22,7 +22,7 @@ interface MilestoneAdminListProps {
   filtered: boolean;
 }
 
-/** Milestones grouped by category (the public log order); arrows move within a category. */
+/** Milestones grouped by category, with featured entries and newest dates first. */
 export function MilestoneAdminList({ milestones, categories, filtered }: MilestoneAdminListProps) {
   const { pending, run } = useAdminAction();
   const [toDelete, setToDelete] = useState<Milestone | null>(null);
@@ -60,7 +60,7 @@ export function MilestoneAdminList({ milestones, categories, filtered }: Milesto
             <span className="text-sm font-bold normal-case text-navy-500">({g.items.length})</span>
           </h2>
           <ul className="mt-3 flex flex-col gap-2">
-            {g.items.map((m, i) => (
+            {g.items.map((m) => (
               <li key={m.id} className="surface-paper flex flex-col gap-3 rounded-card p-3 sm:flex-row sm:items-center">
                 <div className="min-w-0 flex-1">
                   <p className="flex flex-wrap items-center gap-2">
@@ -74,16 +74,6 @@ export function MilestoneAdminList({ milestones, categories, filtered }: Milesto
                   <p className="text-sm text-navy-500">{[m.issuer, m.organization, formatMonthYear(m.date)].filter(Boolean).join(" · ") || "No details yet"}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-1">
-                  {!filtered && (
-                    <span className="mr-1 flex">
-                      <RowIconButton disabled={i === 0 || pending} onClick={() => run(() => moveMilestone(m.id, "up"))} aria-label={`Move "${m.title}" up`}>
-                        <UiIcon name="chevron-up" className="size-4" />
-                      </RowIconButton>
-                      <RowIconButton disabled={i === g.items.length - 1 || pending} onClick={() => run(() => moveMilestone(m.id, "down"))} aria-label={`Move "${m.title}" down`}>
-                        <UiIcon name="chevron-up" className="size-4 rotate-180" />
-                      </RowIconButton>
-                    </span>
-                  )}
                   <RowIconButton
                     className={cn(m.featured && "text-gold-500")}
                     disabled={pending}

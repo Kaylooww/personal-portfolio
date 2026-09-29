@@ -47,8 +47,10 @@ Rule: Server Component unless it needs state, effects, or browser APIs. One comp
 | `ProjectThumbnail`, `TechStack`, `ProjectLinks`, `ProjectCard`, `ProjectDetail` | `components/projects/` | server | Image or themed plate; tech marks; external links; card with flag tab; detail page |
 | `ProjectExplorer` | `components/projects/ProjectExplorer.tsx` | client | Search + status filter, live result count, empty state |
 | `JourneyCheckpoint`, `JourneyRoute`, `JourneyTimeline` | `components/journey/` | server | Card; computed snaking mountain route (lg+); vertical trail (below lg) |
-| `MilestoneBadge`, `MilestoneCard`, `MilestoneCategoryCard` | `components/milestones/` | shared | Enamel hex badge; log entry; category card that toggles the filter |
-| `MilestoneExplorer` | `components/milestones/MilestoneExplorer.tsx` | client | Category grid filters the milestone log |
+| `MilestoneBadge`, `MilestoneCard`, `MilestoneCategoryCard` | `components/milestones/` | shared | Enamel hex badge; clickable log entry with image preview; category filter card |
+| `MilestoneExplorer` | `components/milestones/MilestoneExplorer.tsx` | client | Category grid filters the log and opens milestone details |
+| `MilestoneDetailDialog` | `components/milestones/MilestoneDetailDialog.tsx` | client | Native modal with full image/text, proof links, Escape/backdrop/close and focus return |
+| `MilestoneLinks` | `components/milestones/MilestoneLinks.tsx` | shared | Certificate and external proof links for cards and detail dialog |
 | `SummitActions` | `components/portfolio/SummitActions.tsx` | server | Contact / View Projects / social buttons; hides missing links |
 | Scenes | `components/portfolio/scenes/*Scene.tsx` | server | Stand-in SVG art: Terminal, Shore, Jungle, Canyon, Ridge, Citadel, Sunset |
 

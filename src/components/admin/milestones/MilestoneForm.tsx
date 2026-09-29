@@ -53,7 +53,7 @@ export function MilestoneForm({ milestoneId, defaults, categories }: MilestoneFo
             {...register("category_id")}
             error={errors.category_id?.message}
           />
-          <TextField label="Date" type="date" {...register("date")} error={errors.date?.message} />
+          <TextField label="Date" type="date" hint="Saving sorts milestones newest first, with featured entries at the top." {...register("date")} error={errors.date?.message} />
           <TextField label="Issuer (optional)" placeholder="e.g. Google" {...register("issuer")} error={errors.issuer?.message} />
           <TextField label="Organization (optional)" placeholder="e.g. your school" {...register("organization")} error={errors.organization?.message} />
         </div>

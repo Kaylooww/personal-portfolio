@@ -74,7 +74,10 @@ export function parseMilestoneFilters(params: Record<string, string | string[] |
 
 export async function listAdminMilestones(filters: AdminMilestoneFilters): Promise<Milestone[]> {
   const supabase = await createSupabaseServerClient();
-  let query = supabase.from("milestones").select("*").order("display_order").order("created_at");
+  let query = supabase.from("milestones").select("*")
+    .order("featured", { ascending: false })
+    .order("date", { ascending: false, nullsFirst: false })
+    .order("display_order").order("id");
   if (filters.category === "none") query = query.is("category_id", null);
   else if (filters.category) query = query.eq("category_id", filters.category);
   const q = filters.q?.replace(/[,()*%_\\"'.:]/g, " ").replace(/\s+/g, " ").trim();

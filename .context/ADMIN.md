@@ -43,10 +43,20 @@ Dashboard stats: Total Projects, Total Skills, Total Milestones, Journey Entries
 - `/admin/profile` — singleton form: full name, two display lines, roles (one per line), tagline, intro, second paragraph, location, public email, passport photo (`profile/`), résumé PDF (`resume/`). Replacing/removing a photo or résumé deletes the old file.
 - `/admin/about` — About notice-board cards (`InlineListManager`): type, title, 1–12 lines each with an optional icon (goals render as a checklist), reorder, show/hide, inline edit, delete.
 - `/admin/journey` — checkpoints (period, title, subtitle, note, optional date, icon), oldest first; reorder, show/hide, inline edit, delete.
-- `/admin/milestones` — grouped by category (+ Uncategorised), URL search/category filter, in-category reorder, featured, show/hide, delete; `/new` + `/[id]/edit` (category, date, issuer, organization, description, certificate/details links, image `milestones/`, badge icon override, featured, visible; danger zone). `/admin/milestones/categories` — name, auto slug, description, badge colour + icon (live badge preview), visible, reorder, delete (milestones stay, uncategorised).
+- `/admin/milestones` — grouped by category (+ Uncategorised), URL search/category filter, automatic date ordering with featured entries first, show/hide, delete; `/new` + `/[id]/edit` (category, date, issuer, organization, description, certificate/details links, image `milestones/`, badge icon override, featured, visible; danger zone). `/admin/milestones/categories` — name, auto slug, description, badge colour + icon (live badge preview), visible, reorder, delete (milestones stay, uncategorised).
 - `/admin/settings` — site title/description, share image (`site/`), departure board rows (destination, status, icon; ≤6, reorder), board note, Summit note + closing message, "Offer résumé download" toggle; **social links** manager below (platform, label, URL; email stored as `mailto:`; visible, reorder, delete).
 - `/admin/media` — every file in the bucket with size and where it's used (`findMediaReferences()`), folder filters incl. **Unused**, copy link, open, delete **only unused** files (re-checked server-side in `deleteMediaFile`).
 - Actions: `src/lib/actions/content.ts` (profile, settings, about/journey/social via `setListItemVisibility` / `moveListItem` / `deleteListItem` + per-entity save), `src/lib/actions/milestones.ts`, `src/lib/actions/media.ts` (`deleteMediaFile`, `discardUpload`). Schemas: `src/lib/validation/content.ts`. Reads: `src/lib/queries/admin-content.ts`.
+
+## Public milestone details and featured order
+
+- Upload the milestone image in its editor, save, and click its public log entry
+  to view the full image and description. Certificate/details links appear when set.
+- Featured projects and milestones appear before non-featured entries. Featured
+  skills lead their category. Projects and skills keep manual order within each group.
+- Milestones sort by date, newest first, within each featured group in both public
+  and admin lists. Undated entries follow dated entries within their group. Save a
+  date to update placement automatically; milestone categories retain Move Up/Down.
 
 ## Shared admin building blocks
 `AdminFilters` (URL search + selects), `RowIconButton`/`EyeIcon`, `useAdminAction` (transition + toast), `useFormAction` (RHF submit + field errors), `FormSaveBar`, `InlineListManager`, `DangerDeleteButton` (bound Server Action + confirm + redirect), `FormSection`, `IconPicker`, `DocumentUploader`; server-only `src/lib/admin/helpers.ts` (`fieldErrorsFrom`, `removeStoredFiles`, `renumber`, `swapInOrder`, `nextDisplayOrder`, `moveRow`, `moveRowInCategory`, `setVisibility`, `deleteById`) and `media-references.ts` — kept out of `"use server"` files so they aren't exposed as endpoints; `src/lib/actions/media.ts` `discardUpload` (projects/ and skills/).

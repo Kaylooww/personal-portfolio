@@ -24,7 +24,17 @@ TypeScript types: `src/types/content.ts` (mirror of the implemented schema in `D
 A project can be *Published* with status *Planned* (a public plan), or *Draft* with status *Completed* (finished but not yet written up).
 
 ## Ordering
-Every orderable list uses `display_order` (ascending). Admin reorders with Move Up/Move Down.
+Manual lists use `display_order` (ascending), edited with Move Up/Move Down.
+Public projects show `featured = true` first, then `display_order`
+within each group. Skills follow the same rule within their existing categories;
+category order is unchanged. Project numbering follows the same featured-first
+index as the public list. Project/skill admin lists retain manual order for their reorder controls.
+
+Milestones sort automatically in public and admin views: featured first, date
+descending (newest first, null dates last within each featured group), then legacy
+`display_order` and `id` for stable ties. Saving or changing the date updates the
+position through the existing route revalidation. Milestone move arrows are removed;
+category ordering remains manual.
 
 ## Public reads (Phase 14)
 All public pages read Supabase through `src/lib/queries/*` with the cookie-less anon client (`publicDb()` in `queries/public-db.ts`). Each query filters explicitly **and** RLS enforces the same rules:
@@ -42,3 +52,6 @@ The mock modules (`src/lib/mock/*`) were deleted in Phase 14. Starter content li
 
 ## Media
 Stored in the Supabase Storage bucket; the database stores the public URL. Missing images fall back to themed placeholders (profile silhouette, expedition placeholder, default badge) — a broken `<img>` is never rendered.
+Milestone logs show uploaded image previews. Clicking a log opens its full image,
+description, issuer/organization/date and available proof links in a modal; the
+original image can also be opened in a new tab.

@@ -72,7 +72,7 @@ try {
     await map.click();
     await mapNav.getByRole("link", { name: new RegExp(`^${label}`) }).click();
     await page.waitForURL(origin + routes[["Airport", "About", "Skills", "Projects", "Journey", "Milestones", "Summit"].indexOf(label)]);
-    assert.equal(await page.locator("dialog").evaluate((dialog) => dialog.open), false);
+    assert.equal(await page.locator('dialog[aria-labelledby="mobile-map-title"]').evaluate((dialog) => dialog.open), false);
   }
   console.log("PASS mobile route navigation, skip link, keyboard open/Escape/focus return");
 
@@ -93,6 +93,20 @@ try {
     await page.getByRole("button", { name: "Show all", exact: true }).click();
   }
   console.log("PASS project search/empty/reset/status filters and milestone category filters");
+
+  const milestoneEntries = page.locator('main article button[aria-haspopup="dialog"]');
+  for (const entry of await milestoneEntries.all()) {
+    await entry.focus();
+    await page.keyboard.press("Enter");
+    const detail = page.getByRole("dialog");
+    await detail.waitFor();
+    assert.equal(await detail.locator("h2").count(), 1, "Milestone detail has a heading");
+    assert.equal(await detail.getByRole("button", { name: "Close milestone" }).evaluate((element) => element === document.activeElement), true);
+    await page.keyboard.press("Escape");
+    await detail.waitFor({ state: "hidden" });
+    assert.equal(await entry.evaluate((element) => element === document.activeElement), true, "Milestone returns focus to its log entry");
+  }
+  console.log(`PASS ${await milestoneEntries.count()} milestone dialogs: keyboard open, close and focus return`);
 
   for (const path of ["/phase17-not-found", "/peak", "/projects/phase17-not-found"]) {
     const response = await page.goto(origin + path, { waitUntil: "load" });
