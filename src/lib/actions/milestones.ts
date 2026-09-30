@@ -37,12 +37,13 @@ export async function saveMilestone(input: { id?: string; values: MilestoneFormV
   if (input.id !== undefined) {
     const id = idSchema.safeParse(input.id);
     if (!id.success) return fail("Unknown milestone.");
-    const before = await supabase.from("milestones").select("image_url").eq("id", id.data).maybeSingle();
+    const before = await supabase.from("milestones").select("image_url, pdf_url").eq("id", id.data).maybeSingle();
     if (before.error) return fromDbError(before.error);
     if (!before.data) return fail("That milestone no longer exists.");
     const upd = await supabase.from("milestones").update(row).eq("id", id.data);
     if (upd.error) return fromDbError(upd.error);
     if (before.data.image_url && before.data.image_url !== row.image_url) await removeStoredFiles(supabase, [before.data.image_url]);
+    if (before.data.pdf_url && before.data.pdf_url !== row.pdf_url) await removeStoredFiles(supabase, [before.data.pdf_url]);
     revalidateMilestones();
     return ok({ id: id.data }, "Milestone saved");
   }
@@ -79,10 +80,10 @@ export async function deleteMilestone(milestoneId: string): Promise<ActionResult
   const id = idSchema.safeParse(milestoneId);
   if (!id.success) return fail("Invalid request.");
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase.from("milestones").delete().eq("id", id.data).select("title, image_url").maybeSingle();
+  const { data, error } = await supabase.from("milestones").delete().eq("id", id.data).select("title, image_url, pdf_url").maybeSingle();
   if (error) return fromDbError(error);
   if (!data) return fail("That milestone no longer exists.");
-  await removeStoredFiles(supabase, [data.image_url]);
+  await removeStoredFiles(supabase, [data.image_url, data.pdf_url]);
   revalidateMilestones();
   return ok(undefined, `Deleted "${data.title}"`);
 }

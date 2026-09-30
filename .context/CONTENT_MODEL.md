@@ -36,6 +36,18 @@ descending (newest first, null dates last within each featured group), then lega
 position through the existing route revalidation. Milestone move arrows are removed;
 category ordering remains manual.
 
+Gallery, Board and List group milestones by category in category order. Each group
+retains featured/date ordering; uncategorised entries follow the named categories.
+Gallery and List groups can be collapsed; Board columns scroll horizontally.
+
+## Date labels
+
+Milestone `date_display` controls the label: `day` = Sep 30, 2026, `month` = Sep 2026,
+`year` = 2026. Existing rows default to `month`; the new-entry form defaults to `day`.
+The stored date and sorting are independent of this choice. Null dates have no label.
+Journey shows its exact `date` when present and otherwise uses `period_label`.
+Formatting uses UTC so the day is stable across visitor time zones.
+
 ## Public reads (Phase 14)
 All public pages read Supabase through `src/lib/queries/*` with the cookie-less anon client (`publicDb()` in `queries/public-db.ts`). Each query filters explicitly **and** RLS enforces the same rules:
 
@@ -52,6 +64,9 @@ The mock modules (`src/lib/mock/*`) were deleted in Phase 14. Starter content li
 
 ## Media
 Stored in the Supabase Storage bucket; the database stores the public URL. Missing images fall back to themed placeholders (profile silhouette, expedition placeholder, default badge) — a broken `<img>` is never rendered.
-Milestone logs show uploaded image previews. Clicking a log opens its full image,
-description, issuer/organization/date and available proof links in a modal; the
-original image can also be opened in a new tab.
+Milestone Gallery shows a PDF preview when `pdf_url` is set, otherwise the uploaded
+image. Every view opens full details with the selected date format, description and
+proof links. PDF.js renders the document locally with page controls in the dialog;
+the original PDF/image can be opened in a new tab. Failed PDF previews retain that
+link. PDF uploads use the same admin session, bucket and 10 MB limit as the résumé.
+Replacing/removing a saved PDF cleans up its stored file; Media protects references.

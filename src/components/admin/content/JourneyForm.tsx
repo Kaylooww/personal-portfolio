@@ -56,7 +56,7 @@ export function JourneyForm({ item, onDone, onCancel }: InlineListFormProps<Jour
         <TextField label="Subtitle" placeholder="e.g. BSIT Student" {...register("subtitle")} error={errors.subtitle?.message} />
       </div>
       <TextAreaField label="Short note" rows={2} {...register("description")} error={errors.description?.message} />
-      <TextField label="Exact date (optional)" type="date" hint="Only for your records; the card shows the period." className="sm:max-w-60" {...register("date")} error={errors.date?.message} />
+      <TextField label="Exact date (optional)" type="date" hint="Shown on the card when provided. Otherwise, the year / period is shown." className="sm:max-w-60" {...register("date")} error={errors.date?.message} />
       <Controller
         control={control}
         name="icon"

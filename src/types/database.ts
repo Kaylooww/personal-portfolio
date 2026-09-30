@@ -122,7 +122,7 @@ export type Database = {
             referencedColumns: ["id"];
           },
         ],
-        "featured"
+        "featured" | "date_display"
       >;
       social_links: Table<SocialLink>;
     };

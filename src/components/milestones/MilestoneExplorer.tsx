@@ -6,6 +6,8 @@ import type { Milestone, MilestoneCategory } from "@/types";
 import { MilestoneCard } from "./MilestoneCard";
 import { MilestoneCategoryCard } from "./MilestoneCategoryCard";
 import { MilestoneDetailDialog } from "./MilestoneDetailDialog";
+import { MilestoneViewSwitcher, type MilestoneView } from "./MilestoneViewSwitcher";
+import { cn } from "@/lib/utils/cn";
 
 interface MilestoneExplorerProps {
   categories: MilestoneCategory[];
@@ -16,11 +18,16 @@ interface MilestoneExplorerProps {
 export function MilestoneExplorer({ categories, milestones }: MilestoneExplorerProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [opened, setOpened] = useState<Milestone | null>(null);
+  const [view, setView] = useState<MilestoneView>("gallery");
   const logId = useId();
 
   const byId = new Map(categories.map((c) => [c.id, c]));
   const selected = selectedId ? (byId.get(selectedId) ?? null) : null;
   const shown = selected ? milestones.filter((m) => m.category_id === selected.id) : milestones;
+  const groups = [
+    ...categories.map((category) => ({ id: category.id, name: category.name, category, items: shown.filter((m) => m.category_id === category.id) })),
+    { id: "uncategorised", name: "Other milestones", category: null, items: shown.filter((m) => !m.category_id) },
+  ].filter((group) => group.items.length > 0);
 
   return (
     <div>
@@ -52,14 +59,24 @@ export function MilestoneExplorer({ categories, milestones }: MilestoneExplorerP
           </p>
         </div>
 
+        <div className="mt-5"><MilestoneViewSwitcher value={view} onChange={setView} /></div>
         {shown.length > 0 ? (
-          <ul className="mt-5 grid gap-4 md:grid-cols-2">
-            {shown.map((m) => (
-              <li key={m.id}>
-                <MilestoneCard milestone={m} category={m.category_id ? (byId.get(m.category_id) ?? null) : null} onOpen={() => setOpened(m)} />
-              </li>
+          <div role={view === "board" ? "region" : undefined} aria-label={view === "board" ? "Milestone board — scroll to see categories" : undefined} tabIndex={view === "board" ? 0 : undefined}
+            className={cn("mt-6", view === "board" ? "flex items-start gap-4 overflow-x-auto rounded-card pb-5" : "space-y-8")}>
+            {groups.map((group) => view === "board" ? (
+              <section key={group.id} aria-label={group.name} className="w-[min(19rem,85vw)] shrink-0 rounded-panel border border-paper-edge bg-paper-shade/95 p-3">
+                <h3 className="mb-3 flex items-center justify-between gap-2 px-1 font-display-heavy text-lg text-navy-900"><span>{group.name}</span><span className="text-sm text-navy-500">{group.items.length}</span></h3>
+                <ul className="space-y-3">{group.items.map((m) => <li key={m.id}><MilestoneCard milestone={m} category={group.category} view={view} onOpen={() => setOpened(m)} /></li>)}</ul>
+              </section>
+            ) : (
+              <details key={group.id} open className="group/category">
+                <summary className="mb-4 cursor-pointer rounded-tag font-display-heavy text-lg text-navy-900"><span className="ml-2">{group.name}</span><span className="ml-3 text-sm text-navy-500">{group.items.length}</span></summary>
+                <ul className={view === "gallery" ? "grid gap-4 md:grid-cols-2 xl:grid-cols-3" : "space-y-2"}>
+                  {group.items.map((m) => <li key={m.id}><MilestoneCard milestone={m} category={group.category} view={view} onOpen={() => setOpened(m)} /></li>)}
+                </ul>
+              </details>
             ))}
-          </ul>
+          </div>
         ) : (
           <EmptyState
             className="mt-5"

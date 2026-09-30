@@ -132,6 +132,16 @@ Hook: `useActiveSection()` (`hooks/useActiveSection.ts`) → `{ section, index }
 - `MobileMapContents` (`components/navigation/MobileMapContents.tsx`, client): checkpoint list dynamically imported by `MobileNavigation` on first open. The dialog shell and close button remain in the initial component.
 - `PassportCard` and project-detail `ProjectThumbnail` use Next 16 `preload`; other images remain lazy. Their responsive `sizes`, including gallery images, account for the rendered columns and width limits.
 
+## Milestone views and documents
+
+- `MilestoneViewSwitcher`: accessible Gallery/Board/List buttons.
+- `MilestoneExplorer`: category groups, collapsible Gallery/List and scrolling Board.
+- `MilestoneMedia`: PDF takes precedence over image; original-file link in details.
+- `PdfPreview`: lazy PDF.js canvas preview, page controls in dialogs and failure
+  fallback. Worker, fonts, character maps and WASM are self-hosted; npm predev and
+  prebuild copy versioned assets into ignored `public/pdfjs/`.
+- `DocumentUploader` is shared by résumé and milestone PDF editors.
+
 ## Planned
 
 | Component | Folder | Phase |

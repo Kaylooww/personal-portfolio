@@ -94,6 +94,25 @@ try {
   }
   console.log("PASS project search/empty/reset/status filters and milestone category filters");
 
+  const views = page.getByRole("group", { name: "Milestone view" });
+  for (const name of ["Board", "List", "Gallery"]) {
+    await views.getByRole("button", { name, exact: true }).click();
+    assert.equal(await views.getByRole("button", { name, exact: true }).getAttribute("aria-pressed"), "true");
+    for (const width of [320, 375, 768, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.waitForFunction(() => document.documentElement.scrollWidth <= innerWidth);
+    }
+    if (name !== "Board") {
+      const group = page.locator("main details").first();
+      if (await group.count()) {
+        await group.locator("summary").click();
+        assert.equal(await group.evaluate((element) => element.open), false);
+        await group.locator("summary").click();
+      }
+    }
+  }
+  console.log("PASS milestone Gallery/Board/List switching, four widths and category collapse");
+
   const milestoneEntries = page.locator('main article button[aria-haspopup="dialog"]');
   for (const entry of await milestoneEntries.all()) {
     await entry.focus();

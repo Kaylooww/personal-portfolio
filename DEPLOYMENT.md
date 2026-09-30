@@ -14,6 +14,11 @@ Keep the existing owner database and content. Its three migrations, seed, public
 For a fresh project, follow [supabase/README.md](supabase/README.md) before building.
 Do not rerun the seed on an existing content database.
 
+Before deploying the updated milestone editor, apply
+`supabase/migrations/20260930000004_milestone_documents_dates.sql` in SQL Editor.
+It adds date-display and PDF fields without changing existing content. Only this
+new migration is needed for the existing owner project.
+
 Confirm:
 
 - Email provider enabled; public sign-ups disabled; admin Auth user confirmed.
@@ -127,6 +132,7 @@ hosting can change response/cache headers and access protection.
 - [ ] Signed-out admin URLs redirect to login; drafts/hidden/archived projects and unknown URLs return 404.
 - [ ] A deliberate admin edit appears publicly; a temporary draft can be published, verified and removed.
 - [ ] Image upload and optimized rendering work; Media protects referenced files. Remove temporary files.
+- [ ] Milestone date-display choices save, all three views work, and PDF previews/page controls load. Media protects saved PDFs.
 - [ ] Review profile copy, journey dates, project claims and milestones; keep sample projects as drafts.
 - [ ] GitHub and LinkedIn open the owner's profiles. Add contact email and optional photo/résumé.
 - [ ] Sitemap contains the final HTTPS origin and public routes only; robots excludes admin.

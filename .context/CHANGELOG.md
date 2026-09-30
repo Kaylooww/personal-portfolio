@@ -2,6 +2,30 @@
 
 All meaningful implementation changes, newest first.
 
+## 2026-09-30 — Milestone views, PDFs and date labels
+
+- Added per-milestone exact-date, month/year and year-only labels. New forms default
+  to exact dates; the migration preserves month/year labels for existing entries.
+  Stored dates continue to control featured/date ordering within categories.
+- Added Gallery, Board and List views grouped by category, with collapsible Gallery
+  and List groups and horizontal Board columns. Each entry still opens full details.
+- Added milestone PDF uploads (10 MB), previews that take priority over images,
+  dialog page controls and original-file links. PDF.js loads lazily; npm predev and
+  prebuild prepare locally hosted, versioned worker/font/WASM assets.
+- Saved PDF replacement/removal and milestone deletion clean up stored files;
+  Media reference checks now protect milestone PDFs. Added domain/schema validation
+  and the additive migration `20260930000004_milestone_documents_dates.sql`.
+- Journey cards and admin rows show the exact date when present, with period-label
+  fallback when absent. Updated admin guidance and deployment/setup documentation.
+- Lint, typecheck, production build and PGlite checks passed. Public Edge smoke
+  passed 77 layouts, 22 WCAG A/AA audits, six milestone dialogs and view switching.
+  Temporary local fixtures passed PDF rendering/precedence, two-page navigation,
+  failure fallback, all date labels, Journey fallback and 12 view/width accessibility
+  checks. Gallery/Board/List screenshots were inspected; no browser exceptions.
+- Live migration and new admin write flows remain pending owner SQL Editor execution.
+  No live portfolio content or Storage files were changed. Temporary fixture route
+  removed before the final production build.
+
 ## 2026-09-30 — Automatic milestone date ordering
 
 - Public and admin milestone queries now order by featured first, then newest date, with undated entries last within each featured group. Existing `display_order` and `id` provide stable ties.

@@ -6,6 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import { CheckboxField } from "@/components/forms/CheckboxField";
 import { IconPicker } from "@/components/forms/IconPicker";
 import { ImageUploader } from "@/components/forms/ImageUploader";
+import { DocumentUploader } from "@/components/forms/DocumentUploader";
 import { SelectField } from "@/components/forms/SelectField";
 import { TextAreaField } from "@/components/forms/TextAreaField";
 import { TextField } from "@/components/forms/TextField";
@@ -54,6 +55,7 @@ export function MilestoneForm({ milestoneId, defaults, categories }: MilestoneFo
             error={errors.category_id?.message}
           />
           <TextField label="Date" type="date" hint="Saving sorts milestones newest first, with featured entries at the top." {...register("date")} error={errors.date?.message} />
+          <SelectField label="Show date as" options={[{ value: "day", label: "Exact date (Sep 30, 2026)" }, { value: "month", label: "Month and year (Sep 2026)" }, { value: "year", label: "Year only (2026)" }]} {...register("date_display")} error={errors.date_display?.message} />
           <TextField label="Issuer (optional)" placeholder="e.g. Google" {...register("issuer")} error={errors.issuer?.message} />
           <TextField label="Organization (optional)" placeholder="e.g. your school" {...register("organization")} error={errors.organization?.message} />
         </div>
@@ -61,6 +63,13 @@ export function MilestoneForm({ milestoneId, defaults, categories }: MilestoneFo
       </FormSection>
 
       <FormSection title="Proof & links">
+        <Controller
+          control={control}
+          name="pdf_url"
+          render={({ field, fieldState }) => (
+            <DocumentUploader label="PDF (optional)" hint="Upload a certificate or document, up to 10 MB. When provided, the PDF is shown instead of the image." value={field.value} folder="milestones" onChange={field.onChange} onDiscard={(url) => void discardUpload(url)} error={fieldState.error?.message} />
+          )}
+        />
         <div className="grid gap-4 sm:grid-cols-2">
           <TextField label="Certificate link" type="url" placeholder="https://…" {...register("certificate_url")} error={errors.certificate_url?.message} />
           <TextField label="Details link" type="url" placeholder="https://…" {...register("external_url")} error={errors.external_url?.message} />

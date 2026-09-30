@@ -1,27 +1,30 @@
-import { SafeImage } from "@/components/ui/SafeImage";
-import { formatMonthYear } from "@/lib/utils/format";
+import { formatContentDate } from "@/lib/utils/format";
+import { cn } from "@/lib/utils/cn";
 import type { Milestone, MilestoneCategory } from "@/types";
 import { MilestoneBadge } from "./MilestoneBadge";
 import { MilestoneLinks } from "./MilestoneLinks";
+import { MilestoneMedia } from "./MilestoneMedia";
 
 interface MilestoneCardProps {
   milestone: Milestone;
   category: MilestoneCategory | null;
   onOpen: () => void;
+  view?: "gallery" | "board" | "list";
 }
 
 /** One achievement in the log: badge, title, who/when, note and proof links. */
-export function MilestoneCard({ milestone, category, onOpen }: MilestoneCardProps) {
-  const date = formatMonthYear(milestone.date);
+export function MilestoneCard({ milestone, category, onOpen, view = "gallery" }: MilestoneCardProps) {
+  const date = formatContentDate(milestone.date, milestone.date_display ?? "month");
   const source = [milestone.issuer, milestone.organization].filter(Boolean).join(" · ");
 
   return (
-    <article className="surface-paper relative flex h-full gap-4 rounded-card p-4 transition-shadow hover:shadow-paper-lift focus-within:ring-2 focus-within:ring-blue-600 sm:p-5">
-      <MilestoneBadge icon={milestone.badge_icon ?? category?.badge_icon ?? null} accent={category?.accent ?? null} size="sm" />
+    <article className={cn("surface-paper relative flex h-full gap-3 rounded-card p-4 transition-shadow hover:shadow-paper-lift focus-within:ring-2 focus-within:ring-blue-600", view === "gallery" && "flex-col", view === "list" && "items-start sm:items-center")}>
+      {view === "gallery" && (milestone.pdf_url || milestone.image_url) && <MilestoneMedia milestone={milestone} />}
+      {view !== "gallery" && <MilestoneBadge icon={milestone.badge_icon ?? category?.badge_icon ?? null} accent={category?.accent ?? null} size="sm" className="size-9 shrink-0" />}
       <div className="min-w-0 flex-1">
-        {category && <p className="eyebrow text-[0.6875rem] text-blue-600">{category.name}</p>}
+        {view === "gallery" && <div className="mb-2 flex items-center gap-2"><MilestoneBadge icon={milestone.badge_icon ?? category?.badge_icon ?? null} accent={category?.accent ?? null} size="sm" className="size-8" />{milestone.featured && <span className="text-xs font-extrabold text-gold-700">Featured</span>}{milestone.pdf_url && <span className="text-xs font-extrabold text-blue-600">PDF</span>}</div>}
         <h3 className="font-display-heavy mt-0.5 text-lg leading-tight text-navy-900">
-          <button type="button" onClick={onOpen} aria-haspopup="dialog" className="text-left after:absolute after:inset-0 after:rounded-card">
+          <button type="button" onClick={onOpen} aria-haspopup="dialog" className="break-words text-left after:absolute after:inset-0 after:rounded-card">
             {milestone.title}
             <span className="sr-only"> — view milestone</span>
           </button>
@@ -33,23 +36,11 @@ export function MilestoneCard({ milestone, category, onOpen }: MilestoneCardProp
             {date && <time dateTime={milestone.date ?? undefined}>{date}</time>}
           </p>
         )}
-        {milestone.image_url && (
-          <div className="mt-3 overflow-hidden rounded-control bg-paper-shade">
-            <SafeImage
-              src={milestone.image_url}
-              alt={`Image for ${milestone.title}`}
-              width={800}
-              height={500}
-              sizes="(min-width: 1024px) 35vw, (min-width: 768px) 40vw, 75vw"
-              className="aspect-[8/5] w-full object-contain"
-              fallback={<p className="p-4 text-sm text-navy-700">Image unavailable</p>}
-            />
-          </div>
-        )}
-        {milestone.description && <p className="mt-2 line-clamp-3 whitespace-pre-line text-sm leading-relaxed text-navy-700">{milestone.description}</p>}
-        <p aria-hidden="true" className="mt-3 text-sm font-extrabold text-blue-600">View milestone →</p>
-        <MilestoneLinks milestone={milestone} />
+        {view === "gallery" && milestone.description && <p className="mt-2 line-clamp-2 whitespace-pre-line text-sm leading-relaxed text-navy-700">{milestone.description}</p>}
+        {view !== "list" && <p aria-hidden="true" className="mt-3 text-sm font-extrabold text-blue-600">View milestone →</p>}
+        {view === "gallery" && <MilestoneLinks milestone={milestone} />}
       </div>
+      {view === "list" && <span aria-hidden="true" className="shrink-0 text-xs font-extrabold text-blue-600">{milestone.pdf_url ? "PDF ↗" : "View →"}</span>}
     </article>
   );
 }

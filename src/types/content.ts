@@ -141,6 +141,8 @@ export interface MilestoneCategory extends Timestamps, Orderable {
   accent: "navy" | "red" | "gold" | "blue" | "green" | "purple" | null;
 }
 
+export type DateDisplay = "day" | "month" | "year";
+
 export interface Milestone extends Timestamps, Orderable {
   id: UUID;
   title: string;
@@ -148,9 +150,11 @@ export interface Milestone extends Timestamps, Orderable {
   issuer: string | null;
   organization: string | null;
   date: ISODateString | null;
+  date_display: DateDisplay;
   description: string | null;
   badge_icon: string | null;
   image_url: string | null;
+  pdf_url: string | null;
   certificate_url: string | null;
   external_url: string | null;
   featured: boolean;

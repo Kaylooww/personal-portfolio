@@ -11,5 +11,5 @@ export default defineConfig([
       "@typescript-eslint/consistent-type-imports": "warn",
     },
   },
-  globalIgnores([".next/**", "out/**", "build/**", "node_modules/**", "next-env.d.ts"]),
+  globalIgnores([".next/**", "out/**", "build/**", "node_modules/**", "public/pdfjs/**", "next-env.d.ts"]),
 ]);

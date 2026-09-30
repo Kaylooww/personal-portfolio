@@ -2,19 +2,21 @@
 
 Schema, security rules and starter content. Design details:
 [Database](../.context/DATABASE.md) and [Content model](../.context/CONTENT_MODEL.md).
-The owner's live project already has these migrations and seed; preserve its content.
+The owner's live project has the original three migrations and seed; preserve its
+content. Apply the fourth migration for the new milestone editor before release.
 
 | File | Purpose |
 |---|---|
 | `migrations/20260927000001_schema.sql` | Enums, tables, constraints, indexes and timestamp/publishing triggers |
 | `migrations/20260927000002_rls.sql` | Private admin allowlist, helper and table RLS |
 | `migrations/20260927000003_storage.sql` | Public `portfolio-media` bucket and admin-only writes |
+| `migrations/20260930000004_milestone_documents_dates.sql` | Milestone date-display choice and PDF URL; preserves existing content |
 | `seed.sql` | Starter content; sample projects draft, social placeholders hidden |
 
 ## Fresh project setup
 
 1. Create a Supabase project and wait for its database to be available.
-2. In its SQL Editor, run the three migration files above in order, once each.
+2. In its SQL Editor, run the four migration files above in order, once each.
 3. Run `seed.sql` once on the fresh database. It is not safe to rerun on an existing portfolio.
 4. Keep the **Email provider enabled** and disable **Allow new users to sign up**.
    Create the administrator under Authentication → Users with email, password and
@@ -42,6 +44,11 @@ session; app email and database allowlist must match. Manage the Auth account in
 Supabase; the app has no registration or self-service password recovery screen.
 
 ## Storage
+
+For an existing project, run only
+`migrations/20260930000004_milestone_documents_dates.sql` in SQL Editor. Do not
+rerun the original migrations or seed. Then restart/rebuild the app and verify a
+milestone save with a date-display choice and PDF upload.
 
 Keep the bucket named `portfolio-media`. Its migration allows public reads and
 admin writes, with a 10 MB limit and PNG/JPEG/WebP/AVIF/PDF MIME types.

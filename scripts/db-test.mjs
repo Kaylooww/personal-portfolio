@@ -108,6 +108,14 @@ await as("authenticated", "Admin@Example.com", async () => {
 });
 
 // ── Constraints ──
+const milestoneDefaults = await db.query("insert into milestones (title) values ('Date display test') returning date_display, pdf_url");
+check("milestone defaults preserve month/year labels", milestoneDefaults.rows[0].date_display === "month" && milestoneDefaults.rows[0].pdf_url === null);
+check("invalid milestone date display rejected", await fails("update milestones set date_display = 'week' where title = 'Date display test'"));
+check("non-http PDF URL rejected", await fails("update milestones set pdf_url = 'javascript:alert(1)' where title = 'Date display test'"));
+for (const precision of ["day", "month", "year"]) {
+  await db.query("update milestones set date_display = $1, pdf_url = 'https://example.com/certificate.pdf' where title = 'Date display test'", [precision]);
+}
+check("milestones accept every date precision and a PDF", (await db.query("select date_display, pdf_url from milestones where title = 'Date display test'")).rows[0].date_display === "year");
 check("second profile row rejected (singleton)", await fails("insert into profiles (full_name, display_first, display_last) values ('a','a','a')"));
 check("bad slug rejected", await fails("insert into skill_categories (name, slug) values ('X', 'Bad Slug')"));
 check("non-http URL rejected", await fails("update projects set demo_url = 'javascript:alert(1)' where slug = 'expedition-portfolio'"));

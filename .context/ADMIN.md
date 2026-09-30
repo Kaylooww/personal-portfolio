@@ -50,11 +50,22 @@ Dashboard stats: Total Projects, Total Skills, Total Milestones, Journey Entries
 
 ## Public milestone details and featured order
 
-- Upload the milestone image in its editor, save, and click its public log entry
-  to view the full image and description. Certificate/details links appear when set.
+- Set **Date** and **Show date as**: exact date, month and year, or year only.
+  New entries default to exact date; existing entries keep month/year until changed.
+  The full date still controls automatic sorting.
+- Upload an image or a **PDF (optional)** under Proof & links. PDFs accept up to
+  10 MB and take precedence over the image. Remove the PDF and save to show the
+  image again. Replacing/removing a saved PDF deletes its old uploaded file;
+  deleting a milestone removes both files. Media protects PDFs still in use.
+- Visitors can switch between **Gallery**, **Board**, and **List**. All group by
+  category; Gallery and List groups can be collapsed. Gallery shows image/PDF
+  previews. Click an entry in any view for full details, PDF page controls and
+  original-file links. Certificate/details links appear when set.
+- Journey cards and the admin list show the exact date when supplied, otherwise
+  the year/period label. Journey's manual order is unchanged.
 - Featured projects and milestones appear before non-featured entries. Featured
   skills lead their category. Projects and skills keep manual order within each group.
-- Milestones sort by date, newest first, within each featured group in both public
+- Milestones sort by date, newest first, within each category's featured group in both public
   and admin lists. Undated entries follow dated entries within their group. Save a
   date to update placement automatically; milestone categories retain Move Up/Down.
 

@@ -3,6 +3,7 @@
 import { ContentIcon } from "@/components/ui/ContentIcon";
 import { deleteListItem, moveListItem, setListItemVisibility } from "@/lib/actions/content";
 import type { JourneyEntry } from "@/types";
+import { formatContentDate } from "@/lib/utils/format";
 import { InlineListManager } from "../InlineListManager";
 import { JourneyForm } from "./JourneyForm";
 
@@ -15,7 +16,7 @@ export function JourneyManager({ entries }: { entries: JourneyEntry[] }) {
       itemNoun="checkpoint"
       addLabel="+ Add checkpoint"
       empty={{ icon: "mountain", title: "Route not charted yet", message: "Add the first stop of your journey." }}
-      label={(e) => `${e.period_label} · ${e.title}`}
+      label={(e) => `${formatContentDate(e.date) ?? e.period_label} · ${e.title}`}
       leading={(e) => (
         <span className="grid size-10 shrink-0 place-items-center rounded-control bg-blue-100 text-blue-600">
           <ContentIcon icon={e.icon} fallback="flag" className="size-5" />

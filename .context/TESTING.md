@@ -1,5 +1,19 @@
 # Final Testing — Phase 17
 
+## Follow-up — milestone views and documents (2026-09-30)
+
+- Lint/typecheck/build and PGlite passed, including new date-display defaults,
+  allowed values and PDF URL constraints.
+- Public production Edge suite: 77 layouts, 22 WCAG A/AA audits, six milestone
+  dialogs, category filters, Gallery/Board/List switching and category collapse.
+- Temporary local fixtures: PDF over image, canvas rendering, two-page navigation,
+  original-file link, unavailable-PDF fallback, all three date precisions, Journey
+  exact date/period fallback; all three views at 320/375/768/1440px with no overflow
+  or WCAG A/AA violations. Gallery/Board/List screenshots visually inspected.
+- Fixtures were local and removed; no live content or Storage objects changed.
+  Live PDF upload/save/replacement/removal and Media protection require the pending
+  fourth Supabase migration and have not yet been exercised for this update.
+
 ## Follow-up — automatic milestone dates (2026-09-30)
 
 - Lint, typecheck and production build passed.

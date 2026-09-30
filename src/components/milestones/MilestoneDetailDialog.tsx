@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
-import { SafeImage } from "@/components/ui/SafeImage";
 import { UiIcon } from "@/components/ui/UiIcon";
-import { formatMonthYear } from "@/lib/utils/format";
+import { formatContentDate } from "@/lib/utils/format";
 import type { Milestone, MilestoneCategory } from "@/types";
 import { MilestoneBadge } from "./MilestoneBadge";
 import { MilestoneLinks } from "./MilestoneLinks";
+import { MilestoneMedia } from "./MilestoneMedia";
 
 interface MilestoneDetailDialogProps {
   milestone: Milestone | null;
@@ -32,7 +32,7 @@ export function MilestoneDetailDialog({ milestone, category, onDismiss }: Milest
     }
   }, [milestone]);
 
-  const date = formatMonthYear(milestone?.date ?? null);
+  const date = formatContentDate(milestone?.date, milestone?.date_display ?? "month");
   const source = [milestone?.issuer, milestone?.organization].filter(Boolean).join(" · ");
 
   return (
@@ -66,28 +66,7 @@ export function MilestoneDetailDialog({ milestone, category, onDismiss }: Milest
               {date && <time dateTime={milestone.date ?? undefined}>{date}</time>}
             </p>
           )}
-          {milestone.image_url && (
-            <figure className="mt-5">
-              <div className="overflow-hidden rounded-control bg-paper-shade">
-                <SafeImage
-                  key={milestone.image_url}
-                  src={milestone.image_url}
-                  alt={`Image for ${milestone.title}`}
-                  width={1200}
-                  height={900}
-                  sizes="(min-width: 768px) 704px, calc(100vw - 74px)"
-                  className="max-h-[60dvh] w-full object-contain"
-                  fallback={<p className="p-6 text-center text-navy-700">This image could not be loaded.</p>}
-                />
-              </div>
-              <figcaption className="mt-2 text-sm font-extrabold text-blue-600">
-                <a href={milestone.image_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:underline">
-                  Open full-size image <UiIcon name="external" className="size-3.5" />
-                  <span className="sr-only"> (opens in a new tab)</span>
-                </a>
-              </figcaption>
-            </figure>
-          )}
+          {(milestone.pdf_url || milestone.image_url) && <div className="mt-5"><MilestoneMedia milestone={milestone} detail /></div>}
           {milestone.description && <p className="mt-5 whitespace-pre-line break-words leading-relaxed text-navy-700">{milestone.description}</p>}
           <MilestoneLinks milestone={milestone} />
         </>

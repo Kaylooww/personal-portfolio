@@ -42,6 +42,11 @@ guide is `node_modules/next/dist/docs/01-app/02-guides/environment-variables.md`
 
 ## Verification
 
+`npm run dev` and `npm run build` copy the installed PDF.js worker, fonts and WASM
+into versioned `public/pdfjs/` assets through npm pre-hooks. This generated directory
+is ignored by Git and ESLint. Keep these npm commands for local and hosted builds;
+running `next build` directly skips asset preparation. PDF previews use no CDN.
+
 Stop any server using the existing production build before rebuilding it.
 
 ```powershell

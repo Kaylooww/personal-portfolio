@@ -1,6 +1,6 @@
 # Current State
 
-_Last updated: 2026-09-30 — automatic milestone date ordering_
+_Last updated: 2026-09-30 — milestone views, PDF previews and date labels_
 
 ## Status
 
@@ -11,6 +11,12 @@ The application and deployment guide are complete. **Vercel publication and the
 final HTTPS domain have not been verified.**
 
 ## Implemented
+
+- Milestone date-display choices (exact date, month/year, year), category-grouped
+  Gallery/Board/List views, and PDF uploads that take precedence over images.
+  Details offer PDF page controls and an original-file link. Journey shows the
+  exact date when supplied, otherwise its period label. **The new milestone
+  fields require migration 20260930000004 before admin saves can work.**
 
 - Seven expedition checkpoints (Airport → Summit), project details, search/filters,
   responsive navigation, keyboard support, reduced motion and themed fallback states.
@@ -68,6 +74,12 @@ media were left unchanged.
 
 ## Database and owner links
 
+`20260930000004_milestone_documents_dates.sql` is ready and passes local database
+tests. It adds `date_display` (existing rows default to month/year) and `pdf_url`.
+The live API still reported these columns missing during this task; owner SQL
+Editor execution is pending. App API keys cannot apply schema changes. No live
+portfolio records or Storage files were changed during this update.
+
 The existing Supabase project has three migrations and seed applied, one original
 Auth administrator, and the `portfolio-media` public bucket. Phase 17 cleanup
 verified all 12 content tables restored (except timestamps), zero Storage files,
@@ -83,6 +95,11 @@ Normal admin writes use session + RLS. The server-only maintenance client has no
 current app callers; its secret key is optional for deployment.
 
 ## Incomplete work / launch handoff
+
+- Apply only [the new milestone migration](../supabase/migrations/20260930000004_milestone_documents_dates.sql)
+  in Supabase SQL Editor, then restart/rebuild the app and verify admin date-display
+  saves, PDF upload/replacement/removal and Media usage protection against Supabase.
+  Local preview and database checks passed; those live write flows remain unverified.
 
 - Publish to Vercel, set `NEXT_PUBLIC_SITE_URL` to the final HTTPS origin (currently
   localhost), and execute the hosted checklist in [DEPLOYMENT.md](../DEPLOYMENT.md).

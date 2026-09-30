@@ -11,7 +11,7 @@ import { UiIcon } from "@/components/ui/UiIcon";
 import { deleteMilestone, setMilestoneFlag } from "@/lib/actions/milestones";
 import type { AdminMilestoneCategory } from "@/lib/queries/admin-content";
 import { cn } from "@/lib/utils/cn";
-import { formatMonthYear } from "@/lib/utils/format";
+import { formatContentDate } from "@/lib/utils/format";
 import type { Milestone } from "@/types";
 import { EyeIcon, RowIconButton } from "../RowIconButton";
 import { useAdminAction } from "../useAdminAction";
@@ -71,7 +71,7 @@ export function MilestoneAdminList({ milestones, categories, filtered }: Milesto
                       <span className="rounded-tag bg-navy-900/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-navy-700">Hidden</span>
                     )}
                   </p>
-                  <p className="text-sm text-navy-500">{[m.issuer, m.organization, formatMonthYear(m.date)].filter(Boolean).join(" · ") || "No details yet"}</p>
+                  <p className="text-sm text-navy-500">{[m.issuer, m.organization, formatContentDate(m.date, m.date_display)].filter(Boolean).join(" · ") || "No details yet"}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-1">
                   <RowIconButton

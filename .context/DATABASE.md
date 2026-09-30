@@ -31,7 +31,7 @@ Type mirrors: `src/types/content.ts` (domain) → `src/types/database.ts` (Supab
 | `project_images` | project_id, url, alt, caption, display_order | FK → projects (cascade) |
 | `journey_entries` | period_label, date, title, subtitle, description, icon, display_order, is_visible | — |
 | `milestone_categories` | name, slug, description, badge_icon, accent, display_order, is_visible | 1‑N milestones |
-| `milestones` | title, category_id, issuer, organization, date, description, badge_icon, image_url, certificate_url, external_url, featured, display_order, is_visible | FK → milestone_categories (set null) |
+| `milestones` | title, category_id, issuer, organization, date, date_display (`day`/`month`/`year`, default `month`), description, badge_icon, image_url, pdf_url, certificate_url, external_url, featured, display_order, is_visible | FK → milestone_categories (set null) |
 | `social_links` | platform, label, url, display_order, is_visible | — |
 | `private.admin_users` | email (lower-case) | allow-list for `is_admin()`; not exposed via the API |
 
@@ -56,6 +56,7 @@ Enabled on **every** table (`migrations/*_rls.sql`).
 Bucket `portfolio-media` (public read, 10 MB limit, PNG/JPEG/WebP/AVIF/PDF — **no SVG**, which can carry script). Insert/update/delete only for the admin. Folders by convention: `profile/`, `projects/<id>/`, `skills/`, `milestones/`, `resume/`.
 
 ## Migrations, seed & tests
+- `20260930000004_milestone_documents_dates.sql` adds date precision and an optional HTTP(S) PDF URL. Existing dates, order and media remain intact; existing labels default to month/year. Apply this migration to the existing project before using the updated milestone editor.
 - `supabase/migrations/<timestamp>_<name>.sql` — never edit an applied migration; add a new one.
 - `supabase/seed.sql` — starter content for a fresh database, retained after mocks were removed. Run once; do not rerun over existing content. Sample projects are seeded as **drafts**; sample milestones are **not** seeded; social links are seeded **hidden** with placeholder URLs.
 - `npm run db:test` — applies everything to PGlite and asserts the RLS matrix, singleton/slug/URL/date constraints and triggers.
