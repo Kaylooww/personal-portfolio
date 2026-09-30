@@ -50,6 +50,11 @@ Dashboard stats: Total Projects, Total Skills, Total Milestones, Journey Entries
 
 ## Public milestone details and featured order
 
+If migration `20260930000004_milestone_documents_dates.sql` has not been applied,
+the milestone editor shows a notice and allows saves with the original fields.
+Date-display and PDF controls appear automatically after the migration is applied
+and the editor is refreshed. Existing rows continue to show month/year until changed.
+
 - Set **Date** and **Show date as**: exact date, month and year, or year only.
   New entries default to exact date; existing entries keep month/year until changed.
   The full date still controls automatic sorting.

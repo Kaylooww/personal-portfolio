@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { deleteById, fieldErrorsFrom, moveRow, nextDisplayOrder, removeStoredFiles, setVisibility } from "@/lib/admin/helpers";
+import { checkMilestoneDocumentFields } from "@/lib/admin/milestone-schema";
 import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
@@ -33,17 +34,40 @@ export async function saveMilestone(input: { id?: string; values: MilestoneFormV
   if (!parsed.success) return fail("Please fix the highlighted fields.", fieldErrorsFrom(parsed.error));
   const supabase = await createSupabaseServerClient();
   const row = toMilestoneRow(parsed.data);
+  const schema = await checkMilestoneDocumentFields(supabase);
+  if (schema.error) return fromDbError(schema.error);
+  if (!schema.available && (row.date_display !== "month" || row.pdf_url)) {
+    return fail("Date display choices and PDF uploads need migration 20260930000004_milestone_documents_dates.sql in Supabase SQL Editor. Your changes were not saved.");
+  }
+  const legacyRow = {
+    title: row.title,
+    category_id: row.category_id,
+    issuer: row.issuer,
+    organization: row.organization,
+    date: row.date,
+    description: row.description,
+    badge_icon: row.badge_icon,
+    image_url: row.image_url,
+    certificate_url: row.certificate_url,
+    external_url: row.external_url,
+    featured: row.featured,
+    is_visible: row.is_visible,
+  };
+  const saveRow = schema.available ? row : legacyRow;
 
   if (input.id !== undefined) {
     const id = idSchema.safeParse(input.id);
     if (!id.success) return fail("Unknown milestone.");
-    const before = await supabase.from("milestones").select("image_url, pdf_url").eq("id", id.data).maybeSingle();
+    const before = schema.available
+      ? await supabase.from("milestones").select("image_url, pdf_url").eq("id", id.data).maybeSingle()
+      : await supabase.from("milestones").select("image_url").eq("id", id.data).maybeSingle();
     if (before.error) return fromDbError(before.error);
     if (!before.data) return fail("That milestone no longer exists.");
-    const upd = await supabase.from("milestones").update(row).eq("id", id.data);
+    const upd = await supabase.from("milestones").update(saveRow).eq("id", id.data);
     if (upd.error) return fromDbError(upd.error);
     if (before.data.image_url && before.data.image_url !== row.image_url) await removeStoredFiles(supabase, [before.data.image_url]);
-    if (before.data.pdf_url && before.data.pdf_url !== row.pdf_url) await removeStoredFiles(supabase, [before.data.pdf_url]);
+    const oldPdf = "pdf_url" in before.data && typeof before.data.pdf_url === "string" ? before.data.pdf_url : null;
+    if (oldPdf && oldPdf !== row.pdf_url) await removeStoredFiles(supabase, [oldPdf]);
     revalidateMilestones();
     return ok({ id: id.data }, "Milestone saved");
   }
@@ -52,7 +76,7 @@ export async function saveMilestone(input: { id?: string; values: MilestoneFormV
   if (next.error) return fromDbError(next.error);
   const ins = await supabase
     .from("milestones")
-    .insert({ ...row, display_order: next.order })
+    .insert({ ...saveRow, display_order: next.order })
     .select("id")
     .single();
   if (ins.error) return fromDbError(ins.error);
@@ -80,10 +104,15 @@ export async function deleteMilestone(milestoneId: string): Promise<ActionResult
   const id = idSchema.safeParse(milestoneId);
   if (!id.success) return fail("Invalid request.");
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase.from("milestones").delete().eq("id", id.data).select("title, image_url, pdf_url").maybeSingle();
+  const schema = await checkMilestoneDocumentFields(supabase);
+  if (schema.error) return fromDbError(schema.error);
+  const { data, error } = schema.available
+    ? await supabase.from("milestones").delete().eq("id", id.data).select("title, image_url, pdf_url").maybeSingle()
+    : await supabase.from("milestones").delete().eq("id", id.data).select("title, image_url").maybeSingle();
   if (error) return fromDbError(error);
   if (!data) return fail("That milestone no longer exists.");
-  await removeStoredFiles(supabase, [data.image_url, data.pdf_url]);
+  const oldPdf = "pdf_url" in data && typeof data.pdf_url === "string" ? data.pdf_url : null;
+  await removeStoredFiles(supabase, [data.image_url, oldPdf]);
   revalidateMilestones();
   return ok(undefined, `Deleted "${data.title}"`);
 }

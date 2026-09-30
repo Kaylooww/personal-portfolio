@@ -21,9 +21,10 @@ interface MilestoneFormProps {
   milestoneId?: string;
   defaults: MilestoneFormValues;
   categories: { id: string; name: string }[];
+  documentFieldsAvailable: boolean;
 }
 
-export function MilestoneForm({ milestoneId, defaults, categories }: MilestoneFormProps) {
+export function MilestoneForm({ milestoneId, defaults, categories, documentFieldsAvailable }: MilestoneFormProps) {
   const router = useRouter();
   const {
     register,
@@ -32,7 +33,7 @@ export function MilestoneForm({ milestoneId, defaults, categories }: MilestoneFo
     setError,
     formState: { errors, isDirty },
   } = useForm<MilestoneFormValues>({ resolver: zodResolver(milestoneFormSchema), defaultValues: defaults, mode: "onTouched" });
-  const { pending, formError, setFormError, submit } = useFormAction(setError);
+  const { pending, formError, setFormError, submit } = useFormAction(setError, { toastErrors: false });
 
   const onSubmit = handleSubmit(
     (values) =>
@@ -45,6 +46,11 @@ export function MilestoneForm({ milestoneId, defaults, categories }: MilestoneFo
 
   return (
     <form onSubmit={onSubmit} noValidate className="flex flex-col gap-6">
+      {!documentFieldsAvailable && (
+        <p role="status" className="rounded-card border border-gold-700 bg-paper-shade p-4 text-sm font-bold text-navy-900">
+          Date display choices and PDF uploads need the Supabase migration <code>20260930000004_milestone_documents_dates.sql</code>. You can still save the other milestone fields.
+        </p>
+      )}
       <FormSection title="Milestone">
         <TextField label="Title" {...register("title")} error={errors.title?.message} />
         <div className="grid gap-4 sm:grid-cols-2">
@@ -55,7 +61,7 @@ export function MilestoneForm({ milestoneId, defaults, categories }: MilestoneFo
             error={errors.category_id?.message}
           />
           <TextField label="Date" type="date" hint="Saving sorts milestones newest first, with featured entries at the top." {...register("date")} error={errors.date?.message} />
-          <SelectField label="Show date as" options={[{ value: "day", label: "Exact date (Sep 30, 2026)" }, { value: "month", label: "Month and year (Sep 2026)" }, { value: "year", label: "Year only (2026)" }]} {...register("date_display")} error={errors.date_display?.message} />
+          {documentFieldsAvailable && <SelectField label="Show date as" options={[{ value: "day", label: "Exact date (Sep 30, 2026)" }, { value: "month", label: "Month and year (Sep 2026)" }, { value: "year", label: "Year only (2026)" }]} {...register("date_display")} error={errors.date_display?.message} />}
           <TextField label="Issuer (optional)" placeholder="e.g. Google" {...register("issuer")} error={errors.issuer?.message} />
           <TextField label="Organization (optional)" placeholder="e.g. your school" {...register("organization")} error={errors.organization?.message} />
         </div>
@@ -63,13 +69,13 @@ export function MilestoneForm({ milestoneId, defaults, categories }: MilestoneFo
       </FormSection>
 
       <FormSection title="Proof & links">
-        <Controller
+        {documentFieldsAvailable && <Controller
           control={control}
           name="pdf_url"
           render={({ field, fieldState }) => (
             <DocumentUploader label="PDF (optional)" hint="Upload a certificate or document, up to 10 MB. When provided, the PDF is shown instead of the image." value={field.value} folder="milestones" onChange={field.onChange} onDiscard={(url) => void discardUpload(url)} error={fieldState.error?.message} />
           )}
-        />
+        />}
         <div className="grid gap-4 sm:grid-cols-2">
           <TextField label="Certificate link" type="url" placeholder="https://…" {...register("certificate_url")} error={errors.certificate_url?.message} />
           <TextField label="Details link" type="url" placeholder="https://…" {...register("external_url")} error={errors.external_url?.message} />

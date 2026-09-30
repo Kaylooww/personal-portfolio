@@ -1,5 +1,6 @@
 import "server-only";
 import type { ServerSupabase } from "./helpers";
+import { isMissingMilestoneDocumentColumn } from "./milestone-schema";
 
 /**
  * Every media URL the database currently points at, mapped to a short
@@ -11,11 +12,13 @@ export async function findMediaReferences(supabase: ServerSupabase): Promise<Map
     supabase.from("projects").select("title, thumbnail_url"),
     supabase.from("project_images").select("url, projects(title)"),
     supabase.from("skills").select("name, logo_url"),
-    supabase.from("milestones").select("title, image_url, pdf_url"),
+    supabase.from("milestones").select("title, image_url"),
     supabase.from("profiles").select("photo_url, resume_url"),
     supabase.from("site_settings").select("og_image_url"),
   ]);
   if ([projects, images, skills, milestones, profile, settings].some((r) => r.error)) return null;
+  const milestonePdfs = await supabase.from("milestones").select("title, pdf_url");
+  if (milestonePdfs.error && !isMissingMilestoneDocumentColumn(milestonePdfs.error)) return null;
 
   const refs = new Map<string, string>();
   const add = (url: string | null | undefined, where: string) => {
@@ -26,8 +29,8 @@ export async function findMediaReferences(supabase: ServerSupabase): Promise<Map
   for (const s of skills.data ?? []) add(s.logo_url, `Logo · ${s.name}`);
   for (const m of milestones.data ?? []) {
     add(m.image_url, `Image · ${m.title}`);
-    add(m.pdf_url, `PDF · ${m.title}`);
   }
+  for (const m of milestonePdfs.data ?? []) add(m.pdf_url, `PDF · ${m.title}`);
   for (const p of profile.data ?? []) {
     add(p.photo_url, "Profile photo");
     add(p.resume_url, "Résumé");

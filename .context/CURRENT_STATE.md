@@ -1,6 +1,6 @@
 # Current State
 
-_Last updated: 2026-09-30 — milestone views, PDF previews and date labels_
+_Last updated: 2026-09-30 — milestone save compatibility fix_
 
 ## Status
 
@@ -15,8 +15,10 @@ final HTTPS domain have not been verified.**
 - Milestone date-display choices (exact date, month/year, year), category-grouped
   Gallery/Board/List views, and PDF uploads that take precedence over images.
   Details offer PDF page controls and an original-file link. Journey shows the
-  exact date when supplied, otherwise its period label. **The new milestone
-  fields require migration 20260930000004 before admin saves can work.**
+  exact date when supplied, otherwise its period label. **Date-display and PDF
+  options require migration 20260930000004.**
+  The editor detects a database that lacks those fields: original milestone
+  fields save normally, and date-display/PDF controls appear after migration.
 
 - Seven expedition checkpoints (Airport → Summit), project details, search/filters,
   responsive navigation, keyboard support, reduced motion and themed fallback states.
@@ -77,8 +79,8 @@ media were left unchanged.
 `20260930000004_milestone_documents_dates.sql` is ready and passes local database
 tests. It adds `date_display` (existing rows default to month/year) and `pdf_url`.
 The live API still reported these columns missing during this task; owner SQL
-Editor execution is pending. App API keys cannot apply schema changes. No live
-portfolio records or Storage files were changed during this update.
+Editor execution is pending. App API keys cannot apply schema changes. Temporary
+QA milestone create/edit passed and the row was removed; no QA rows remain.
 
 The existing Supabase project has three migrations and seed applied, one original
 Auth administrator, and the `portfolio-media` public bucket. Phase 17 cleanup
@@ -97,7 +99,7 @@ current app callers; its secret key is optional for deployment.
 ## Incomplete work / launch handoff
 
 - Apply only [the new milestone migration](../supabase/migrations/20260930000004_milestone_documents_dates.sql)
-  in Supabase SQL Editor, then restart/rebuild the app and verify admin date-display
+  in Supabase SQL Editor, then refresh the admin editor and verify date-display
   saves, PDF upload/replacement/removal and Media usage protection against Supabase.
   Local preview and database checks passed; those live write flows remain unverified.
 

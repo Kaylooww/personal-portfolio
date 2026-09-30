@@ -4,14 +4,14 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { MilestoneForm } from "@/components/admin/milestones/MilestoneForm";
 import { UiIcon } from "@/components/ui/UiIcon";
 import { requireAdmin } from "@/lib/auth/admin";
-import { listAdminMilestoneCategories } from "@/lib/queries/admin-content";
+import { hasMilestoneDocumentFields, listAdminMilestoneCategories } from "@/lib/queries/admin-content";
 import { EMPTY_MILESTONE } from "@/lib/validation/content";
 
 export const metadata: Metadata = { title: "New milestone" };
 
 export default async function NewMilestonePage() {
   await requireAdmin("/admin/milestones/new");
-  const categories = await listAdminMilestoneCategories();
+  const [categories, documentFieldsAvailable] = await Promise.all([listAdminMilestoneCategories(), hasMilestoneDocumentFields()]);
 
   return (
     <>
@@ -21,7 +21,7 @@ export default async function NewMilestonePage() {
       </Link>
       <AdminPageHeader title="New milestone" />
       <div className="mt-8">
-        <MilestoneForm defaults={{ ...EMPTY_MILESTONE, category_id: categories[0]?.id ?? "" }} categories={categories} />
+        <MilestoneForm defaults={{ ...EMPTY_MILESTONE, date_display: documentFieldsAvailable ? "day" : "month", category_id: categories[0]?.id ?? "" }} categories={categories} documentFieldsAvailable={documentFieldsAvailable} />
       </div>
     </>
   );

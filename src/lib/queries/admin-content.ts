@@ -1,5 +1,6 @@
 import "server-only";
 import { findMediaReferences } from "@/lib/admin/media-references";
+import { checkMilestoneDocumentFields } from "@/lib/admin/milestone-schema";
 import { MEDIA_BUCKET, MEDIA_ROOTS } from "@/lib/storage/media";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { AboutCard, JourneyEntry, Milestone, MilestoneCategory, Profile, SiteSettings, SocialLink } from "@/types";
@@ -47,6 +48,13 @@ export async function listAdminSocialLinks(): Promise<SocialLink[]> {
 }
 
 export type AdminMilestoneCategory = MilestoneCategory & { milestoneCount: number };
+
+export async function hasMilestoneDocumentFields(): Promise<boolean> {
+  const supabase = await createSupabaseServerClient();
+  const status = await checkMilestoneDocumentFields(supabase);
+  if (status.error) fail("the milestone schema", status.error);
+  return status.available;
+}
 
 export async function listAdminMilestoneCategories(): Promise<AdminMilestoneCategory[]> {
   const supabase = await createSupabaseServerClient();

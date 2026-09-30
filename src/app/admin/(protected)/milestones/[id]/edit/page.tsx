@@ -8,7 +8,7 @@ import { MilestoneForm } from "@/components/admin/milestones/MilestoneForm";
 import { UiIcon } from "@/components/ui/UiIcon";
 import { deleteMilestone } from "@/lib/actions/milestones";
 import { requireAdmin } from "@/lib/auth/admin";
-import { getAdminMilestone, listAdminMilestoneCategories } from "@/lib/queries/admin-content";
+import { getAdminMilestone, hasMilestoneDocumentFields, listAdminMilestoneCategories } from "@/lib/queries/admin-content";
 import { milestoneToFormValues } from "@/lib/validation/content";
 
 export const metadata: Metadata = { title: "Edit milestone" };
@@ -22,7 +22,7 @@ export default async function EditMilestonePage({ params }: EditMilestonePagePro
   await requireAdmin(`/admin/milestones/${id}/edit`);
   if (!z.uuid().safeParse(id).success) notFound();
 
-  const [milestone, categories] = await Promise.all([getAdminMilestone(id), listAdminMilestoneCategories()]);
+  const [milestone, categories, documentFieldsAvailable] = await Promise.all([getAdminMilestone(id), listAdminMilestoneCategories(), hasMilestoneDocumentFields()]);
   if (!milestone) notFound();
 
   return (
@@ -34,7 +34,7 @@ export default async function EditMilestonePage({ params }: EditMilestonePagePro
       <AdminPageHeader title={milestone.title} />
       <div className="mt-8 flex flex-col gap-6">
         {/* key: remount the form with fresh defaults after each save */}
-        <MilestoneForm key={milestone.updated_at} milestoneId={milestone.id} defaults={milestoneToFormValues(milestone)} categories={categories} />
+        <MilestoneForm key={milestone.updated_at} milestoneId={milestone.id} defaults={milestoneToFormValues(milestone)} categories={categories} documentFieldsAvailable={documentFieldsAvailable} />
         <section className="flex flex-wrap items-center justify-between gap-3 rounded-card border border-danger-100 bg-danger-100/40 p-5">
           <div>
             <h2 className="font-display-heavy text-lg uppercase text-danger-600">Danger zone</h2>
@@ -44,7 +44,7 @@ export default async function EditMilestonePage({ params }: EditMilestonePagePro
             action={deleteMilestone.bind(null, milestone.id)}
             buttonLabel="Delete milestone"
             title={`Delete "${milestone.title}"?`}
-            message="This action cannot be undone. Its image is deleted too."
+            message="This action cannot be undone. Its uploaded image and PDF are deleted too."
             confirmLabel="Delete milestone"
             redirectTo="/admin/milestones"
           />

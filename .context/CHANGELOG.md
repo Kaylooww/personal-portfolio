@@ -2,6 +2,21 @@
 
 All meaningful implementation changes, newest first.
 
+## 2026-09-30 — Milestone save compatibility fix
+
+- Confirmed the live Supabase project does not yet have `date_display` or `pdf_url`.
+  Those missing columns caused both create and edit to show the generic save error.
+- The editor now detects schema readiness. Until migration 000004 is applied, it
+  saves original milestone fields without the new columns, shows a clear notice and
+  hides date-display/PDF controls. Once applied, the new controls appear on refresh.
+- The save action rejects unsupported date/PDF values with migration guidance if
+  the schema changes while an editor tab is open. Legacy deletion and Media
+  reference checks also work with the original milestone table.
+- Milestone form failures now appear once in the save bar instead of repeating in a
+  toast. Updated the delete confirmation to mention PDFs.
+- A temporary QA milestone was created, edited and removed through the admin.
+  Live date save and the Media admin page passed; no QA rows remain.
+
 ## 2026-09-30 — Milestone views, PDFs and date labels
 
 - Added per-milestone exact-date, month/year and year-only labels. New forms default

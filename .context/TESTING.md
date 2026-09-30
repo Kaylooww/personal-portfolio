@@ -1,5 +1,15 @@
 # Final Testing — Phase 17
 
+## Follow-up — milestone save compatibility (2026-09-30)
+
+- The live Supabase API returned `42703` for both new milestone columns. A
+  production browser test signed in as the allowlisted admin, created a temporary
+  milestone, saved its exact database date, edited its title, and loaded Media.
+  The editor showed schema guidance and hid unsupported controls. The QA milestone
+  was deleted and a follow-up query found zero QA rows.
+- The fourth migration remains pending. Date-display and PDF saves against the
+  upgraded live table cannot be verified until it is applied.
+
 ## Follow-up — milestone views and documents (2026-09-30)
 
 - Lint/typecheck/build and PGlite passed, including new date-display defaults,
