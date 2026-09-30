@@ -1,5 +1,12 @@
 # Final Testing — Phase 17
 
+## Follow-up — milestone badge visibility (2026-09-30)
+
+- Gallery, Board and List badges were checked in Edge at 320, 375, 768 and 1440px.
+  Icons fit inside the enamel, remain centered and are at least 20px wide.
+- All three screenshots were inspected. No horizontal overflow, browser exceptions
+  or automated WCAG A/AA violations were found.
+
 ## Follow-up — milestone save compatibility (2026-09-30)
 
 - The live Supabase API returned `42703` for both new milestone columns. A

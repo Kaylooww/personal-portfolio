@@ -2,6 +2,15 @@
 
 All meaningful implementation changes, newest first.
 
+## 2026-09-30 — Milestone badge alignment and contrast
+
+- Removed the 32px gallery override that squeezed a 24px icon into a clipped
+  enamel center. Gallery badges now use the small badge's 44px size, while Board
+  and List use 40px. Gold enamel is darker so its white icon stands out.
+- Browser checks confirmed centered, contained icons of at least 20px in all three
+  views at 320, 375, 768 and 1440px. Screenshots were inspected; no overflow,
+  WCAG A/AA violations or browser exceptions were found.
+
 ## 2026-09-30 — Milestone save compatibility fix
 
 - Confirmed the live Supabase project does not yet have `date_display` or `pdf_url`.

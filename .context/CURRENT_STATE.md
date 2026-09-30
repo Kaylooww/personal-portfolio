@@ -1,6 +1,6 @@
 # Current State
 
-_Last updated: 2026-09-30 — milestone save compatibility fix_
+_Last updated: 2026-09-30 — milestone badge visibility fix_
 
 ## Status
 
@@ -11,6 +11,9 @@ The application and deployment guide are complete. **Vercel publication and the
 final HTTPS domain have not been verified.**
 
 ## Implemented
+
+- Milestone badges in Gallery, Board and List use a small size that fits the full
+  icon inside the enamel. Gold badges use darker enamel so white icons are legible.
 
 - Milestone date-display choices (exact date, month/year, year), category-grouped
   Gallery/Board/List views, and PDF uploads that take precedence over images.

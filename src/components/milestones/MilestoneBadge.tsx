@@ -7,7 +7,7 @@ type Accent = NonNullable<MilestoneCategory["accent"]>;
 const ENAMEL: Record<Accent, string> = {
   navy: "bg-navy-800",
   red: "bg-flag-red",
-  gold: "bg-gold-500",
+  gold: "bg-gold-700",
   blue: "bg-blue-600",
   green: "bg-moss-700",
   purple: "bg-plum-600",
@@ -26,7 +26,7 @@ interface MilestoneBadgeProps {
 export function MilestoneBadge({ icon, accent, size = "lg", className }: MilestoneBadgeProps) {
   const big = size === "lg";
   return (
-    <span aria-hidden className={cn("relative grid shrink-0 place-items-center", big ? "size-24" : "size-14", className)}>
+    <span aria-hidden className={cn("relative grid shrink-0 place-items-center", big ? "size-24" : "size-11", className)}>
       <span className={cn("absolute inset-0 bg-gold-700", HEX)} />
       <span className={cn("absolute bg-gold-500", HEX, big ? "inset-1" : "inset-0.5")} />
       <span className={cn("absolute grid place-items-center text-paper", HEX, ENAMEL[accent ?? "navy"], big ? "inset-2.5" : "inset-1.5")}>

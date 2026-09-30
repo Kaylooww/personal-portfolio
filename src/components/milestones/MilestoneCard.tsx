@@ -20,9 +20,9 @@ export function MilestoneCard({ milestone, category, onOpen, view = "gallery" }:
   return (
     <article className={cn("surface-paper relative flex h-full gap-3 rounded-card p-4 transition-shadow hover:shadow-paper-lift focus-within:ring-2 focus-within:ring-blue-600", view === "gallery" && "flex-col", view === "list" && "items-start sm:items-center")}>
       {view === "gallery" && (milestone.pdf_url || milestone.image_url) && <MilestoneMedia milestone={milestone} />}
-      {view !== "gallery" && <MilestoneBadge icon={milestone.badge_icon ?? category?.badge_icon ?? null} accent={category?.accent ?? null} size="sm" className="size-9 shrink-0" />}
+      {view !== "gallery" && <MilestoneBadge icon={milestone.badge_icon ?? category?.badge_icon ?? null} accent={category?.accent ?? null} size="sm" className="size-10" />}
       <div className="min-w-0 flex-1">
-        {view === "gallery" && <div className="mb-2 flex items-center gap-2"><MilestoneBadge icon={milestone.badge_icon ?? category?.badge_icon ?? null} accent={category?.accent ?? null} size="sm" className="size-8" />{milestone.featured && <span className="text-xs font-extrabold text-gold-700">Featured</span>}{milestone.pdf_url && <span className="text-xs font-extrabold text-blue-600">PDF</span>}</div>}
+        {view === "gallery" && <div className="mb-2 flex items-center gap-2"><MilestoneBadge icon={milestone.badge_icon ?? category?.badge_icon ?? null} accent={category?.accent ?? null} size="sm" />{milestone.featured && <span className="text-xs font-extrabold text-gold-700">Featured</span>}{milestone.pdf_url && <span className="text-xs font-extrabold text-blue-600">PDF</span>}</div>}
         <h3 className="font-display-heavy mt-0.5 text-lg leading-tight text-navy-900">
           <button type="button" onClick={onOpen} aria-haspopup="dialog" className="break-words text-left after:absolute after:inset-0 after:rounded-card">
             {milestone.title}
