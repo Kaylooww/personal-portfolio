@@ -15,7 +15,7 @@ export default async function NewProjectPage() {
 
   return (
     <>
-      <Link href="/admin/projects" className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-blue-600 hover:underline">
+      <Link href="/admin/projects" className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-link hover:underline">
         <UiIcon name="arrow-left" className="size-4" />
         All projects
       </Link>

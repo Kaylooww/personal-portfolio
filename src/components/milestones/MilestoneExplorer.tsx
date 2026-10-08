@@ -46,10 +46,10 @@ export function MilestoneExplorer({ categories, milestones }: MilestoneExplorerP
 
       <section aria-labelledby={logId} className="mt-12">
         <div className="flex flex-wrap items-end justify-between gap-3">
-          <h2 id={logId} className="font-display-heavy text-heading uppercase text-navy-900">
+          <h2 id={logId} className="font-display-heavy text-heading uppercase text-ink">
             Milestone log
           </h2>
-          <p aria-live="polite" className="flex items-center gap-3 text-sm font-bold text-navy-700">
+          <p aria-live="polite" className="flex items-center gap-3 text-sm font-bold text-ink-muted">
             {selected ? `Showing ${selected.name}` : milestones.length === 1 ? "1 milestone" : `All ${milestones.length} milestones`}
             {selected && (
               <button type="button" onClick={() => setSelectedId(null)} className="rounded-pill bg-navy-900 px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.06em] text-paper">
@@ -64,13 +64,13 @@ export function MilestoneExplorer({ categories, milestones }: MilestoneExplorerP
           <div role={view === "board" ? "region" : undefined} aria-label={view === "board" ? "Milestone board — scroll to see categories" : undefined} tabIndex={view === "board" ? 0 : undefined}
             className={cn("mt-6", view === "board" ? "flex items-start gap-4 overflow-x-auto rounded-card pb-5" : "space-y-8")}>
             {groups.map((group) => view === "board" ? (
-              <section key={group.id} aria-label={group.name} className="w-[min(19rem,85vw)] shrink-0 rounded-panel border border-paper-edge bg-paper-shade/95 p-3">
-                <h3 className="mb-3 flex items-center justify-between gap-2 px-1 font-display-heavy text-lg text-navy-900"><span>{group.name}</span><span className="text-sm text-navy-500">{group.items.length}</span></h3>
+              <section key={group.id} aria-label={group.name} className="w-[min(19rem,85vw)] shrink-0 rounded-panel border border-surface-edge bg-surface-inset/95 p-3">
+                <h3 className="mb-3 flex items-center justify-between gap-2 px-1 font-display-heavy text-lg text-ink"><span>{group.name}</span><span className="text-sm text-ink-subtle">{group.items.length}</span></h3>
                 <ul className="space-y-3">{group.items.map((m) => <li key={m.id}><MilestoneCard milestone={m} category={group.category} view={view} onOpen={() => setOpened(m)} /></li>)}</ul>
               </section>
             ) : (
               <details key={group.id} open className="group/category">
-                <summary className="mb-4 cursor-pointer rounded-tag font-display-heavy text-lg text-navy-900"><span className="ml-2">{group.name}</span><span className="ml-3 text-sm text-navy-500">{group.items.length}</span></summary>
+                <summary className="mb-4 cursor-pointer rounded-tag font-display-heavy text-lg text-ink"><span className="ml-2">{group.name}</span><span className="ml-3 text-sm text-ink-subtle">{group.items.length}</span></summary>
                 <ul className={view === "gallery" ? "grid gap-4 md:grid-cols-2 xl:grid-cols-3" : "space-y-2"}>
                   {group.items.map((m) => <li key={m.id}><MilestoneCard milestone={m} category={group.category} view={view} onOpen={() => setOpened(m)} /></li>)}
                 </ul>

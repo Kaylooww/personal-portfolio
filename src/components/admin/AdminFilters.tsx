@@ -48,7 +48,7 @@ export function AdminFilters({ searchLabel, searchPlaceholder, selects }: AdminF
     timer.current = window.setTimeout(() => update("q", value.trim()), 300);
   };
 
-  const selectClass = "h-11 rounded-control border border-paper-edge bg-white px-3 text-sm font-bold text-navy-900";
+  const selectClass = "h-11 rounded-control border border-surface-edge bg-field px-3 text-sm font-bold text-ink";
 
   return (
     <div className="surface-paper flex flex-col gap-3 rounded-card p-3 md:flex-row md:items-center" aria-busy={pending}>
@@ -56,14 +56,14 @@ export function AdminFilters({ searchLabel, searchPlaceholder, selects }: AdminF
         <label htmlFor={`${baseId}-q`} className="sr-only">
           {searchLabel}
         </label>
-        <UiIcon name="search" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-navy-500" />
+        <UiIcon name="search" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-subtle" />
         <input
           id={`${baseId}-q`}
           type="search"
           value={q}
           onChange={(e) => onSearch(e.target.value)}
           placeholder={searchPlaceholder}
-          className="h-11 w-full rounded-control border border-paper-edge bg-white pl-9 pr-3 text-sm text-navy-900 placeholder:text-navy-500"
+          className="h-11 w-full rounded-control border border-surface-edge bg-field pl-9 pr-3 text-sm text-ink placeholder:text-ink-subtle"
         />
       </div>
       {selects.map((s) => (

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 /** Plain cream canvas for every /admin route — no scenery, no public navigation. */
 export default function AdminRootLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-dvh bg-cream">
+    <div className="min-h-dvh bg-canvas">
       <SkipLink />
       {children}
     </div>

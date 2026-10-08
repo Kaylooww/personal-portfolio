@@ -29,7 +29,7 @@ function Plate() {
 /** Project screenshot, or the themed plate when there's none (or it fails to load) — never a broken image. */
 export function ProjectThumbnail({ src, alt, sizes, preload = false, className }: ProjectThumbnailProps) {
   return (
-    <div className={cn("relative aspect-[4/3] overflow-hidden rounded-control bg-blue-100", className)}>
+    <div className={cn("relative aspect-[4/3] overflow-hidden rounded-control bg-active", className)}>
       {src ? <SafeImage src={src} alt={alt} fill sizes={sizes} preload={preload} className="object-cover" fallback={<Plate />} /> : <Plate />}
     </div>
   );

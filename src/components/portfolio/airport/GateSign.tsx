@@ -11,7 +11,7 @@ export function GateSign({ className }: { className?: string }) {
         className,
       )}
     >
-      <span className="grid size-8 place-items-center rounded-tag bg-white text-blue-600">
+      <span className="grid size-8 place-items-center rounded-tag bg-field text-link">
         <UiIcon name="arrow-right" className="size-5" />
       </span>
       <span className="leading-none">

@@ -5,8 +5,8 @@ export function FormSection({ title, description, children }: { title: string; d
   return (
     <section className="surface-paper flex flex-col gap-4 rounded-card p-5 sm:p-6">
       <div>
-        <h2 className="font-display-heavy text-lg uppercase text-navy-900">{title}</h2>
-        {description && <p className="mt-0.5 text-sm text-navy-500">{description}</p>}
+        <h2 className="font-display-heavy text-lg uppercase text-ink">{title}</h2>
+        {description && <p className="mt-0.5 text-sm text-ink-subtle">{description}</p>}
       </div>
       {children}
     </section>

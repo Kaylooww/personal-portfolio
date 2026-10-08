@@ -7,12 +7,12 @@ export function JourneyTimeline({ entries, className }: { entries: JourneyEntry[
   const climbing = [...entries].reverse();
 
   return (
-    <ol className={cn("relative ml-2 space-y-8 border-l-4 border-dotted border-sunset-500 pl-7", className)}>
+    <ol data-journey-trail className={cn("relative ml-2 space-y-8 border-l-4 border-dotted border-sunset-500 pl-7", className)}>
       {climbing.map((entry) => (
         <li key={entry.id} className="relative">
           <span
             aria-hidden
-            className="absolute -left-[2.35rem] top-5 size-4 rounded-pill border-[3px] border-paper bg-sunset-500 shadow-[0_0_10px_var(--color-sunset-500)]"
+            className="absolute -left-[2.35rem] top-5 size-4 rounded-pill border-[3px] border-surface bg-sunset-500 shadow-[0_0_10px_var(--color-sunset-500)]"
           />
           <JourneyCheckpoint entry={entry} />
         </li>

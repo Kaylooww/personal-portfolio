@@ -18,9 +18,9 @@ export function TrailMessage({ eyebrow, title, message, actions, as: Heading = "
   return (
     <div className={cn("flex flex-col items-center justify-center gap-5 px-6 py-16 text-center", className)}>
       <LogoMark className={cn("h-10", tone === "red" ? "text-flag-red" : "text-blue-500")} />
-      <p className="eyebrow text-blue-600">{eyebrow}</p>
-      <Heading className="font-display-heavy text-title uppercase text-navy-900">{title}</Heading>
-      <p className="font-handwritten max-w-md text-hand-lg text-navy-700">{message}</p>
+      <p className="eyebrow text-link">{eyebrow}</p>
+      <Heading className="font-display-heavy text-title uppercase text-ink">{title}</Heading>
+      <p className="font-handwritten max-w-md text-hand-lg text-ink-muted">{message}</p>
       <div className="flex flex-wrap justify-center gap-3">{actions}</div>
     </div>
   );

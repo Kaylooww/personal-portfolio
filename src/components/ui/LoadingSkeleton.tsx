@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils/cn";
 
 /** A single shimmering placeholder block (motion is disabled for reduced-motion users by the global guard). */
 export function SkeletonBlock({ className }: { className?: string }) {
-  return <span aria-hidden className={cn("block animate-pulse rounded-control bg-paper-shade", className)} />;
+  return <span aria-hidden className={cn("block animate-pulse rounded-control bg-surface-inset", className)} />;
 }
 
 interface LoadingSkeletonProps {

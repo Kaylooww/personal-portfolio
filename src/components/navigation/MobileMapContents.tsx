@@ -31,7 +31,7 @@ export default function MobileMapContents({ activeIndex, onNavigate }: { activeI
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "flex items-center gap-4 rounded-card py-2 pr-3 transition-trail transition-colors",
-                  isActive ? "bg-blue-100" : "hover:bg-blue-50",
+                  isActive ? "bg-active" : "hover:bg-active-soft",
                 )}
               >
                 <span
@@ -46,12 +46,12 @@ export default function MobileMapContents({ activeIndex, onNavigate }: { activeI
                   <span
                     className={cn(
                       "block font-display-heavy text-xl uppercase leading-tight",
-                      isActive ? "text-blue-700" : "text-navy-900",
+                      isActive ? "text-link-strong" : "text-ink",
                     )}
                   >
                     {s.label}
                   </span>
-                  <span className="font-handwritten block truncate text-navy-700">{s.meaning}</span>
+                  <span className="font-handwritten block truncate text-ink-muted">{s.meaning}</span>
                 </span>
               </Link>
             </li>

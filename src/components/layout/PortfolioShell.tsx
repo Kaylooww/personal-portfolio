@@ -3,6 +3,7 @@ import { ExpeditionSidebar } from "@/components/navigation/ExpeditionSidebar";
 import { MobileNavigation } from "@/components/navigation/MobileNavigation";
 import { TopNavigation } from "@/components/navigation/TopNavigation";
 import { SkipLink } from "./SkipLink";
+import { JourneyArrival } from "@/components/journey/JourneyArrival";
 
 /**
  * Frame shared by every public checkpoint. The nav pieces are fixed-position
@@ -12,6 +13,7 @@ import { SkipLink } from "./SkipLink";
 export function PortfolioShell({ children }: { children: ReactNode }) {
   return (
     <>
+      <JourneyArrival />
       <SkipLink />
       <TopNavigation />
       <MobileNavigation />

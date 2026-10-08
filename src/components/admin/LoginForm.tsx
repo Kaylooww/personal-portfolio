@@ -26,7 +26,7 @@ export function LoginForm({ next }: { next: string }) {
       />
       <TextField label="Password" name="password" type="password" autoComplete="current-password" required />
 
-      <p role="alert" aria-live="assertive" className="min-h-5 text-sm font-bold text-danger-600">
+      <p role="alert" aria-live="assertive" className="min-h-5 text-sm font-bold text-danger">
         {state.error}
       </p>
 

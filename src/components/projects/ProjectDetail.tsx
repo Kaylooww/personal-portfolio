@@ -34,9 +34,9 @@ export function ProjectDetail({ project, number }: ProjectDetailProps) {
         <SectionTitle eyebrow={`Expedition ${padNumber(number)}`} title={project.title} titleClassName="text-[length:clamp(2.25rem,1.4rem_+_3vw,4rem)] leading-[0.95]" />
         <div className="flex flex-wrap items-center gap-3">
           <StatusBadge status={project.status} />
-          {timeline && <span className="text-sm font-bold text-navy-700">{timeline}</span>}
+          {timeline && <span className="text-sm font-bold text-ink-muted">{timeline}</span>}
         </div>
-        <p className="max-w-[65ch] text-lg leading-relaxed text-navy-800">{project.short_description}</p>
+        <p className="max-w-[65ch] text-lg leading-relaxed text-ink-strong">{project.short_description}</p>
       </div>
 
       <div className="mt-10 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
@@ -72,17 +72,17 @@ export function ProjectDetail({ project, number }: ProjectDetailProps) {
                 {project.images.map((img) => (
                   <li key={img.id}>
                     <figure>
-                      <div className="relative aspect-[4/3] overflow-hidden rounded-control bg-blue-100">
+                      <div className="relative aspect-[4/3] overflow-hidden rounded-control bg-active">
                         <SafeImage
                           src={img.url}
                           alt={img.alt}
                           fill
                           sizes="(min-width: 1608px) 28.5rem, (min-width: 1024px) calc(50vw - 21.75rem), (min-width: 640px) calc(50vw - 4.5rem), calc(100vw - 5rem)"
                           className="object-cover"
-                          fallback={<span className="absolute inset-0 grid place-items-center text-sm font-bold text-navy-500">Image unavailable</span>}
+                          fallback={<span className="absolute inset-0 grid place-items-center text-sm font-bold text-ink-subtle">Image unavailable</span>}
                         />
                       </div>
-                      {img.caption && <figcaption className="font-handwritten mt-1.5 text-navy-700">{img.caption}</figcaption>}
+                      {img.caption && <figcaption className="font-handwritten mt-1.5 text-ink-muted">{img.caption}</figcaption>}
                     </figure>
                   </li>
                 ))}
@@ -98,7 +98,7 @@ export function ProjectDetail({ project, number }: ProjectDetailProps) {
             <TechStack technologies={project.technologies} size="md" />
           </Fact>
           {(project.github_url || project.demo_url || project.documentation_url) && (
-            <div className="flex flex-wrap gap-2 border-t border-dashed border-paper-edge pt-5">
+            <div className="flex flex-wrap gap-2 border-t border-dashed border-surface-edge pt-5">
               <ProjectLinks project={project} />
               {project.documentation_url && (
                 <a
@@ -123,8 +123,8 @@ export function ProjectDetail({ project, number }: ProjectDetailProps) {
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <PaperCard as="section">
-      <h2 className="font-display-heavy text-xl uppercase text-navy-900">{title}</h2>
-      <div className="mt-2 max-w-[70ch] leading-relaxed text-navy-700">{children}</div>
+      <h2 className="font-display-heavy text-xl uppercase text-ink">{title}</h2>
+      <div className="mt-2 max-w-[70ch] leading-relaxed text-ink-muted">{children}</div>
     </PaperCard>
   );
 }
@@ -132,8 +132,8 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 function Fact({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <p className="eyebrow text-[0.6875rem] text-navy-500">{label}</p>
-      <div className="mt-1.5 font-bold text-navy-800">{children}</div>
+      <p className="eyebrow text-[0.6875rem] text-ink-subtle">{label}</p>
+      <div className="mt-1.5 font-bold text-ink-strong">{children}</div>
     </div>
   );
 }

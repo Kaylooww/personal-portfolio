@@ -1,3 +1,5 @@
+import { NightSky } from "./NightSky";
+
 /**
  * STAND-IN ARTWORK for Skills: misty jungle cliffs with waterfalls seen from a
  * wooden lookout deck. Replace with a painted plate when supplied.
@@ -14,9 +16,9 @@ export function JungleScene() {
     <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" className="size-full" aria-hidden focusable="false">
       <defs>
         <linearGradient id="jungle-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" style={{ stopColor: "var(--color-blue-300)" }} />
-          <stop offset="0.65" style={{ stopColor: "var(--color-blue-50)" }} />
-          <stop offset="1" style={{ stopColor: "var(--color-moss-100)" }} />
+          <stop offset="0" style={{ stopColor: "var(--scene-sky-top)" }} />
+          <stop offset="0.65" style={{ stopColor: "var(--scene-sky-middle)" }} />
+          <stop offset="1" style={{ stopColor: "var(--scene-sky-bottom)" }} />
         </linearGradient>
         <linearGradient id="jungle-mist" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" style={{ stopColor: "var(--color-white)", stopOpacity: 0 }} />
@@ -25,6 +27,7 @@ export function JungleScene() {
       </defs>
 
       <rect width="1600" height="900" fill="url(#jungle-sky)" />
+      <NightSky moonX={1160} moonY={100} moonRadius={29} />
       <g className="fill-white animate-cloud-drift motion-reduce:animate-none" opacity="0.8">
         <ellipse cx="700" cy="110" rx="160" ry="36" />
         <ellipse cx="1350" cy="80" rx="140" ry="30" />
@@ -72,6 +75,15 @@ export function JungleScene() {
         <path d="M1640 620c-150 0-250 80-280 220 100-70 190-140 280-220Z" />
         <path d="M0 0c90 60 120 150 90 260C60 170 20 90 0 0Z" />
         <path d="M1600 0c-80 70-100 160-60 260 20-90 40-180 60-260Z" />
+      </g>
+      {/* Fireflies gather near the water and the edge of the lookout. */}
+      <g className="scene-night-only" fill="#dbe9a3">
+        {[[1090, 580], [1210, 630], [1340, 550], [1130, 670], [1400, 690], [920, 615], [750, 710]].map(([x, y]) => (
+          <g key={x}>
+            <circle cx={x} cy={y} r="9" opacity="0.08" />
+            <circle cx={x} cy={y} r="2" opacity="0.85" />
+          </g>
+        ))}
       </g>
     </svg>
   );

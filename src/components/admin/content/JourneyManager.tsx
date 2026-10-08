@@ -18,7 +18,7 @@ export function JourneyManager({ entries }: { entries: JourneyEntry[] }) {
       empty={{ icon: "mountain", title: "Route not charted yet", message: "Add the first stop of your journey." }}
       label={(e) => `${formatContentDate(e.date) ?? e.period_label} · ${e.title}`}
       leading={(e) => (
-        <span className="grid size-10 shrink-0 place-items-center rounded-control bg-blue-100 text-blue-600">
+        <span className="grid size-10 shrink-0 place-items-center rounded-control bg-active text-link">
           <ContentIcon icon={e.icon} fallback="flag" className="size-5" />
         </span>
       )}

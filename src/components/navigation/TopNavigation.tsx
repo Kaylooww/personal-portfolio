@@ -6,6 +6,7 @@ import { useActiveSection } from "@/hooks/useActiveSection";
 import { PORTFOLIO_SECTIONS } from "@/lib/constants/sections";
 import { cn } from "@/lib/utils/cn";
 import { CheckpointIcon } from "./CheckpointIcon";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 /** Floating paper pill across the top of the scene (lg and up). */
 export function TopNavigation() {
@@ -22,7 +23,7 @@ export function TopNavigation() {
     >
       <Link
         href="/"
-        className="mr-1 grid size-10 place-items-center rounded-pill text-blue-500 transition-trail transition-colors hover:bg-blue-50"
+        className="mr-1 grid size-10 place-items-center rounded-pill text-blue-500 transition-trail transition-colors hover:bg-active-soft"
       >
         <LogoMark className="h-5" title="Kyle Castro — home" />
       </Link>
@@ -35,9 +36,9 @@ export function TopNavigation() {
                 href={s.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "relative flex h-10 items-center gap-1.5 rounded-pill px-3.5 text-[0.8125rem] font-extrabold uppercase tracking-[0.06em] whitespace-nowrap",
+                  "relative flex h-10 items-center gap-1.5 rounded-pill px-2.5 text-[0.75rem] font-extrabold uppercase tracking-[0.04em] whitespace-nowrap xl:px-3.5 xl:text-[0.8125rem]",
                   "transition-trail transition-colors",
-                  isActive ? "bg-blue-100 text-blue-700" : "text-navy-900 hover:bg-blue-50 hover:text-blue-600",
+                  isActive ? "bg-active text-link-strong" : "text-ink hover:bg-active-soft hover:text-link",
                 )}
               >
                 {s.id === "summit" && <CheckpointIcon icon="summit" className="size-4" />}
@@ -50,6 +51,7 @@ export function TopNavigation() {
           );
         })}
       </ul>
+      <ThemeToggle className="ml-1" />
     </nav>
   );
 }

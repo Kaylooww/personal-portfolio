@@ -54,24 +54,24 @@ export function MilestoneAdminList({ milestones, categories, filtered }: Milesto
     <div className="mt-6 flex flex-col gap-8" aria-busy={pending}>
       {groups.map((g) => (
         <section key={g.key} aria-labelledby={`ms-group-${g.key}`}>
-          <h2 id={`ms-group-${g.key}`} className="flex flex-wrap items-center gap-2 font-display-heavy text-lg uppercase text-navy-900">
-            {g.category ? <MilestoneBadge icon={g.category.badge_icon} accent={g.category.accent} size="sm" className="size-9" /> : <ContentIcon icon="archive" className="size-5 text-navy-500" />}
+          <h2 id={`ms-group-${g.key}`} className="flex flex-wrap items-center gap-2 font-display-heavy text-lg uppercase text-ink">
+            {g.category ? <MilestoneBadge icon={g.category.badge_icon} accent={g.category.accent} size="sm" className="size-9" /> : <ContentIcon icon="archive" className="size-5 text-ink-subtle" />}
             {g.category?.name ?? "Uncategorised"}
-            <span className="text-sm font-bold normal-case text-navy-500">({g.items.length})</span>
+            <span className="text-sm font-bold normal-case text-ink-subtle">({g.items.length})</span>
           </h2>
           <ul className="mt-3 flex flex-col gap-2">
             {g.items.map((m) => (
               <li key={m.id} className="surface-paper flex flex-col gap-3 rounded-card p-3 sm:flex-row sm:items-center">
                 <div className="min-w-0 flex-1">
                   <p className="flex flex-wrap items-center gap-2">
-                    <Link href={`/admin/milestones/${m.id}/edit`} className="font-display-heavy text-base text-navy-900 hover:text-blue-600">
+                    <Link href={`/admin/milestones/${m.id}/edit`} className="font-display-heavy text-base text-ink hover:text-link">
                       {m.title}
                     </Link>
                     {!m.is_visible && (
-                      <span className="rounded-tag bg-navy-900/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-navy-700">Hidden</span>
+                      <span className="rounded-tag bg-ink/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-ink-muted">Hidden</span>
                     )}
                   </p>
-                  <p className="text-sm text-navy-500">{[m.issuer, m.organization, formatContentDate(m.date, m.date_display)].filter(Boolean).join(" · ") || "No details yet"}</p>
+                  <p className="text-sm text-ink-subtle">{[m.issuer, m.organization, formatContentDate(m.date, m.date_display)].filter(Boolean).join(" · ") || "No details yet"}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-1">
                   <RowIconButton

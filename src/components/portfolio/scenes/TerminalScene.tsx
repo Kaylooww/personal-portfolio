@@ -1,3 +1,5 @@
+import { NightSky } from "./NightSky";
+
 /**
  * STAND-IN ARTWORK for the Airport checkpoint: a sunlit terminal looking out
  * over the runway and distant islands. Built from tokens so it stays on-brand
@@ -18,13 +20,13 @@ export function TerminalScene() {
     >
       <defs>
         <linearGradient id="terminal-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" style={{ stopColor: "var(--color-blue-300)" }} />
-          <stop offset="0.55" style={{ stopColor: "var(--color-blue-100)" }} />
-          <stop offset="1" style={{ stopColor: "var(--color-blue-50)" }} />
+          <stop offset="0" style={{ stopColor: "var(--scene-sky-top)" }} />
+          <stop offset="0.55" style={{ stopColor: "var(--scene-sky-middle)" }} />
+          <stop offset="1" style={{ stopColor: "var(--scene-sky-bottom)" }} />
         </linearGradient>
         <linearGradient id="terminal-sea" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" style={{ stopColor: "var(--color-blue-300)" }} />
-          <stop offset="1" style={{ stopColor: "var(--color-blue-500)" }} />
+          <stop offset="0" style={{ stopColor: "var(--scene-sea-top)" }} />
+          <stop offset="1" style={{ stopColor: "var(--scene-sea-bottom)" }} />
         </linearGradient>
         <linearGradient id="terminal-floor" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" style={{ stopColor: "var(--color-paper-shade)" }} />
@@ -34,6 +36,7 @@ export function TerminalScene() {
 
       {/* Sky and drifting clouds */}
       <rect width="1600" height="660" fill="url(#terminal-sky)" />
+      <NightSky moonX={1180} moonY={175} moonRadius={32} />
       <g className="fill-white animate-cloud-drift motion-reduce:animate-none">
         <g opacity="0.95">
           <ellipse cx="260" cy="190" rx="130" ry="42" />
@@ -70,12 +73,20 @@ export function TerminalScene() {
       {/* Runway and a waiting aircraft */}
       <rect y="606" width="1600" height="54" className="fill-stone-100" />
       <path d="M0 632h1600" className="stroke-white" strokeWidth="3" strokeDasharray="40 30" />
+      <g className="scene-night-only" fill="#f3d79a">
+        {[100, 240, 380, 520, 660, 800, 940, 1080, 1220, 1360, 1500].map((x) => (
+          <g key={x}>
+            <ellipse cx={x} cy="616" rx="12" ry="4" opacity="0.16" />
+            <circle cx={x} cy="616" r="2" />
+          </g>
+        ))}
+      </g>
       <g transform="translate(760 560)">
         <path d="M10 44c0-12 16-20 40-20h250c26 0 44 8 54 20-10 12-28 18-54 18H50c-24 0-40-6-40-18Z" className="fill-white" />
         <path d="M250 26 300-34h32l-26 60Z" className="fill-blue-500" />
         <path d="m300-8 8-10 10 16-6 6Z" className="fill-white" opacity="0.9" />
         <path d="M140 46 200 80h36l-40-34Z" className="fill-paper-edge" />
-        <g className="fill-navy-700">
+        <g className="scene-aircraft-windows">
           {[70, 92, 114, 136, 158, 180, 202, 224].map((x) => (
             <circle key={x} cx={x} cy="38" r="4" />
           ))}
@@ -94,6 +105,9 @@ export function TerminalScene() {
       ))}
       <rect y="268" width="1600" height="8" className="fill-paper" opacity="0.9" />
       <rect y="640" width="1600" height="24" className="fill-paper-edge" />
+      <g className="scene-night-only" stroke="#f1dcae" strokeWidth="5" strokeLinecap="round" opacity="0.6">
+        <path d="M150 84h180M440 78h180M730 74h180M1020 69h180M1320 66h180" />
+      </g>
 
       {/* Hanging expedition banner */}
       <g transform="translate(1340 60)">

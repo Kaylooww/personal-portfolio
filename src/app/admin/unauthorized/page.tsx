@@ -18,15 +18,15 @@ export default async function AdminUnauthorizedPage() {
     <main id="main" tabIndex={-1} className="flex min-h-dvh items-center justify-center px-(--page-gutter) py-12 outline-none">
       <PaperCard className="w-full max-w-md p-7 text-center">
         <LogoMark className="mx-auto h-10 text-flag-red" />
-        <h1 className="font-display-heavy mt-4 text-3xl uppercase text-navy-900">Crew only</h1>
-        <p className="mt-2 text-navy-700">
+        <h1 className="font-display-heavy mt-4 text-3xl uppercase text-ink">Crew only</h1>
+        <p className="mt-2 text-ink-muted">
           {session.status === "forbidden"
             ? `${session.user.email ?? "This account"} doesn't have access to the admin area.`
             : "You need to sign in with the admin account to continue."}
         </p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
           {session.status === "forbidden" ? (
-            <SignOutButton className="border border-paper-edge" />
+            <SignOutButton className="border border-surface-edge" />
           ) : (
             <Link href="/admin/login" className={buttonClasses("primary", "md")}>
               Sign in

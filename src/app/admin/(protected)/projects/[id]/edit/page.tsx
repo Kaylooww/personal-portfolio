@@ -29,7 +29,7 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
 
   return (
     <>
-      <Link href="/admin/projects" className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-blue-600 hover:underline">
+      <Link href="/admin/projects" className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-link hover:underline">
         <UiIcon name="arrow-left" className="size-4" />
         All projects
       </Link>
@@ -38,7 +38,7 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
         description={`/projects/${project.slug}`}
         actions={
           project.content_state === "published" && project.is_visible ? (
-            <Link href={`/projects/${project.slug}`} target="_blank" className="inline-flex items-center gap-1.5 text-sm font-extrabold text-blue-600 hover:underline">
+            <Link href={`/projects/${project.slug}`} target="_blank" className="inline-flex items-center gap-1.5 text-sm font-extrabold text-link hover:underline">
               View public page <UiIcon name="external" className="size-4" />
               <span className="sr-only">(opens in a new tab)</span>
             </Link>
@@ -55,10 +55,10 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
           uploadFolder={`projects/${project.id}`}
         />
         <ProjectImagesManager projectId={project.id} projectTitle={project.title} images={images} />
-        <section className="flex flex-wrap items-center justify-between gap-3 rounded-card border border-danger-100 bg-danger-100/40 p-5">
+        <section className="flex flex-wrap items-center justify-between gap-3 rounded-card border border-danger-edge bg-danger-soft/40 p-5">
           <div>
-            <h2 className="font-display-heavy text-lg uppercase text-danger-600">Danger zone</h2>
-            <p className="text-sm text-navy-700">Prefer archiving if you might want it back.</p>
+            <h2 className="font-display-heavy text-lg uppercase text-danger">Danger zone</h2>
+            <p className="text-sm text-ink-muted">Prefer archiving if you might want it back.</p>
           </div>
           <DangerDeleteButton
             action={deleteProject.bind(null, project.id)}

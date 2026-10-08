@@ -10,8 +10,8 @@ export function SkillCategoryPanel({ category }: { category: SkillCategoryWithSk
       {/* nail heads */}
       <span aria-hidden className="absolute left-2.5 top-2.5 size-1.5 rounded-pill bg-navy-500/60" />
       <span aria-hidden className="absolute right-2.5 top-2.5 size-1.5 rounded-pill bg-navy-500/60" />
-      <h2 id={headingId} className="flex items-center gap-2.5 font-display-heavy text-lg uppercase text-navy-900">
-        <ContentIcon icon={category.icon} fallback="gear" className="size-6 text-blue-600" />
+      <h2 id={headingId} className="flex items-center gap-2.5 font-display-heavy text-lg uppercase text-ink">
+        <ContentIcon icon={category.icon} fallback="gear" className="size-6 text-link" />
         {category.name}
       </h2>
       <ul className="mt-3 grid grid-cols-3 gap-2.5">

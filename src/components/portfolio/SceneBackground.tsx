@@ -7,6 +7,7 @@ import { RidgeScene } from "./scenes/RidgeScene";
 import { ShoreScene } from "./scenes/ShoreScene";
 import { SunsetScene } from "./scenes/SunsetScene";
 import { TerminalScene } from "./scenes/TerminalScene";
+import "./scenes/scenes.css";
 
 /** One stand-in scene per checkpoint. Swap a component for a painted plate without touching pages. */
 const SCENES: Record<SectionScene, ComponentType> = {
@@ -32,9 +33,9 @@ export function SceneBackground({ scene }: SceneBackgroundProps) {
   const Scene = SCENES[scene];
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-cream">
+    <div aria-hidden data-scene={scene} className="scene-art pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-cream">
       <Scene />
-      <div className="absolute inset-0 bg-cream/70 lg:hidden" />
+      <div className="scene-scrim-mobile absolute inset-0 lg:hidden" />
       <div className="scrim-left absolute inset-0 hidden lg:block" />
     </div>
   );

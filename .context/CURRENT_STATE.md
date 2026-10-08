@@ -1,6 +1,6 @@
 # Current State
 
-_Last updated: 2026-09-30 — milestone badge visibility fix_
+_Last updated: 2026-10-08 — night theme, Journey arrival and portfolio details_
 
 ## Status
 
@@ -11,6 +11,19 @@ The application and deployment guide are complete. **Vercel publication and the
 final HTTPS domain have not been verified.**
 
 ## Implemented
+
+- Light/dark mode in desktop and mobile navigation and the admin header. The first
+  visit follows the device preference; a selected theme is saved in the browser and
+  shared across tabs. Public pages and admin forms use matching surface/text colors.
+  All seven scenes retain their locations at night, with moonlight, stars and local
+  lighting; About remains a shore. Projects and Journey use filled cloth flags.
+- Entering Journey starts at the bottom and scrolls upward over 1–1.6 seconds.
+  Mobile entries now climb from oldest at the bottom to newest at the top. Any
+  interaction stops the scroll; reduced motion, history restoration and anchor
+  links skip the arrival animation.
+- Next-stop signs show section labels such as About and Skills. Airport's Admin
+  entry is a small circle at the passport card's lower-left, with a 44px target,
+  keyboard focus and an accessible label.
 
 - Milestone badges in Gallery, Board and List use a small size that fits the full
   icon inside the enamel. Gold badges use darker enamel so white icons are legible.
@@ -52,6 +65,14 @@ final HTTPS domain have not been verified.**
 
 ## Verification
 
+2026-10-08 corrections: lint, typecheck and production build passed. Production
+Edge checks passed 154 layouts and 44 public WCAG A/AA audits across light/dark
+themes, plus three night audits for the mobile map, login and milestone dialog.
+Theme preference, reload/navigation persistence, cross-tab sync, blocked storage
+and keyboard/mobile switching passed. Journey's 18 focused checks passed at
+375/1440px, including ascent, cancellation, reduced motion, hashes and history.
+Screenshots were inspected. No portfolio content or media was changed.
+
 Phase 17: lint, typecheck, production build, database tests, SEO smoke and browser
 smoke passed. Public/admin tests covered 104 layouts and 48 automated WCAG A/AA
 audits with zero violations. Publishing, media, résumé, custom OG, auth guards and
@@ -81,11 +102,11 @@ media were left unchanged.
 
 `20260930000004_milestone_documents_dates.sql` is ready and passes local database
 tests. It adds `date_display` (existing rows default to month/year) and `pdf_url`.
-The live API still reported these columns missing during this task; owner SQL
-Editor execution is pending. App API keys cannot apply schema changes. Temporary
+The last schema check on 2026-09-30 reported these columns missing; this was not
+rechecked during the theme work. App API keys cannot apply schema changes. Temporary
 QA milestone create/edit passed and the row was removed; no QA rows remain.
 
-The existing Supabase project has three migrations and seed applied, one original
+At that check, the Supabase project had three migrations and seed applied, one original
 Auth administrator, and the `portfolio-media` public bucket. Phase 17 cleanup
 verified all 12 content tables restored (except timestamps), zero Storage files,
 and no remaining QA account. Email provider is enabled; public sign-ups are disabled.
@@ -101,7 +122,7 @@ current app callers; its secret key is optional for deployment.
 
 ## Incomplete work / launch handoff
 
-- Apply only [the new milestone migration](../supabase/migrations/20260930000004_milestone_documents_dates.sql)
+- If still missing, apply [the new milestone migration](../supabase/migrations/20260930000004_milestone_documents_dates.sql)
   in Supabase SQL Editor, then refresh the admin editor and verify date-display
   saves, PDF upload/replacement/removal and Media usage protection against Supabase.
   Local preview and database checks passed; those live write flows remain unverified.

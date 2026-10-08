@@ -62,7 +62,7 @@ export function ExpeditionSidebar() {
                 <span
                   className={cn(
                     "text-[0.8125rem] font-extrabold uppercase tracking-[0.06em] transition-trail transition-colors",
-                    isActive ? "text-blue-600" : "text-navy-900 group-hover:text-blue-600",
+                    isActive ? "text-link" : "text-ink group-hover:text-link",
                   )}
                 >
                   {s.label}

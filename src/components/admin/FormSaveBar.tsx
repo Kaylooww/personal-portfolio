@@ -17,13 +17,13 @@ export function FormSaveBar({ dirty, pending, error, submitLabel, children, stic
     <div
       className={
         sticky
-          ? "sticky bottom-0 z-10 -mx-(--page-gutter) flex flex-wrap items-center gap-3 border-t border-paper-edge bg-cream/95 px-(--page-gutter) py-4"
+          ? "sticky bottom-0 z-10 -mx-(--page-gutter) flex flex-wrap items-center gap-3 border-t border-surface-edge bg-canvas/95 px-(--page-gutter) py-4"
           : "flex flex-wrap items-center gap-3"
       }
     >
-      {sticky && <span className="mr-auto text-sm font-bold text-sunset-700">{dirty ? "Unsaved changes" : ""}</span>}
+      {sticky && <span className="mr-auto text-sm font-bold text-warm">{dirty ? "Unsaved changes" : ""}</span>}
       {error && (
-        <p role="alert" className="w-full text-sm font-bold text-danger-600 sm:w-auto">
+        <p role="alert" className="w-full text-sm font-bold text-danger sm:w-auto">
           {error}
         </p>
       )}

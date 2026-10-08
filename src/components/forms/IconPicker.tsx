@@ -23,8 +23,8 @@ export function IconPicker({ label: text, hint, value, onChange, allowNone = tru
 
   return (
     <fieldset className="flex flex-col gap-1.5">
-      <legend className="text-sm font-extrabold text-navy-900">{text}</legend>
-      {hint && <p className="text-sm text-navy-500">{hint}</p>}
+      <legend className="text-sm font-extrabold text-ink">{text}</legend>
+      {hint && <p className="text-sm text-ink-subtle">{hint}</p>}
       <div className="mt-1 grid grid-cols-[repeat(auto-fill,minmax(4.25rem,1fr))] gap-1.5">
         {options.map((key) => {
           const checked = value === key;
@@ -33,9 +33,9 @@ export function IconPicker({ label: text, hint, value, onChange, allowNone = tru
               key={key || "none"}
               title={key ? label(key) : "No icon"}
               className={cn(
-                "flex cursor-pointer flex-col items-center gap-1 rounded-control border px-1 py-2 text-[0.625rem] font-bold capitalize leading-tight text-navy-700 transition-trail transition-colors",
+                "flex cursor-pointer flex-col items-center gap-1 rounded-control border px-1 py-2 text-[0.625rem] font-bold capitalize leading-tight text-ink-muted transition-trail transition-colors",
                 "has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-blue-500",
-                checked ? "border-blue-500 bg-blue-100 text-blue-700" : "border-paper-edge bg-white hover:border-blue-300",
+                checked ? "border-blue-500 bg-active text-link-strong" : "border-surface-edge bg-field hover:border-blue-300",
               )}
             >
               <input type="radio" name={name} value={key} checked={checked} onChange={() => onChange(key)} className="sr-only" />
@@ -45,7 +45,7 @@ export function IconPicker({ label: text, hint, value, onChange, allowNone = tru
           );
         })}
       </div>
-      {error && <p className="text-sm font-bold text-danger-600">{error}</p>}
+      {error && <p className="text-sm font-bold text-danger">{error}</p>}
     </fieldset>
   );
 }

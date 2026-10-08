@@ -49,14 +49,14 @@ export function ProjectExplorer({ projects }: { projects: ProjectWithRelations[]
           Search projects
         </label>
         <div className="relative sm:w-64 sm:shrink-0">
-          <UiIcon name="search" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-navy-500" />
+          <UiIcon name="search" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-subtle" />
           <input
             id={searchId}
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search expeditions"
-            className="h-11 w-full rounded-control border border-paper-edge bg-white/70 pl-9 pr-3 text-sm text-navy-900 placeholder:text-navy-500"
+            className="h-11 w-full rounded-control border border-surface-edge bg-field/70 pl-9 pr-3 text-sm text-ink placeholder:text-ink-subtle"
           />
         </div>
         <div role="group" aria-label="Filter by status" className="flex flex-wrap gap-1.5">
@@ -68,7 +68,7 @@ export function ProjectExplorer({ projects }: { projects: ProjectWithRelations[]
               onClick={() => setStatus(s)}
               className={cn(
                 "h-9 rounded-pill px-3.5 text-xs font-extrabold uppercase tracking-[0.06em] transition-trail transition-colors",
-                status === s ? "bg-navy-900 text-paper" : "bg-paper-shade text-navy-800 hover:bg-blue-50",
+                status === s ? "bg-navy-900 text-paper" : "bg-surface-inset text-ink-strong hover:bg-active-soft",
               )}
             >
               {s === "all" ? "All" : PROJECT_STATUS_LABEL[s]}
@@ -77,7 +77,7 @@ export function ProjectExplorer({ projects }: { projects: ProjectWithRelations[]
         </div>
       </div>
 
-      <p aria-live="polite" className="mt-3 px-1 text-sm font-bold text-navy-700">
+      <p aria-live="polite" className="mt-3 px-1 text-sm font-bold text-ink-muted">
         {isFiltered ? `${visible.length} of ${projects.length} expeditions` : `${projects.length} ${projects.length === 1 ? "expedition" : "expeditions"}`}
       </p>
 

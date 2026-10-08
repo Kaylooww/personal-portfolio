@@ -2,6 +2,26 @@
 
 All meaningful implementation changes, newest first.
 
+## 2026-10-08 — Night theme and portfolio navigation details
+
+- Added a light/dark switch to public navigation and the admin header. Theme follows
+  the device until explicitly selected, then persists locally and syncs across tabs.
+  A script sets it before paint; semantic colors cover pages, controls and dialogs.
+- Kept each checkpoint's landscape in its night scene, adding moonlight, stars,
+  reflections and warm lights. Replaced Projects/Journey outline flags with filled
+  cloth pennants carrying a mountain crest.
+- Journey opens at the bottom and smoothly climbs to the top. Mobile checkpoints
+  also run upward. Interaction cancels immediately; reduced motion, history and
+  anchor navigation preserve normal scrolling.
+- Next-stop signs now use section names. Moved Airport's Admin entry into a small
+  circle at the lower-left of the passport card, with a 44px click target and label.
+- Kept uploaded skill logos legible on dark cards with a light backing. Root HTML
+  declares smooth scrolling so Next can restore history positions correctly.
+- Lint, typecheck and production build passed, plus 154 layouts, 44 public WCAG
+  audits, three night modal/login audits and theme preference checks. Journey's
+  18 focused mobile/desktop checks passed. Updated design, architecture, component
+  and admin notes; no phase advance or portfolio content changes.
+
 ## 2026-09-30 — Milestone badge alignment and contrast
 
 - Removed the 32px gallery override that squeezed a 24px icon into a clipped

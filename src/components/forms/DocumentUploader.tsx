@@ -57,32 +57,32 @@ export function DocumentUploader({ label, hint, value, folder, onChange, onDisca
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-extrabold text-navy-900">
+      <label htmlFor={id} className="text-sm font-extrabold text-ink">
         {label}
       </label>
       <input ref={input} id={id} type="file" accept={DOCUMENT_TYPES.join(",")} className="sr-only" disabled={busy} onChange={(e) => onFile(e.target.files?.[0])} />
       <div className="flex flex-wrap items-center gap-2">
         {value ? (
-          <a href={value} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-control bg-paper-shade px-3 py-2 text-sm font-bold text-blue-600 hover:underline">
+          <a href={value} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-control bg-surface-inset px-3 py-2 text-sm font-bold text-link hover:underline">
             <UiIcon name="folder" className="size-4" />
             {fileName}
             <span className="sr-only">(opens in a new tab)</span>
           </a>
         ) : (
-          <span className="text-sm text-navy-500">No file</span>
+          <span className="text-sm text-ink-subtle">No file</span>
         )}
         <button type="button" onClick={() => input.current?.click()} disabled={busy} className={buttonClasses("secondary", "md", "h-10 px-4 text-xs")}>
           {busy ? "Uploading…" : value ? "Replace PDF" : "Upload PDF"}
         </button>
         {value && (
-          <button type="button" onClick={() => replace("")} disabled={busy} className={buttonClasses("ghost", "md", "h-10 px-3 text-xs text-danger-600")}>
+          <button type="button" onClick={() => replace("")} disabled={busy} className={buttonClasses("ghost", "md", "h-10 px-3 text-xs text-danger")}>
             Remove
           </button>
         )}
       </div>
-      {hint && <p className="text-sm text-navy-500">{hint}</p>}
+      {hint && <p className="text-sm text-ink-subtle">{hint}</p>}
       {shown && (
-        <p role="alert" className="text-sm font-bold text-danger-600">
+        <p role="alert" className="text-sm font-bold text-danger">
           {shown}
         </p>
       )}

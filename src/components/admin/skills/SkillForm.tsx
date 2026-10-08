@@ -101,9 +101,9 @@ export function SkillForm({ skillId, defaults, categories }: SkillFormProps) {
       </FormSection>
 
       <FormSection title="Logo & icon">
-        <div className="flex items-center gap-3 rounded-control bg-paper-shade/60 p-3">
+        <div className="flex items-center gap-3 rounded-control bg-surface-inset/60 p-3">
           <SkillMark name={name || "Skill"} logoUrl={logo || null} />
-          <p className="text-sm text-navy-700">Preview. Without a logo the tile shows a coloured monogram.</p>
+          <p className="text-sm text-ink-muted">Preview. Without a logo the tile shows a coloured monogram.</p>
         </div>
         <Controller
           control={control}
@@ -135,10 +135,10 @@ export function SkillForm({ skillId, defaults, categories }: SkillFormProps) {
         <CheckboxField label="Visible" hint="Unticked hides it from the public gear board." {...register("is_visible")} />
       </FormSection>
 
-      <div className="sticky bottom-0 z-10 -mx-(--page-gutter) flex flex-wrap items-center gap-3 border-t border-paper-edge bg-cream/95 px-(--page-gutter) py-4">
-        <span className="mr-auto text-sm font-bold text-sunset-700">{isDirty ? "Unsaved changes" : ""}</span>
+      <div className="sticky bottom-0 z-10 -mx-(--page-gutter) flex flex-wrap items-center gap-3 border-t border-surface-edge bg-canvas/95 px-(--page-gutter) py-4">
+        <span className="mr-auto text-sm font-bold text-warm">{isDirty ? "Unsaved changes" : ""}</span>
         {formError && (
-          <p role="alert" className="w-full text-sm font-bold text-danger-600 sm:w-auto">
+          <p role="alert" className="w-full text-sm font-bold text-danger sm:w-auto">
             {formError}
           </p>
         )}

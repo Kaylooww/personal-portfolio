@@ -64,10 +64,10 @@ export function ProjectImagesManager({ projectId, projectTitle, images }: Projec
     <section className="surface-paper flex flex-col gap-4 rounded-card p-5 sm:p-6" aria-labelledby={`${inputId}-title`} aria-busy={pending || Boolean(uploading)}>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 id={`${inputId}-title`} className="font-display-heavy text-lg uppercase text-navy-900">
+          <h2 id={`${inputId}-title`} className="font-display-heavy text-lg uppercase text-ink">
             Screenshots
           </h2>
-          <p className="text-sm text-navy-500">Shown as a gallery on the project page. Describe each one for screen readers.</p>
+          <p className="text-sm text-ink-subtle">Shown as a gallery on the project page. Describe each one for screen readers.</p>
         </div>
         <input ref={inputRef} id={inputId} type="file" multiple accept={IMAGE_TYPES.join(",")} className="sr-only" onChange={(e) => onFiles(e.target.files)} disabled={Boolean(uploading)} />
         <label htmlFor={inputId} className={buttonClasses("secondary", "md", "cursor-pointer")}>
@@ -77,7 +77,7 @@ export function ProjectImagesManager({ projectId, projectTitle, images }: Projec
       </div>
 
       {images.length === 0 ? (
-        <p className="rounded-control bg-paper-shade/60 p-4 text-sm text-navy-700">No screenshots yet.</p>
+        <p className="rounded-control bg-surface-inset/60 p-4 text-sm text-ink-muted">No screenshots yet.</p>
       ) : (
         <ol aria-label="Screenshots" className="grid gap-4 md:grid-cols-2">
           {images.map((img, i) => (
@@ -126,30 +126,30 @@ function ImageRow({ image, index, total, busy, onMove, onSave, onDelete }: Image
   const capId = useId();
 
   return (
-    <li className="flex flex-col gap-3 rounded-control border border-paper-edge bg-white/60 p-3">
-      <div className="relative aspect-video overflow-hidden rounded-tag bg-paper-shade">
-        <SafeImage src={image.url} alt="" fill sizes="(min-width: 768px) 30vw, 90vw" className="object-cover" fallback={<span className="absolute inset-0 grid place-items-center text-xs font-bold text-danger-600">Can’t load image</span>} />
+    <li className="flex flex-col gap-3 rounded-control border border-surface-edge bg-field/60 p-3">
+      <div className="relative aspect-video overflow-hidden rounded-tag bg-surface-inset">
+        <SafeImage src={image.url} alt="" fill sizes="(min-width: 768px) 30vw, 90vw" className="object-cover" fallback={<span className="absolute inset-0 grid place-items-center text-xs font-bold text-danger">Can’t load image</span>} />
         <span className="absolute left-2 top-2 rounded-tag bg-navy-900/80 px-2 py-0.5 text-xs font-extrabold text-paper">{index + 1}</span>
       </div>
-      <label htmlFor={altId} className="text-xs font-extrabold text-navy-900">
+      <label htmlFor={altId} className="text-xs font-extrabold text-ink">
         Alt text
       </label>
-      <input id={altId} value={alt} onChange={(e) => setAlt(e.target.value)} maxLength={200} className="-mt-2 h-10 rounded-control border border-paper-edge bg-white px-3 text-sm" />
-      <label htmlFor={capId} className="text-xs font-extrabold text-navy-900">
+      <input id={altId} value={alt} onChange={(e) => setAlt(e.target.value)} maxLength={200} className="-mt-2 h-10 rounded-control border border-surface-edge bg-field px-3 text-sm" />
+      <label htmlFor={capId} className="text-xs font-extrabold text-ink">
         Caption (optional)
       </label>
-      <input id={capId} value={caption} onChange={(e) => setCaption(e.target.value)} maxLength={300} className="-mt-2 h-10 rounded-control border border-paper-edge bg-white px-3 text-sm" />
+      <input id={capId} value={caption} onChange={(e) => setCaption(e.target.value)} maxLength={300} className="-mt-2 h-10 rounded-control border border-surface-edge bg-field px-3 text-sm" />
       <div className="flex flex-wrap items-center gap-1">
-        <button type="button" disabled={busy || index === 0} onClick={() => onMove("up")} aria-label="Move earlier" className="grid size-9 place-items-center rounded-control hover:bg-blue-50 disabled:opacity-30">
+        <button type="button" disabled={busy || index === 0} onClick={() => onMove("up")} aria-label="Move earlier" className="grid size-9 place-items-center rounded-control hover:bg-active-soft disabled:opacity-30">
           <UiIcon name="arrow-left" className="size-4" />
         </button>
-        <button type="button" disabled={busy || index === total - 1} onClick={() => onMove("down")} aria-label="Move later" className="grid size-9 place-items-center rounded-control hover:bg-blue-50 disabled:opacity-30">
+        <button type="button" disabled={busy || index === total - 1} onClick={() => onMove("down")} aria-label="Move later" className="grid size-9 place-items-center rounded-control hover:bg-active-soft disabled:opacity-30">
           <UiIcon name="arrow-right" className="size-4" />
         </button>
         <button type="button" disabled={busy || !dirty} onClick={() => onSave(alt, caption)} className={buttonClasses("secondary", "md", "ml-auto h-9 px-3 text-xs")}>
           Save details
         </button>
-        <button type="button" disabled={busy} onClick={onDelete} aria-label="Delete screenshot" className="grid size-9 place-items-center rounded-control text-navy-700 hover:bg-danger-100 hover:text-danger-600">
+        <button type="button" disabled={busy} onClick={onDelete} aria-label="Delete screenshot" className="grid size-9 place-items-center rounded-control text-ink-muted hover:bg-danger-soft hover:text-danger">
           <UiIcon name="trash" className="size-4" />
         </button>
       </div>

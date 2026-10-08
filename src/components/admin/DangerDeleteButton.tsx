@@ -28,7 +28,7 @@ export function DangerDeleteButton({ action, buttonLabel, title, message, confir
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={buttonClasses("ghost", "md", "text-danger-600 hover:bg-danger-100")}>
+      <button type="button" onClick={() => setOpen(true)} className={buttonClasses("ghost", "md", "text-danger hover:bg-danger-soft")}>
         <UiIcon name="trash" className="size-4" />
         {buttonLabel}
       </button>

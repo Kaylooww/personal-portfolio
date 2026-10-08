@@ -16,12 +16,12 @@ export function StatCard({ label, value, icon, href }: StatCardProps) {
       href={href}
       className="surface-paper group flex items-center gap-4 rounded-card p-5 transition-trail transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-paper-lift motion-reduce:hover:translate-y-0"
     >
-      <span className="grid size-12 shrink-0 place-items-center rounded-control bg-blue-100 text-blue-600">
+      <span className="grid size-12 shrink-0 place-items-center rounded-control bg-active text-link">
         <ContentIcon icon={icon} className="size-6" />
       </span>
       <span>
-        <span className="font-display-heavy block text-3xl leading-none text-navy-900">{value ?? "—"}</span>
-        <span className="mt-1 block text-sm font-bold text-navy-700 group-hover:text-blue-600">{label}</span>
+        <span className="font-display-heavy block text-3xl leading-none text-ink">{value ?? "—"}</span>
+        <span className="mt-1 block text-sm font-bold text-ink-muted group-hover:text-link">{label}</span>
       </span>
     </Link>
   );

@@ -43,7 +43,7 @@ export default async function AdminMilestonesPage({ searchParams }: AdminMilesto
       />
       <div className="mt-8">
         <AdminFilters searchLabel="Search milestones" searchPlaceholder="Search title, issuer or organization" selects={[categorySelect]} />
-        <p aria-live="polite" className="mt-3 px-1 text-sm font-bold text-navy-700">
+        <p aria-live="polite" className="mt-3 px-1 text-sm font-bold text-ink-muted">
           {milestones.length} {milestones.length === 1 ? "milestone" : "milestones"}
           {filtered ? " match" : ""}
         </p>

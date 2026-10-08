@@ -8,9 +8,10 @@ import { UiIcon } from "@/components/ui/UiIcon";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { PORTFOLIO_SECTIONS } from "@/lib/constants/sections";
 import { cn } from "@/lib/utils/cn";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 const MobileMapContents = dynamic(() => import("./MobileMapContents"), {
-  loading: () => <p role="status" className="mt-6 text-navy-700">Unfolding the map...</p>,
+  loading: () => <p role="status" className="mt-6 text-ink-muted">Unfolding the map...</p>,
 });
 
 /**
@@ -32,22 +33,23 @@ export function MobileNavigation() {
 
   return (
     <div className="lg:hidden">
-      <header className="surface-paper fixed inset-x-3 top-[max(0.75rem,env(safe-area-inset-top))] z-(--z-nav) flex h-14 items-center gap-3 rounded-pill pl-2 pr-1.5 shadow-nav">
+      <header className="surface-paper fixed inset-x-3 top-[max(0.75rem,env(safe-area-inset-top))] z-(--z-nav) flex h-14 items-center gap-1.5 rounded-pill pl-2 pr-1.5 shadow-nav">
         <Link href="/" className="grid size-11 shrink-0 place-items-center rounded-pill text-blue-500">
           <LogoMark className="h-5" title="Kyle Castro — home" />
         </Link>
 
         <div className="min-w-0 flex-1">
           {active && (
-            <p className="truncate text-[0.8125rem] font-extrabold uppercase tracking-[0.06em] text-navy-900">
-              <span className="text-blue-600">{String(activeIndex + 1).padStart(2, "0")}</span>
-              <span aria-hidden className="mx-1.5 text-navy-300">/</span>
+            <p className="truncate text-[0.8125rem] font-extrabold uppercase tracking-[0.06em] text-ink">
+              <span className="text-link">{String(activeIndex + 1).padStart(2, "0")}</span>
+              <span aria-hidden className="mx-1.5 text-ink-faint">/</span>
               {active.label}
             </p>
           )}
           <ProgressDots activeIndex={activeIndex} total={total} />
         </div>
 
+        <ThemeToggle />
         <button
           type="button"
           onClick={open}
@@ -67,13 +69,13 @@ export function MobileNavigation() {
           if (e.target === e.currentTarget) close();
         }}
         className={cn(
-          "sheet m-0 ml-auto h-dvh max-h-none w-[min(24rem,100%)] max-w-none bg-cream p-0 text-navy-900",
+          "sheet m-0 ml-auto h-dvh max-h-none w-[min(24rem,100%)] max-w-none bg-canvas p-0 text-ink",
           "backdrop:bg-navy-950/45",
         )}
       >
         <div className="flex min-h-full flex-col px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))]">
           <div className="flex items-center justify-between">
-            <p id="mobile-map-title" className="eyebrow flex items-center gap-2 text-blue-600">
+            <p id="mobile-map-title" className="eyebrow flex items-center gap-2 text-link">
               <LogoMark className="h-4 text-blue-500" />
               Expedition map
             </p>
@@ -81,7 +83,7 @@ export function MobileNavigation() {
               type="button"
               onClick={close}
               aria-label="Close map"
-              className="grid size-11 place-items-center rounded-pill text-navy-900 transition-trail transition-colors hover:bg-navy-900/5"
+              className="grid size-11 place-items-center rounded-pill text-ink transition-trail transition-colors hover:bg-ink/5"
             >
               <UiIcon name="close" />
             </button>

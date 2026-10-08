@@ -15,7 +15,7 @@ export default async function NewSkillPage() {
 
   return (
     <>
-      <Link href="/admin/skills" className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-blue-600 hover:underline">
+      <Link href="/admin/skills" className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-link hover:underline">
         <UiIcon name="arrow-left" className="size-4" />
         All skills
       </Link>

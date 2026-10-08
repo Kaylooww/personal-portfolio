@@ -38,22 +38,22 @@ export function ProjectAdminList({ projects, filtered }: ProjectAdminListProps) 
       {projects.map((p, i) => (
         <li key={p.id} className="surface-paper flex flex-col gap-4 rounded-card p-4 lg:flex-row lg:items-center">
           <div className="flex min-w-0 flex-1 items-center gap-4">
-            <div className="relative aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-control bg-blue-100">
+            <div className="relative aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-control bg-active">
               {p.thumbnail_url && <SafeImage src={p.thumbnail_url} alt="" fill sizes="6rem" className="object-cover" fallback={null} />}
             </div>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <Link href={`/admin/projects/${p.id}/edit`} className="font-display-heavy truncate text-lg text-navy-900 hover:text-blue-600">
+                <Link href={`/admin/projects/${p.id}/edit`} className="font-display-heavy truncate text-lg text-ink hover:text-link">
                   {p.title}
                 </Link>
                 <ContentStatePill state={p.content_state} />
                 {!p.is_visible && (
-                  <span className="rounded-tag bg-navy-900/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-navy-700">
+                  <span className="rounded-tag bg-ink/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-ink-muted">
                     Hidden
                   </span>
                 )}
               </div>
-              <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-navy-500">
+              <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-subtle">
                 <StatusBadge status={p.status} />
                 <span>/{p.slug}</span>
                 <span>Updated {updatedFmt.format(new Date(p.updated_at))}</span>

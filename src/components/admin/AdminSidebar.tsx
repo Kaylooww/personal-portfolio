@@ -25,12 +25,12 @@ export function AdminSidebar() {
   }, [pathname]);
 
   return (
-    <aside className="border-b border-paper-edge bg-paper lg:sticky lg:top-0 lg:flex lg:h-dvh lg:flex-col lg:border-b-0 lg:border-r">
+    <aside className="border-b border-surface-edge bg-surface lg:sticky lg:top-0 lg:flex lg:h-dvh lg:flex-col lg:border-b-0 lg:border-r">
       <Link href="/admin" className="hidden items-center gap-3 px-6 pb-4 pt-6 lg:flex">
         <LogoMark className="h-7 text-blue-500" />
         <span className="leading-tight">
-          <span className="font-display-heavy block text-lg uppercase text-navy-900">Base Camp</span>
-          <span className="block text-xs font-bold text-navy-500">Portfolio admin</span>
+          <span className="font-display-heavy block text-lg uppercase text-ink">Base Camp</span>
+          <span className="block text-xs font-bold text-ink-subtle">Portfolio admin</span>
         </span>
       </Link>
 
@@ -45,7 +45,7 @@ export function AdminSidebar() {
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex items-center gap-3 whitespace-nowrap rounded-control px-3 py-2.5 text-sm font-extrabold transition-trail transition-colors",
-                    active ? "bg-blue-100 text-blue-700" : "text-navy-700 hover:bg-blue-50 hover:text-blue-600",
+                    active ? "bg-active text-link-strong" : "text-ink-muted hover:bg-active-soft hover:text-link",
                   )}
                 >
                   <ContentIcon icon={item.icon} className="size-5" />
@@ -60,7 +60,7 @@ export function AdminSidebar() {
         </ul>
       </nav>
 
-      <div className="hidden border-t border-paper-edge p-3 lg:block">
+      <div className="hidden border-t border-surface-edge p-3 lg:block">
         <SignOutButton className="w-full" />
       </div>
     </aside>

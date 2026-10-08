@@ -5,7 +5,8 @@ The Phase 1 specimen was replaced by the Airport page; tokens remain in `src/sty
 
 ## Colour
 
-Tailwind's default palette is **reset** — only these tokens exist (`bg-navy-900`, `text-blue-500`, …).
+Tailwind's default palette is **reset**. Fixed expedition colors below remain for
+artwork, badges and buttons; UI surfaces and text use the theme tokens that follow.
 
 | Token | Hex | Use |
 |---|---|---|
@@ -36,7 +37,41 @@ Tailwind's default palette is **reset** — only these tokens exist (`bg-navy-90
 
 Status tokens (`status-completed`, `status-progress`, `status-planned`, `status-idea`, `status-archived`, each with `-bg`) map onto the above. Status text uses the `-700` shade so every pill passes AA (≥ 4.5:1) on its tinted background: Completed 5.6, In progress 4.9, Planned 6.0, Idea 5.2, Archived 5.8.
 
-**Contrast:** body text uses navy on paper/cream (≫ 7:1). Blue text on light surfaces uses `blue-600` (≥ 4.5:1). White on `blue-500` is used only for bold uppercase button text.
+**Contrast:** the light theme uses navy on paper/cream (≫ 7:1). The dark theme uses
+warm pale text on navy surfaces. Link text uses the semantic `link` token in both
+themes; white on fixed `blue-500` remains for bold uppercase button text.
+
+### Light and dark themes (2026-10-08)
+
+| UI token | Light | Dark | Use |
+|---|---|---|---|
+| `canvas` | #F7F1E6 | #0A121D | Page canvas |
+| `surface` | #FFF9ED | #172635 | Cards, navigation, dialogs |
+| `surface-inset` | #F1E6D0 | #203344 | Inset panels and controls |
+| `surface-edge` | #EADFC8 | #3C5261 | Borders |
+| `field` | #FFFFFF | #101F2D | Form fields |
+| `ink` | #0B1E4A | #F6EDDC | Main text |
+| `ink-strong` | #14285A | #F1E5CD | Headings and handwritten notes |
+| `ink-muted` | #1E2E50 | #D2DEEA | Secondary text |
+| `ink-subtle` | #45557C | #AFC2D5 | Supporting labels |
+| `link` | #125FCB | #9ACAFF | Links and small blue text |
+| `active` | #DCEBFF | #223F5B | Active navigation |
+
+`@theme inline` maps these utilities to `--ui-*` values in `:root` and
+`html[data-theme="dark"]`. Prefer `bg-surface` / `text-ink` for UI; fixed
+`text-paper` still belongs on fixed dark boards and blue buttons. Shadows, grain,
+wood-sign text, errors and legibility scrims also adapt to the selected theme.
+
+The sun/moon switch is a 44px labelled button in desktop/mobile navigation and
+the admin header. First visit follows the device preference; selecting a theme
+saves `portfolio-theme` in local storage and synchronizes other tabs. It is applied
+before paint. The stored preference takes priority over later system changes.
+
+All seven SVG environments preserve their geography at night: terminal lights,
+moonlit shore and water, shaded jungle, canyon, ridge, citadel and summit clouds.
+`scenes/scenes.css` defines their palettes; `NightSky` adds moon and stars. Day suns
+are hidden at night. Projects and Journey use filled cloth pennants with a mountain
+crest, stitched edges and a folded tail.
 
 ## Typography
 
@@ -61,14 +96,18 @@ Fluid scale (320 → 1440px): `text-hero` 44→96px (lh .92), `text-title` 36→
 Tailwind 4px scale. Layout variables: `--nav-height` 4rem, `--sidebar-width` 12.5rem, `--page-gutter` clamp(1rem→2.5rem), `--content-max` 88rem. Z-index tokens `--z-scenery` 0 → `--z-toast` 60.
 
 ## Navigation (built Phase 2)
-- Top nav: `surface-paper` pill, `shadow-nav`, centered, fixed; active = `bg-blue-100` pill + 3px `blue-500` underline; label "Summit" (never "Peak").
+- Top nav: `surface-paper` pill, `shadow-nav`, centered, fixed; active = `bg-active` pill + 3px `blue-500` underline; label "Summit" (never "Peak"). Includes the theme switch.
 - Sidebar: dashed `navy-300` route line, solid `blue-500` for completed segment; inactive badge `navy-700` 36px; active `blue-500` 44px + `shadow-glow-blue`.
 - Mobile (< lg): floating paper bar — logo, `NN / Label` of the current checkpoint, a 7-dot progress indicator, and a navy **Map** button that opens a right-side `<dialog>` sheet listing all 7 checkpoints on a trail (label + handwritten meaning). Esc, the ✕ button, the backdrop, or choosing a link closes it; the page behind is scroll-locked.
 - Active state everywhere comes from `useActiveSection()`; nested routes (e.g. `/projects/x`) light up their parent.
+- Next-stop signs use the actual destination label (About, Skills, Projects,
+  Journey, Milestones, Summit). Airport's Admin entry is a 14px circle using `ink`
+  in the passport card's lower-left, inside a 44px keyboard/touch target.
 
 ## Motion
 Durations `--duration-quick` 150ms · `-base` 250ms · `-slow` 400ms. Easing `--ease-trail` (default), `--ease-snap` (small bounces on badges). Keyframes: `flag-wave`, `cloud-drift`.
-Rules: one orchestrated reveal per page at most; hover lift ≤ 2px; no long intros; everything respects `prefers-reduced-motion` (global CSS guard + `motion-reduce:` variants).
+Rules: one orchestrated content reveal per page at most; hover lift ≤ 2px; everything
+respects `prefers-reduced-motion` (global CSS guard + `motion-reduce:` variants).
 
 Built (Phase 15, all CSS):
 - `reveal-stagger` utility — direct children rise in (`--animate-rise`, 12px, 400ms) with 80ms steps; applied to each page's top-level container (`CheckpointPage`, Airport grid). This is the page's one orchestrated reveal.
@@ -76,6 +115,12 @@ Built (Phase 15, all CSS):
 - Dialogs: `dialog` fades/scales in, `dialog.sheet` (mobile map) slides from the right, backdrops fade — via `@starting-style` + `allow-discrete`.
 - Toasts rise in; buttons' trailing icons nudge on hover (`group/btn`); project cards lift and thumbnails zoom 3%.
 - Verified: with reduced motion emulated, nothing starts transparent and the trail doesn't animate.
+
+Journey additionally starts at the bottom and scrolls upward on entry (140ms pause,
+1–1.6 seconds of eased movement). Mobile entries climb from oldest at the bottom
+to newest at the top. Any input cancels the animation immediately; reduced motion,
+history restoration and anchor navigation skip it. This uses a small
+`requestAnimationFrame` loop in `JourneyArrival`, with no animation dependency.
 
 ## Responsive
 Breakpoints: `xs` 375 · `sm` 640 · `md` 768 · `lg` 1024 (sidebar appears) · `xl` 1280 · `2xl` 1536 · `3xl` 1920. Design targets 320/375/430/768/1024/1440/1920+. Adapt layouts (stack boards into cards, vertical journey) — never scale the desktop down.

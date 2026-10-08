@@ -14,7 +14,7 @@ interface WoodSignProps {
 }
 
 const TONE = {
-  light: "border-2 border-wood-500 bg-paper-shade text-wood-900",
+  light: "border-2 border-wood-500 bg-surface-inset text-wood-ink",
   dark: "surface-wood",
 } as const;
 

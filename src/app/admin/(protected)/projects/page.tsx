@@ -32,10 +32,10 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
       />
       <div className="mt-8">
         <ProjectFilters />
-        <p aria-live="polite" className="mt-3 px-1 text-sm font-bold text-navy-700">
+        <p aria-live="polite" className="mt-3 px-1 text-sm font-bold text-ink-muted">
           {projects.length} {projects.length === 1 ? "project" : "projects"}
           {filtered ? " match" : ""}
-          {!filtered && projects.length > 1 && <span className="font-normal text-navy-500"> · use the arrows to set the public order</span>}
+          {!filtered && projects.length > 1 && <span className="font-normal text-ink-subtle"> · use the arrows to set the public order</span>}
         </p>
         <ProjectAdminList projects={projects} filtered={filtered} />
       </div>

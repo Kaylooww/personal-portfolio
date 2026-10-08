@@ -29,8 +29,8 @@ export function PdfPreview({ src, title, interactive = false }: PdfPreviewProps)
   }, []);
 
   return (
-    <div ref={container} className="min-w-0 overflow-hidden rounded-control bg-paper-shade">
-      {visible ? <PdfPages key={src} src={src} title={title} interactive={interactive} /> : <p className="p-6 text-center text-sm text-navy-700">PDF document</p>}
+    <div ref={container} className="min-w-0 overflow-hidden rounded-control bg-surface-inset">
+      {visible ? <PdfPages key={src} src={src} title={title} interactive={interactive} /> : <p className="p-6 text-center text-sm text-ink-muted">PDF document</p>}
     </div>
   );
 }
@@ -63,16 +63,16 @@ function PdfPages({ src, title, interactive }: PdfPreviewProps) {
     };
   }, [src]);
 
-  if (error) return <p className="p-6 text-center text-sm text-navy-700">PDF preview unavailable. Open the milestone’s PDF link to read it.</p>;
-  if (!pdf) return <p role="status" className="p-6 text-center text-sm text-navy-700">Loading PDF…</p>;
+  if (error) return <p className="p-6 text-center text-sm text-ink-muted">PDF preview unavailable. Open the milestone’s PDF link to read it.</p>;
+  if (!pdf) return <p role="status" className="p-6 text-center text-sm text-ink-muted">Loading PDF…</p>;
 
   return (
     <div>
       <PdfCanvas key={page} pdf={pdf} page={page} title={title} interactive={interactive} />
       {interactive && pdf.numPages > 1 && (
-        <div className="flex flex-wrap items-center justify-center gap-2 border-t border-paper-edge p-3">
+        <div className="flex flex-wrap items-center justify-center gap-2 border-t border-surface-edge p-3">
           <button type="button" className={buttonClasses("secondary", "md", "px-3 text-xs")} disabled={page === 1} onClick={() => setPage(page - 1)} aria-label="Previous PDF page">Previous</button>
-          <p aria-live="polite" className="text-sm font-bold text-navy-700">{page} / {pdf.numPages}</p>
+          <p aria-live="polite" className="text-sm font-bold text-ink-muted">{page} / {pdf.numPages}</p>
           <button type="button" className={buttonClasses("secondary", "md", "px-3 text-xs")} disabled={page === pdf.numPages} onClick={() => setPage(page + 1)} aria-label="Next PDF page">Next</button>
         </div>
       )}
@@ -109,6 +109,6 @@ function PdfCanvas({ pdf, page, title, interactive }: { pdf: PDFDocumentProxy; p
     };
   }, [pdf, page, interactive]);
 
-  if (error) return <p className="p-6 text-sm text-navy-700">This page could not be displayed. Use the PDF link to open the document.</p>;
+  if (error) return <p className="p-6 text-sm text-ink-muted">This page could not be displayed. Use the PDF link to open the document.</p>;
   return <canvas ref={ref} role="img" aria-label={`${title}, PDF page ${page}`} className={interactive ? "mx-auto max-h-[65dvh] w-full object-contain" : "aspect-[8/5] w-full object-contain"} />;
 }

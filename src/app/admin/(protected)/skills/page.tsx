@@ -47,7 +47,7 @@ export default async function AdminSkillsPage({ searchParams }: AdminSkillsPageP
       />
       <div className="mt-8">
         <AdminFilters searchLabel="Search skills" searchPlaceholder="Search name, slug or description" selects={[categorySelect]} />
-        <p aria-live="polite" className="mt-3 px-1 text-sm font-bold text-navy-700">
+        <p aria-live="polite" className="mt-3 px-1 text-sm font-bold text-ink-muted">
           {skills.length} {skills.length === 1 ? "skill" : "skills"}
           {filtered ? " match" : ""}
         </p>

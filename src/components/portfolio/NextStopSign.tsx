@@ -5,7 +5,7 @@ import type { PortfolioSection } from "@/lib/constants/sections";
 
 interface NextStopSignProps {
   next: PortfolioSection;
-  /** Handwritten line above the place name. */
+  /** Handwritten line above the section name. */
   note?: string;
   className?: string;
 }
@@ -16,10 +16,9 @@ export function NextStopSign({ next, note = "Next stop:", className }: NextStopS
     <WoodSign href={next.href} standing className={className}>
       <span className="flex items-center gap-4">
         <span>
-          <LogoMark className="mb-1 h-4 text-wood-700" />
+          <LogoMark className="mb-1 h-4 text-wood-ink" />
           <span className="font-handwritten block text-lg leading-none">{note}</span>
-          <span className="font-display-heavy block text-2xl uppercase leading-tight">{next.place}</span>
-          <span className="sr-only"> — {next.label}</span>
+          <span className="font-display-heavy block text-2xl uppercase leading-tight">{next.label}</span>
         </span>
         <UiIcon name="arrow-right" className="size-6" />
       </span>

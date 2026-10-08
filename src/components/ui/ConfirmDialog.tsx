@@ -43,12 +43,12 @@ export function ConfirmDialog({ open, title, message, confirmLabel, pending = fa
         e.preventDefault();
         if (!pending) onCancel();
       }}
-      className="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-panel border border-paper-edge bg-paper p-6 text-navy-900 shadow-paper-lift backdrop:bg-navy-950/45"
+      className="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-panel border border-surface-edge bg-surface p-6 text-ink shadow-paper-lift backdrop:bg-navy-950/45"
     >
-      <h2 id={titleId} className="font-display-heavy text-xl text-navy-900">
+      <h2 id={titleId} className="font-display-heavy text-xl text-ink">
         {title}
       </h2>
-      <p id={descId} className="mt-2 text-navy-700">
+      <p id={descId} className="mt-2 text-ink-muted">
         {message}
       </p>
       <div className="mt-6 flex flex-wrap justify-end gap-2">

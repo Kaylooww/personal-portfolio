@@ -49,7 +49,7 @@ export function DepartureBoard({ rows, note, className }: DepartureBoardProps) {
         <table className="mt-4 w-full border-collapse text-left">
           <caption className="sr-only">Portfolio departures and their status</caption>
           <thead>
-            <tr className="text-[0.6875rem] font-extrabold uppercase tracking-[0.12em] text-navy-300">
+            <tr className="text-[0.6875rem] font-extrabold uppercase tracking-[0.12em] text-ink-faint">
               <th scope="col" className="pb-2 font-extrabold">Destination</th>
               <th scope="col" className="pb-2 font-extrabold">Status</th>
               <th scope="col" className="pb-2 text-center font-extrabold">
@@ -87,7 +87,7 @@ export function DepartureBoard({ rows, note, className }: DepartureBoardProps) {
                       </>
                     ) : (
                       <>
-                        <span aria-hidden className="text-navy-300">—</span>
+                        <span aria-hidden className="text-ink-faint">—</span>
                         <span className="sr-only">None</span>
                       </>
                     )}

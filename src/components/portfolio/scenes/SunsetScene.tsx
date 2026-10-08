@@ -1,3 +1,6 @@
+import { ExpeditionFlag } from "./ExpeditionFlag";
+import { NightSky } from "./NightSky";
+
 /**
  * STAND-IN ARTWORK for the Summit: a peach sunset over a sea of clouds, seen
  * from a grassy summit where the expedition flag is planted. Replace with a
@@ -8,9 +11,9 @@ export function SunsetScene() {
     <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" className="size-full" aria-hidden focusable="false">
       <defs>
         <linearGradient id="sunset-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" style={{ stopColor: "var(--color-sunset-500)" }} />
-          <stop offset="0.5" style={{ stopColor: "var(--color-sunset-100)" }} />
-          <stop offset="1" style={{ stopColor: "var(--color-paper)" }} />
+          <stop offset="0" style={{ stopColor: "var(--scene-sky-top)" }} />
+          <stop offset="0.5" style={{ stopColor: "var(--scene-sky-middle)" }} />
+          <stop offset="1" style={{ stopColor: "var(--scene-sky-bottom)" }} />
         </linearGradient>
         <radialGradient id="sunset-sun" cx="0.5" cy="0.5" r="0.5">
           <stop offset="0" style={{ stopColor: "var(--color-paper)" }} />
@@ -20,7 +23,8 @@ export function SunsetScene() {
       </defs>
 
       <rect width="1600" height="900" fill="url(#sunset-sky)" />
-      <circle cx="1100" cy="420" r="260" fill="url(#sunset-sun)" />
+      <circle cx="1100" cy="420" r="260" fill="url(#sunset-sun)" className="scene-day-only" />
+      <NightSky moonX={1110} moonY={310} moonRadius={48} />
 
       {/* High cloud streaks */}
       <g className="fill-sunset-600" opacity="0.35">
@@ -53,11 +57,7 @@ export function SunsetScene() {
           <ellipse cx="520" cy="720" rx="40" ry="16" />
         </g>
       </g>
-      <path d="M1230 620V350" className="stroke-wood-700" strokeWidth="10" strokeLinecap="round" />
-      <g className="origin-[1230px_400px] animate-flag-wave motion-reduce:animate-none">
-        <path d="M1235 360c50-8 95 8 145 0v95c-50 8-95-8-145 0Z" className="fill-navy-800" />
-        <path d="M1268 432 1294 390l15 24 10-14 23 32Z" className="fill-paper" opacity="0.9" />
-      </g>
+      <ExpeditionFlag x={1230} y={620} scale={2.2} tone="blue" />
     </svg>
   );
 }

@@ -26,7 +26,7 @@ export default async function SummitPage() {
           className="mt-4 max-w-none"
         />
         {settings.summit_message && (
-          <p className="mt-8 max-w-xl text-lg leading-relaxed text-navy-800">{settings.summit_message}</p>
+          <p className="mt-8 max-w-xl text-lg leading-relaxed text-ink-strong">{settings.summit_message}</p>
         )}
         <div className="mt-8">
           <SummitActions links={links} resumeUrl={resumeUrl} />

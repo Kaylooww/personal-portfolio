@@ -1,0 +1,160 @@
+/* Illustration colors are independent of the paper and ink used by the UI.
+   Keep these variables on the SVG: the surrounding legibility scrims use UI colors. */
+.scene-art > svg {
+  --color-white: #fff;
+  --color-navy-900: #0b1e4a;
+  --color-navy-800: #14285a;
+  --color-navy-700: #1e2e50;
+  --color-navy-500: #45557c;
+  --color-blue-600: #125fcb;
+  --color-blue-500: #1570e6;
+  --color-blue-300: #7fb2f5;
+  --color-blue-100: #dcebff;
+  --color-blue-50: #eef5ff;
+  --color-cream: #f7f1e6;
+  --color-paper: #fff9ed;
+  --color-paper-edge: #eadfc8;
+  --color-paper-shade: #f1e6d0;
+  --color-wood-900: #3e2819;
+  --color-wood-700: #6b4933;
+  --color-wood-500: #946a48;
+  --color-wood-300: #c9a27c;
+  --color-sunset-700: #9a4d07;
+  --color-sunset-600: #d9761a;
+  --color-sunset-500: #f59a3a;
+  --color-sunset-100: #fdebd6;
+  --color-moss-700: #1a6b3f;
+  --color-moss-600: #23824f;
+  --color-moss-500: #2ea36a;
+  --color-moss-100: #dcf2e5;
+  --color-stone-700: #5f574c;
+  --color-stone-500: #8a8174;
+  --color-stone-100: #ece7de;
+  --color-flag-red: #b8322e;
+  --scene-sky-top: #7fb2f5;
+  --scene-sky-middle: #eef5ff;
+  --scene-sky-bottom: #fdebd6;
+  --scene-sea-top: #7fb2f5;
+  --scene-sea-bottom: #2ea36a;
+  --scene-window: #d9761a;
+}
+
+.scene-art[data-scene="terminal"] > svg {
+  --scene-sky-middle: #dcebff;
+  --scene-sky-bottom: #eef5ff;
+  --scene-sea-bottom: #1570e6;
+}
+
+.scene-art[data-scene="shore"] > svg { --scene-sky-middle: #dcebff; }
+.scene-art[data-scene="jungle"] > svg { --scene-sky-bottom: #dcf2e5; }
+.scene-art[data-scene="ridge"] > svg {
+  --scene-sky-top: #45557c;
+  --scene-sky-middle: #7fb2f5;
+  --scene-sky-bottom: #f59a3a;
+  --scene-sky-horizon: #fdebd6;
+}
+.scene-art[data-scene="citadel"] > svg,
+.scene-art[data-scene="sunset"] > svg {
+  --scene-sky-top: #f59a3a;
+  --scene-sky-middle: #fdebd6;
+  --scene-sky-bottom: #fff9ed;
+}
+
+.scene-night-only { display: none; }
+.scene-aircraft-windows { fill: #1e2e50; }
+.scene-scrim-mobile { background: rgb(var(--scrim-color, 255 249 237) / 0.7); }
+
+html[data-theme="dark"] .scene-night-only { display: inline; }
+html[data-theme="dark"] .scene-day-only { display: none; }
+html[data-theme="dark"] .scene-aircraft-windows { fill: #f3d79a; }
+html[data-theme="dark"] .scene-scrim-mobile { background: rgb(var(--scrim-color, 10 18 29) / 0.55); }
+
+html[data-theme="dark"] .scene-art > svg {
+  --color-white: #7593ab;
+  --color-navy-900: #081322;
+  --color-navy-800: #15283b;
+  --color-navy-700: #182d40;
+  --color-navy-500: #344c68;
+  --color-blue-600: #315e91;
+  --color-blue-500: #76ade1;
+  --color-blue-300: #386185;
+  --color-blue-100: #233b52;
+  --color-blue-50: #294758;
+  --color-cream: #142336;
+  --color-paper: #506a7e;
+  --color-paper-edge: #263d51;
+  --color-paper-shade: #293b48;
+  --color-wood-900: #121c27;
+  --color-wood-700: #283039;
+  --color-wood-500: #39434b;
+  --color-wood-300: #7b7871;
+  --color-sunset-700: #975324;
+  --color-sunset-600: #745849;
+  --color-sunset-500: #c07c49;
+  --color-sunset-100: #465664;
+  --color-moss-700: #112e30;
+  --color-moss-600: #20484a;
+  --color-moss-500: #215361;
+  --color-moss-100: #213e48;
+  --color-stone-700: #2c3847;
+  --color-stone-500: #435465;
+  --color-stone-100: #4a6176;
+  --color-flag-red: #b9574a;
+  --scene-sky-top: #09172e;
+  --scene-sky-middle: #193650;
+  --scene-sky-bottom: #345263;
+  --scene-sea-top: #25455d;
+  --scene-sea-bottom: #123b46;
+  --scene-window: #f6c477;
+}
+
+html[data-theme="dark"] .scene-art[data-scene="terminal"] > svg {
+  --scene-sky-top: #09182f;
+  --scene-sky-middle: #183653;
+  --scene-sky-bottom: #375268;
+  --scene-sea-bottom: #182f49;
+}
+html[data-theme="dark"] .scene-art[data-scene="shore"] > svg {
+  --scene-sky-top: #091d32;
+  --scene-sky-middle: #1a4156;
+  --scene-sky-bottom: #416171;
+}
+html[data-theme="dark"] .scene-art[data-scene="jungle"] > svg {
+  --scene-sky-top: #071f2c;
+  --scene-sky-middle: #183f4b;
+  --scene-sky-bottom: #31535c;
+  --color-white: #719aab;
+  --color-moss-600: #1c4140;
+  --color-moss-700: #102e32;
+}
+html[data-theme="dark"] .scene-art[data-scene="canyon"] > svg {
+  --scene-sky-top: #101a34;
+  --scene-sky-middle: #283b57;
+  --scene-sky-bottom: #64514e;
+  --color-sunset-500: #8b6354;
+  --color-sunset-600: #674c49;
+  --color-wood-500: #3b3540;
+  --color-wood-700: #272934;
+}
+html[data-theme="dark"] .scene-art[data-scene="ridge"] > svg {
+  --scene-sky-top: #080f24;
+  --scene-sky-middle: #172d47;
+  --scene-sky-horizon: #3e4654;
+  --scene-sky-bottom: #795041;
+  --color-sunset-500: #f1a058;
+}
+html[data-theme="dark"] .scene-art[data-scene="citadel"] > svg {
+  --scene-sky-top: #0d1b34;
+  --scene-sky-middle: #2d405b;
+  --scene-sky-bottom: #616174;
+  --color-stone-100: #6c7b8d;
+  --color-sunset-500: #e8ae65;
+}
+html[data-theme="dark"] .scene-art[data-scene="sunset"] > svg {
+  --scene-sky-top: #0b1933;
+  --scene-sky-middle: #30445d;
+  --scene-sky-bottom: #80646a;
+  --color-paper: #7d91a9;
+  --color-sunset-100: #526983;
+  --color-sunset-600: #617087;
+}

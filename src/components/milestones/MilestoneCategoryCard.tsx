@@ -20,14 +20,14 @@ export function MilestoneCategoryCard({ category, count, selected, onSelect }: M
       className={cn(
         "surface-paper group flex h-full w-full flex-col items-start rounded-card p-4 text-left transition-trail transition-[transform,box-shadow] sm:p-5",
         "hover:-translate-y-0.5 hover:shadow-paper-lift motion-reduce:hover:translate-y-0",
-        selected && "ring-3 ring-blue-500 ring-offset-2 ring-offset-cream",
+        selected && "ring-3 ring-blue-500 ring-offset-2 ring-offset-canvas",
       )}
     >
       <MilestoneBadge icon={category.badge_icon} accent={category.accent} className="mx-auto" />
-      <span className="font-display-heavy mt-4 text-base uppercase leading-tight text-navy-900 [overflow-wrap:anywhere]">{category.name}</span>
-      {category.description && <span className="mt-1 text-sm leading-snug text-navy-700">{category.description}</span>}
+      <span className="font-display-heavy mt-4 text-base uppercase leading-tight text-ink [overflow-wrap:anywhere]">{category.name}</span>
+      {category.description && <span className="mt-1 text-sm leading-snug text-ink-muted">{category.description}</span>}
       <span className="mt-auto flex w-full items-end justify-between gap-2 pt-3">
-        <span className="text-xs font-extrabold uppercase tracking-[0.08em] text-navy-500">
+        <span className="text-xs font-extrabold uppercase tracking-[0.08em] text-ink-subtle">
           {count} {count === 1 ? "milestone" : "milestones"}
         </span>
         <span

@@ -21,7 +21,7 @@ interface ProjectRowActionsProps {
 }
 
 const iconBtn =
-  "grid size-9 place-items-center rounded-control text-navy-700 transition-trail transition-colors hover:bg-blue-50 hover:text-blue-600 disabled:pointer-events-none disabled:opacity-35";
+  "grid size-9 place-items-center rounded-control text-ink-muted transition-trail transition-colors hover:bg-active-soft hover:text-link disabled:pointer-events-none disabled:opacity-35";
 const textBtn =
   "h-9 rounded-control px-3 text-xs font-extrabold uppercase tracking-[0.06em] transition-trail transition-colors disabled:opacity-50";
 
@@ -81,7 +81,7 @@ export function ProjectRowActions({ project, canMoveUp, canMoveDown, reorderable
       </button>
 
       {isPublished ? (
-        <button type="button" className={cn(textBtn, "text-navy-700 hover:bg-navy-900/5")} disabled={pending} onClick={() => run(() => setProjectContentState(project.id, "draft"))}>
+        <button type="button" className={cn(textBtn, "text-ink-muted hover:bg-ink/5")} disabled={pending} onClick={() => run(() => setProjectContentState(project.id, "draft"))}>
           Unpublish
         </button>
       ) : (
@@ -91,7 +91,7 @@ export function ProjectRowActions({ project, canMoveUp, canMoveDown, reorderable
       )}
       <button
         type="button"
-        className={cn(textBtn, "text-navy-700 hover:bg-navy-900/5")}
+        className={cn(textBtn, "text-ink-muted hover:bg-ink/5")}
         disabled={pending}
         onClick={() => run(() => setProjectContentState(project.id, isArchived ? "draft" : "archived"))}
       >
@@ -101,7 +101,7 @@ export function ProjectRowActions({ project, canMoveUp, canMoveDown, reorderable
       <Link href={`/admin/projects/${project.id}/edit`} className={cn(textBtn, "grid place-items-center bg-blue-500 text-white hover:bg-blue-600")}>
         Edit<span className="sr-only"> {project.title}</span>
       </Link>
-      <button type="button" className={cn(iconBtn, "hover:bg-danger-100 hover:text-danger-600")} disabled={pending} onClick={() => setConfirmOpen(true)} aria-label={`Delete "${project.title}"`}>
+      <button type="button" className={cn(iconBtn, "hover:bg-danger-soft hover:text-danger")} disabled={pending} onClick={() => setConfirmOpen(true)} aria-label={`Delete "${project.title}"`}>
         <UiIcon name="trash" className="size-4" />
       </button>
 

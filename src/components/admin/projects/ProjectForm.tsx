@@ -157,17 +157,17 @@ export function ProjectForm({ projectId, defaults, skillOptions, uploadFolder }:
         <CheckboxField label="Visible" hint="Unticked hides it publicly even when published." {...register("is_visible")} />
       </FormSection>
 
-      <div className="sticky bottom-0 z-10 -mx-(--page-gutter) flex flex-wrap items-center gap-3 border-t border-paper-edge bg-cream/95 px-(--page-gutter) py-4">
-        <span className="mr-auto flex items-center gap-2 text-sm text-navy-700">
+      <div className="sticky bottom-0 z-10 -mx-(--page-gutter) flex flex-wrap items-center gap-3 border-t border-surface-edge bg-canvas/95 px-(--page-gutter) py-4">
+        <span className="mr-auto flex items-center gap-2 text-sm text-ink-muted">
           {projectId && (
             <>
               Currently <ContentStatePill state={currentState} />
             </>
           )}
-          {isDirty && <span className="font-bold text-sunset-700">Unsaved changes</span>}
+          {isDirty && <span className="font-bold text-warm">Unsaved changes</span>}
         </span>
         {formError && (
-          <p role="alert" className="w-full text-sm font-bold text-danger-600 sm:w-auto">
+          <p role="alert" className="w-full text-sm font-bold text-danger sm:w-auto">
             {formError}
           </p>
         )}

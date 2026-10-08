@@ -54,35 +54,35 @@ export function AboutCardForm({ item, onDone, onCancel }: InlineListFormProps<Ab
       </div>
 
       <fieldset className="flex flex-col gap-2">
-        <legend className="text-sm font-extrabold text-navy-900">Lines</legend>
-        {isChecklist && <p className="text-sm text-navy-500">Goals show as a checklist, so line icons aren&apos;t used.</p>}
+        <legend className="text-sm font-extrabold text-ink">Lines</legend>
+        {isChecklist && <p className="text-sm text-ink-subtle">Goals show as a checklist, so line icons aren&apos;t used.</p>}
         <ol className="flex flex-col gap-2" aria-label="Card lines">
           {fields.map((f, i) => (
-            <li key={f.id} className="flex flex-wrap items-start gap-2 rounded-control bg-paper-shade/50 p-2">
+            <li key={f.id} className="flex flex-wrap items-start gap-2 rounded-control bg-surface-inset/50 p-2">
               <TextField label={`Line ${i + 1}`} className="min-w-48 flex-1" {...register(`items.${i}.label`)} error={errors.items?.[i]?.label?.message} />
               {!isChecklist && (
                 <div className="flex items-end gap-2">
                   <SelectField label="Icon" options={ICON_OPTIONS} {...register(`items.${i}.icon`)} className="w-40" />
-                  <span className="mb-3 grid size-6 place-items-center text-navy-700">
+                  <span className="mb-3 grid size-6 place-items-center text-ink-muted">
                     <ContentIcon icon={itemValues?.[i]?.icon || null} fallback="compass" className="size-5" />
                   </span>
                 </div>
               )}
               <div className="flex items-center gap-1 self-end pb-1.5">
-                <button type="button" onClick={() => move(i, i - 1)} disabled={i === 0} aria-label={`Move line ${i + 1} up`} className="grid size-9 place-items-center rounded-control hover:bg-blue-50 disabled:opacity-30">
+                <button type="button" onClick={() => move(i, i - 1)} disabled={i === 0} aria-label={`Move line ${i + 1} up`} className="grid size-9 place-items-center rounded-control hover:bg-active-soft disabled:opacity-30">
                   <UiIcon name="chevron-up" className="size-4" />
                 </button>
-                <button type="button" onClick={() => move(i, i + 1)} disabled={i === fields.length - 1} aria-label={`Move line ${i + 1} down`} className="grid size-9 place-items-center rounded-control hover:bg-blue-50 disabled:opacity-30">
+                <button type="button" onClick={() => move(i, i + 1)} disabled={i === fields.length - 1} aria-label={`Move line ${i + 1} down`} className="grid size-9 place-items-center rounded-control hover:bg-active-soft disabled:opacity-30">
                   <UiIcon name="chevron-up" className="size-4 rotate-180" />
                 </button>
-                <button type="button" onClick={() => remove(i)} disabled={fields.length === 1} aria-label={`Remove line ${i + 1}`} className="grid size-9 place-items-center rounded-control hover:bg-danger-100 hover:text-danger-600 disabled:opacity-30">
+                <button type="button" onClick={() => remove(i)} disabled={fields.length === 1} aria-label={`Remove line ${i + 1}`} className="grid size-9 place-items-center rounded-control hover:bg-danger-soft hover:text-danger disabled:opacity-30">
                   <UiIcon name="close" className="size-4" />
                 </button>
               </div>
             </li>
           ))}
         </ol>
-        {errors.items?.message && <p className="text-sm font-bold text-danger-600">{errors.items.message}</p>}
+        {errors.items?.message && <p className="text-sm font-bold text-danger">{errors.items.message}</p>}
         <button type="button" onClick={() => append({ label: "", icon: "" })} disabled={fields.length >= 12} className={buttonClasses("secondary", "md", "h-10 self-start px-4 text-xs")}>
           + Add line
         </button>

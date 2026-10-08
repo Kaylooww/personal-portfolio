@@ -27,8 +27,8 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
       <div className="w-full max-w-sm">
         <div className="mb-6 flex flex-col items-center gap-3 text-center">
           <LogoMark className="h-10 text-blue-500" />
-          <h1 className="font-display-heavy text-3xl uppercase text-navy-900">Base Camp</h1>
-          <p className="font-handwritten text-lg text-navy-700">Admin access for the expedition.</p>
+          <h1 className="font-display-heavy text-3xl uppercase text-ink">Base Camp</h1>
+          <p className="font-handwritten text-lg text-ink-muted">Admin access for the expedition.</p>
         </div>
 
         <PaperCard className="p-6 sm:p-7">
@@ -38,17 +38,17 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
             </p>
           )}
           {session.status === "unconfigured" ? (
-            <p className="text-navy-700">
+            <p className="text-ink-muted">
               Sign-in is unavailable because Supabase isn&apos;t configured. Add the Supabase URL and keys to
-              <code className="mx-1 rounded-tag bg-paper-shade px-1">.env.local</code>
-              (see <code className="rounded-tag bg-paper-shade px-1">supabase/README.md</code>).
+              <code className="mx-1 rounded-tag bg-surface-inset px-1">.env.local</code>
+              (see <code className="rounded-tag bg-surface-inset px-1">supabase/README.md</code>).
             </p>
           ) : (
             <LoginForm next={next} />
           )}
         </PaperCard>
 
-        <Link href="/" className="mx-auto mt-6 flex w-fit items-center gap-1.5 text-sm font-extrabold text-blue-600 hover:underline">
+        <Link href="/" className="mx-auto mt-6 flex w-fit items-center gap-1.5 text-sm font-extrabold text-link hover:underline">
           <UiIcon name="arrow-left" className="size-4" />
           Back to the portfolio
         </Link>

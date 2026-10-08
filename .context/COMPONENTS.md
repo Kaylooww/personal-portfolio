@@ -26,9 +26,9 @@ Rule: Server Component unless it needs state, effects, or browser APIs. One comp
 | `WoodSign` | `components/ui/WoodSign.tsx` | server | Wooden sign, `tone` light/dark, optional `href`, optional sandwich-board legs |
 | `SceneBackground` | `components/portfolio/SceneBackground.tsx` | server | Fixed full-bleed scene + scrims; scenes registered per `SectionScene` |
 | `TerminalScene` | `components/portfolio/scenes/TerminalScene.tsx` | server | **Stand-in** SVG terminal art until a painted plate is supplied |
-| `PassportCard` | `components/portfolio/PassportCard.tsx` | server | Taped passport photo (next/image or silhouette fallback), airmail + postmark |
+| `PassportCard` | `components/portfolio/PassportCard.tsx` | server | Taped passport photo, airmail + postmark; optional `showAdminLink` adds the small Admin circle on Airport |
 | `DepartureBoard` | `components/portfolio/DepartureBoard.tsx` | server | Accessible `<table>` of `SiteSettings.departures` |
-| `NextStopSign` | `components/portfolio/NextStopSign.tsx` | server | Sandwich board linking to the next checkpoint (`section.place`) |
+| `NextStopSign` | `components/portfolio/NextStopSign.tsx` | server | Sandwich board linking to the next checkpoint and showing its section label (`section.label`) |
 | `AirportIntro` | `components/portfolio/airport/AirportIntro.tsx` | server | Name, roles, tagline, START THE CLIMB / VIEW PROJECTS |
 | `GateSign` | `components/portfolio/airport/GateSign.tsx` | server | Decorative "GATE 01" sign (xl+) |
 
@@ -141,6 +141,22 @@ Hook: `useActiveSection()` (`hooks/useActiveSection.ts`) → `{ section, index }
   fallback. Worker, fonts, character maps and WASM are self-hosted; npm predev and
   prebuild copy versioned assets into ignored `public/pdfjs/`.
 - `DocumentUploader` is shared by résumé and milestone PDF editors.
+
+## Theme and Journey arrival (2026-10-08)
+
+- `ThemeToggle` (`components/theme/ThemeToggle.tsx`, client): labelled sun/moon
+  button shared by desktop/mobile navigation and the admin header. Uses the saved
+  browser preference, system changes and cross-tab synchronization.
+- `THEME_SCRIPT` (`lib/theme.ts`): applies the initial theme in root layout before
+  paint. UI token values are defined in `styles/globals.css`.
+- `NightSky` (`components/portfolio/scenes/NightSky.tsx`, server): moon and stars,
+  shown with CSS in night scenes. `scenes.css` supplies all seven scene palettes
+  and controls additional night lights and day artwork.
+- `ExpeditionFlag` (`components/portfolio/scenes/ExpeditionFlag.tsx`, server):
+  filled cloth flag with folded tail, stitches and mountain crest for Canyon/Ridge/Sunset.
+- `JourneyArrival` (`components/journey/JourneyArrival.tsx`, client): shell-level
+  arrival scroll with cancellation and history/reduced-motion guards. Both route
+  layouts expose `data-journey-trail`; mobile renders the newest entry at the top.
 
 ## Planned
 

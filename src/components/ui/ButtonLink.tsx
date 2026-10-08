@@ -9,8 +9,8 @@ const VARIANTS: Record<Variant, string> = {
   primary:
     "bg-blue-500 text-white shadow-button hover:bg-blue-600 active:translate-y-0.5 active:shadow-button-pressed",
   secondary:
-    "surface-paper text-navy-900 hover:border-wood-300 active:translate-y-0.5",
-  ghost: "text-navy-800 hover:bg-navy-900/5",
+    "surface-paper text-ink hover:border-wood-300 active:translate-y-0.5",
+  ghost: "text-ink-strong hover:bg-ink/5",
 };
 
 const SIZES: Record<Size, string> = {

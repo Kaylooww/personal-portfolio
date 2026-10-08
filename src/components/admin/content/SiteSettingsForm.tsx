@@ -62,25 +62,25 @@ export function SiteSettingsForm({ defaults }: { defaults: SiteSettingsFormValue
       <FormSection title="Departure board" description="The flight board on the Airport page.">
         <ol className="flex flex-col gap-2" aria-label="Departures">
           {departures.fields.map((f, i) => (
-            <li key={f.id} className="flex flex-wrap items-end gap-2 rounded-control bg-paper-shade/50 p-2">
+            <li key={f.id} className="flex flex-wrap items-end gap-2 rounded-control bg-surface-inset/50 p-2">
               <TextField label="Destination" className="min-w-40 flex-1" {...register(`departures.${i}.destination`)} error={errors.departures?.[i]?.destination?.message} />
               <SelectField label="Status" options={DEPARTURE_STATUSES} className="w-36" {...register(`departures.${i}.status`)} />
               <SelectField label="Icon" options={ICON_OPTIONS} className="w-32" {...register(`departures.${i}.icon`)} />
               <div className="flex items-center gap-1 pb-1.5">
-                <button type="button" onClick={() => departures.move(i, i - 1)} disabled={i === 0} aria-label={`Move departure ${i + 1} up`} className="grid size-9 place-items-center rounded-control hover:bg-blue-50 disabled:opacity-30">
+                <button type="button" onClick={() => departures.move(i, i - 1)} disabled={i === 0} aria-label={`Move departure ${i + 1} up`} className="grid size-9 place-items-center rounded-control hover:bg-active-soft disabled:opacity-30">
                   <UiIcon name="chevron-up" className="size-4" />
                 </button>
-                <button type="button" onClick={() => departures.move(i, i + 1)} disabled={i === departures.fields.length - 1} aria-label={`Move departure ${i + 1} down`} className="grid size-9 place-items-center rounded-control hover:bg-blue-50 disabled:opacity-30">
+                <button type="button" onClick={() => departures.move(i, i + 1)} disabled={i === departures.fields.length - 1} aria-label={`Move departure ${i + 1} down`} className="grid size-9 place-items-center rounded-control hover:bg-active-soft disabled:opacity-30">
                   <UiIcon name="chevron-up" className="size-4 rotate-180" />
                 </button>
-                <button type="button" onClick={() => departures.remove(i)} aria-label={`Remove departure ${i + 1}`} className="grid size-9 place-items-center rounded-control hover:bg-danger-100 hover:text-danger-600">
+                <button type="button" onClick={() => departures.remove(i)} aria-label={`Remove departure ${i + 1}`} className="grid size-9 place-items-center rounded-control hover:bg-danger-soft hover:text-danger">
                   <UiIcon name="close" className="size-4" />
                 </button>
               </div>
             </li>
           ))}
         </ol>
-        {errors.departures?.message && <p className="text-sm font-bold text-danger-600">{errors.departures.message}</p>}
+        {errors.departures?.message && <p className="text-sm font-bold text-danger">{errors.departures.message}</p>}
         <button
           type="button"
           onClick={() => departures.append({ destination: "", status: "planned", icon: "mountain" })}

@@ -19,7 +19,7 @@ export function AboutCardsManager({ cards }: { cards: AboutCard[] }) {
       empty={{ icon: "book", title: "The notice board is empty", message: "Add cards for education, interests, focus, location and goals." }}
       label={(c) => c.title}
       leading={(c) => (
-        <span className="grid size-10 shrink-0 place-items-center rounded-control bg-blue-100 text-blue-600">
+        <span className="grid size-10 shrink-0 place-items-center rounded-control bg-active text-link">
           <ContentIcon icon={KIND_ICON[c.kind]} className="size-5" />
         </span>
       )}

@@ -5,6 +5,8 @@ import { createRequire } from "node:module";
 // Read-only: no credentials, database writes or external-link navigation.
 // BROWSER_CHANNEL=msedge uses an installed Edge; otherwise install Playwright Chromium.
 const origin = process.argv[2] ?? "http://localhost:3000";
+const theme = process.env.BROWSER_THEME ?? "light";
+assert.ok(["light", "dark"].includes(theme), "BROWSER_THEME must be light or dark");
 const require = createRequire(import.meta.url);
 const browser = await chromium.launch({ headless: true, channel: process.env.BROWSER_CHANNEL || undefined });
 const routes = ["/", "/about", "/skills", "/projects", "/journey", "/milestones", "/summit"];
@@ -14,7 +16,7 @@ let layouts = 0;
 let audits = 0;
 
 try {
-  const context = await browser.newContext({ reducedMotion: "reduce" });
+  const context = await browser.newContext({ reducedMotion: "reduce", colorScheme: theme });
   const page = await context.newPage();
   page.on("pageerror", (error) => errors.push(error.message));
   const sitemap = await (await context.request.get(`${origin}/sitemap.xml`)).text();

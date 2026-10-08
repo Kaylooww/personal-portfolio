@@ -25,7 +25,7 @@ export default async function MilestonesPage() {
           title="Milestones"
           subtitle={
             categories.length > 0 && (
-              <p className="max-w-[36rem] text-xs font-extrabold uppercase leading-relaxed tracking-[0.14em] text-navy-800 sm:text-sm">
+              <p className="max-w-[36rem] text-xs font-extrabold uppercase leading-relaxed tracking-[0.14em] text-ink-strong sm:text-sm">
                 {categories.map((c, i) => (
                   <span key={c.id}>
                     {c.name}

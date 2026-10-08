@@ -43,9 +43,9 @@ export function SkillMark({ name, logoUrl, className }: SkillMarkProps) {
   );
   if (!logoUrl) return badge;
   return (
-    <span className={cn("relative block size-10", className)}>
+    <span className={cn("relative block size-10 dark:rounded-tag dark:bg-paper", className)}>
       {/* A logo that fails to load falls back to the monogram. */}
-      <SafeImage src={logoUrl} alt="" fill sizes="40px" className="object-contain" fallback={badge} />
+      <SafeImage src={logoUrl} alt="" fill sizes="40px" className="object-contain dark:p-0.5" fallback={badge} />
     </span>
   );
 }

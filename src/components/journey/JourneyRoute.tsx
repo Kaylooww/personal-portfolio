@@ -64,7 +64,7 @@ export function JourneyRoute({ entries, className }: { entries: JourneyEntry[]; 
   const d = trailPath(nodes, height);
 
   return (
-    <div className={cn("relative", className)} style={{ height: `${height}rem` }}>
+    <div data-journey-trail className={cn("relative", className)} style={{ height: `${height}rem` }}>
       <svg
         aria-hidden
         className="absolute inset-0 size-full overflow-visible"

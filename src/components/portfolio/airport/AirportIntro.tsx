@@ -28,7 +28,7 @@ export function AirportIntro({ profile }: AirportIntroProps) {
         }
         titleClassName="text-[length:clamp(2.5rem,1rem_+_2.9vw,5rem)] leading-[0.95]"
         subtitle={
-          <p className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-base font-bold text-navy-800 sm:text-lg">
+          <p className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-base font-bold text-ink-strong sm:text-lg">
             {profile.headline_roles.map((role, i) => (
               <span key={role} className="flex items-center gap-2.5">
                 {i > 0 && <span aria-hidden className="size-1.5 rounded-pill bg-blue-500" />}

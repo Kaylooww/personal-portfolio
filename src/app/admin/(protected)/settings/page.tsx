@@ -34,10 +34,10 @@ export default async function AdminSettingsPage() {
         <SiteSettingsForm key={s?.updated_at ?? "new"} defaults={defaults} />
       </div>
       <section aria-labelledby="links-heading" className="mt-12">
-        <h2 id="links-heading" className="font-display-heavy text-2xl uppercase text-navy-900">
+        <h2 id="links-heading" className="font-display-heavy text-2xl uppercase text-ink">
           Social links
         </h2>
-        <p className="mb-5 mt-1 text-navy-700">Buttons on the Summit page. Email becomes “Contact me”.</p>
+        <p className="mb-5 mt-1 text-ink-muted">Buttons on the Summit page. Email becomes “Contact me”.</p>
         <SocialLinksManager links={links} />
       </section>
     </>

@@ -30,22 +30,22 @@ export function InfoBoardCard({ card, index }: InfoBoardCardProps) {
       )}
     >
       <span aria-hidden className="absolute left-1/2 top-2 size-2.5 -translate-x-1/2 rounded-pill bg-navy-700 shadow-[0_1px_0_var(--color-paper)]" />
-      <h3 className="flex items-center gap-2.5 font-display-heavy text-lg uppercase text-navy-900">
-        <ContentIcon icon={KIND_ICON[card.kind]} className="size-6 text-navy-800" />
+      <h3 className="flex items-center gap-2.5 font-display-heavy text-lg uppercase text-ink">
+        <ContentIcon icon={KIND_ICON[card.kind]} className="size-6 text-ink-strong" />
         {card.title}
         <Spark className="size-3.5 -translate-y-1.5 text-blue-500" />
       </h3>
       <ul className="mt-3 space-y-2">
         {card.items.map((item) => (
-          <li key={item.label} className="flex items-start gap-2.5 text-[0.9375rem] leading-snug text-navy-700">
+          <li key={item.label} className="flex items-start gap-2.5 text-[0.9375rem] leading-snug text-ink-muted">
             {isChecklist ? (
               <span aria-hidden className="mt-0.5 grid size-4.5 shrink-0 place-items-center rounded-[4px] border-2 border-navy-700">
-                <svg viewBox="0 0 12 12" className="size-3 text-blue-600">
+                <svg viewBox="0 0 12 12" className="size-3 text-link">
                   <path d="m2 6.5 2.5 2.5L10 3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
             ) : (
-              <ContentIcon icon={item.icon} fallback="compass" className="mt-px size-4.5 text-navy-800" />
+              <ContentIcon icon={item.icon} fallback="compass" className="mt-px size-4.5 text-ink-strong" />
             )}
             {item.label}
           </li>

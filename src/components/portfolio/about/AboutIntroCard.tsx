@@ -10,16 +10,16 @@ interface AboutIntroCardProps {
 export function AboutIntroCard({ profile }: AboutIntroCardProps) {
   return (
     <PaperCard tilt="right" className="p-6 sm:p-7">
-      <p className="font-handwritten text-hand-lg text-navy-800">Hello! I&apos;m</p>
-      <h2 className="font-display-heavy mt-1 text-heading uppercase text-navy-900">
+      <p className="font-handwritten text-hand-lg text-ink-strong">Hello! I&apos;m</p>
+      <h2 className="font-display-heavy mt-1 text-heading uppercase text-ink">
         {profile.display_first}
         <br />
         {profile.display_last}
         <Spark className="ml-1 inline-block size-[0.55em] -translate-y-[0.35em] text-blue-500" />
       </h2>
-      {profile.intro && <p className="mt-4 leading-relaxed text-navy-700">{profile.intro}</p>}
-      {profile.intro && profile.bio && <hr className="my-4 border-t-2 border-dashed border-paper-edge" />}
-      {profile.bio && <p className="leading-relaxed text-navy-700">{profile.bio}</p>}
+      {profile.intro && <p className="mt-4 leading-relaxed text-ink-muted">{profile.intro}</p>}
+      {profile.intro && profile.bio && <hr className="my-4 border-t-2 border-dashed border-surface-edge" />}
+      {profile.bio && <p className="leading-relaxed text-ink-muted">{profile.bio}</p>}
     </PaperCard>
   );
 }

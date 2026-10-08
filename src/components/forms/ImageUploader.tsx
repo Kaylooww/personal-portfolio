@@ -72,17 +72,17 @@ export function ImageUploader({ label, hint, value, folder, onChange, onDiscard,
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={inputId} className="text-sm font-extrabold text-navy-900">
+      <label htmlFor={inputId} className="text-sm font-extrabold text-ink">
         {label}
       </label>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-        <div className={cn("relative w-full overflow-hidden rounded-control border border-paper-edge bg-paper-shade sm:w-56", ASPECT[aspect])}>
+        <div className={cn("relative w-full overflow-hidden rounded-control border border-surface-edge bg-surface-inset sm:w-56", ASPECT[aspect])}>
           {value ? (
-            <SafeImage src={value} alt="" fill sizes="14rem" className="object-cover" fallback={<span className="absolute inset-0 grid place-items-center text-xs font-bold text-danger-600">Can’t load image</span>} />
+            <SafeImage src={value} alt="" fill sizes="14rem" className="object-cover" fallback={<span className="absolute inset-0 grid place-items-center text-xs font-bold text-danger">Can’t load image</span>} />
           ) : (
-            <span className="absolute inset-0 grid place-items-center text-sm font-bold text-navy-500">No image</span>
+            <span className="absolute inset-0 grid place-items-center text-sm font-bold text-ink-subtle">No image</span>
           )}
-          {uploading && <span className="absolute inset-0 grid place-items-center bg-paper/80 text-sm font-extrabold text-navy-900">Uploading…</span>}
+          {uploading && <span className="absolute inset-0 grid place-items-center bg-surface/80 text-sm font-extrabold text-ink">Uploading…</span>}
         </div>
         <div className="flex flex-col gap-2">
           <input
@@ -100,14 +100,14 @@ export function ImageUploader({ label, hint, value, folder, onChange, onDiscard,
               {value ? "Replace" : "Upload"}
             </button>
             {value && (
-              <button type="button" onClick={() => replace("")} disabled={uploading} className={buttonClasses("ghost", "md", "h-10 px-3 text-xs text-danger-600")}>
+              <button type="button" onClick={() => replace("")} disabled={uploading} className={buttonClasses("ghost", "md", "h-10 px-3 text-xs text-danger")}>
                 Remove
               </button>
             )}
           </div>
-          {hint && <p className="text-sm text-navy-500">{hint}</p>}
+          {hint && <p className="text-sm text-ink-subtle">{hint}</p>}
           {shownError && (
-            <p role="alert" className="text-sm font-bold text-danger-600">
+            <p role="alert" className="text-sm font-bold text-danger">
               {shownError}
             </p>
           )}

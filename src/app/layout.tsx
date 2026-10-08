@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { getSiteUrl } from "@/lib/seo/url";
 import { fontVariables } from "@/styles/fonts";
+import { THEME_SCRIPT } from "@/lib/theme";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -17,7 +18,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={fontVariables}>
+    <html lang="en" className={fontVariables} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} /></head>
       <body>{children}</body>
     </html>
   );

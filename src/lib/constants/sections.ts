@@ -30,7 +30,7 @@ export interface PortfolioSection {
   meaning: string;
   /** Background artwork theme; assets arrive with each page's phase. */
   scene: SectionScene;
-  /** In-world place name used on "Next stop" signs. */
+  /** In-world location metadata; navigation signs display the section label. */
   place: string;
 }
 

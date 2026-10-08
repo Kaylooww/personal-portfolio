@@ -16,13 +16,13 @@ export function JourneyCheckpoint({ entry, className }: JourneyCheckpointProps) 
         {entry.date ? <time dateTime={entry.date}>{formatContentDate(entry.date)}</time> : entry.period_label}
       </span>
       <div className="flex items-start gap-3">
-        <ContentIcon icon={entry.icon} fallback="flag" className="mt-0.5 size-7 text-blue-600" />
+        <ContentIcon icon={entry.icon} fallback="flag" className="mt-0.5 size-7 text-link" />
         <div className="min-w-0">
-          <h3 className="font-display-heavy text-lg leading-tight text-navy-900">{entry.title}</h3>
-          {entry.subtitle && <p className="text-sm font-bold text-navy-700">{entry.subtitle}</p>}
+          <h3 className="font-display-heavy text-lg leading-tight text-ink">{entry.title}</h3>
+          {entry.subtitle && <p className="text-sm font-bold text-ink-muted">{entry.subtitle}</p>}
         </div>
       </div>
-      {entry.description && <p className="mt-2 text-sm leading-snug text-navy-700">{entry.description}</p>}
+      {entry.description && <p className="mt-2 text-sm leading-snug text-ink-muted">{entry.description}</p>}
     </article>
   );
 }

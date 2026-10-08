@@ -24,7 +24,7 @@ export function CategoryManager({ categories }: { categories: AdminSkillCategory
     <div className="flex flex-col gap-6">
       {adding ? (
         <section className="surface-paper rounded-card p-5 sm:p-6" aria-label="New category">
-          <h2 className="font-display-heavy mb-4 text-lg uppercase text-navy-900">New category</h2>
+          <h2 className="font-display-heavy mb-4 text-lg uppercase text-ink">New category</h2>
           <CategoryForm defaults={EMPTY_SKILL_CATEGORY_FORM} onDone={() => setAdding(false)} onCancel={categories.length ? () => setAdding(false) : undefined} />
         </section>
       ) : (
@@ -41,17 +41,17 @@ export function CategoryManager({ categories }: { categories: AdminSkillCategory
             <li key={c.id} className="surface-paper rounded-card p-3">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <div className="flex min-w-0 flex-1 items-center gap-3">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-control bg-blue-100 text-blue-600">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-control bg-active text-link">
                     <ContentIcon icon={c.icon} fallback="gear" className="size-5" />
                   </span>
                   <div className="min-w-0">
                     <p className="flex flex-wrap items-center gap-2">
-                      <span className="font-display-heavy text-base text-navy-900">{c.name}</span>
+                      <span className="font-display-heavy text-base text-ink">{c.name}</span>
                       {!c.is_visible && (
-                        <span className="rounded-tag bg-navy-900/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-navy-700">Hidden</span>
+                        <span className="rounded-tag bg-ink/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-ink-muted">Hidden</span>
                       )}
                     </p>
-                    <p className="text-sm text-navy-500">
+                    <p className="text-sm text-ink-subtle">
                       {c.slug} · {c.skillCount} {c.skillCount === 1 ? "skill" : "skills"}
                     </p>
                   </div>
@@ -86,7 +86,7 @@ export function CategoryManager({ categories }: { categories: AdminSkillCategory
                 </div>
               </div>
               {editing === c.id && (
-                <div className="mt-4 border-t border-dashed border-paper-edge pt-4">
+                <div className="mt-4 border-t border-dashed border-surface-edge pt-4">
                   <CategoryForm
                     categoryId={c.id}
                     defaults={{ name: c.name, slug: c.slug, icon: c.icon ?? "", is_visible: c.is_visible }}

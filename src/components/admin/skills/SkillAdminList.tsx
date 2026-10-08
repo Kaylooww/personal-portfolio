@@ -66,15 +66,15 @@ export function SkillAdminList({ skills, categories, filtered }: SkillAdminListP
         .filter((g) => g.skills.length > 0)
         .map((g) => (
           <section key={g.key} aria-labelledby={`skill-group-${g.key}`}>
-            <h2 id={`skill-group-${g.key}`} className="flex flex-wrap items-center gap-2 font-display-heavy text-lg uppercase text-navy-900">
-              <ContentIcon icon={g.icon} fallback="gear" className="size-5 text-blue-600" />
+            <h2 id={`skill-group-${g.key}`} className="flex flex-wrap items-center gap-2 font-display-heavy text-lg uppercase text-ink">
+              <ContentIcon icon={g.icon} fallback="gear" className="size-5 text-link" />
               {g.title}
-              <span className="text-sm font-bold normal-case text-navy-500">({g.skills.length})</span>
+              <span className="text-sm font-bold normal-case text-ink-subtle">({g.skills.length})</span>
               {g.hidden && g.key !== "none" && (
-                <span className="rounded-tag bg-navy-900/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-navy-700">Hidden category</span>
+                <span className="rounded-tag bg-ink/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-ink-muted">Hidden category</span>
               )}
             </h2>
-            {g.note && <p className="mt-1 text-sm text-sunset-700">{g.note}</p>}
+            {g.note && <p className="mt-1 text-sm text-warm">{g.note}</p>}
             <ul className="mt-3 flex flex-col gap-2">
               {g.skills.map((s, i) => (
                 <li key={s.id} className="surface-paper flex flex-col gap-3 rounded-card p-3 sm:flex-row sm:items-center">
@@ -82,14 +82,14 @@ export function SkillAdminList({ skills, categories, filtered }: SkillAdminListP
                     <SkillMark name={s.name} logoUrl={s.logo_url} />
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
-                        <Link href={`/admin/skills/${s.id}/edit`} className="font-display-heavy truncate text-base text-navy-900 hover:text-blue-600">
+                        <Link href={`/admin/skills/${s.id}/edit`} className="font-display-heavy truncate text-base text-ink hover:text-link">
                           {s.name}
                         </Link>
                         {!s.is_visible && (
-                          <span className="rounded-tag bg-navy-900/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-navy-700">Hidden</span>
+                          <span className="rounded-tag bg-ink/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-ink-muted">Hidden</span>
                         )}
                       </div>
-                      <p className="text-sm text-navy-500">
+                      <p className="text-sm text-ink-subtle">
                         {s.slug}
                         {s.projectCount > 0 && ` · in ${s.projectCount} ${s.projectCount === 1 ? "project" : "projects"}`}
                         {s.proficiency !== null && ` · level ${s.proficiency}`}

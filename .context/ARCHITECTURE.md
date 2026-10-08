@@ -14,10 +14,29 @@ Browser ──► Vercel (Next.js App Router)
 
 ## Frontend
 - **App Router** with two route groups: `(portfolio)` for the public expedition, `admin/` for the dashboard. They have separate layouts so the admin never loads scenic assets and the public site never loads admin code.
-- **Server Components by default.** Client Components only for: navigation active state and mobile menu, search/filter inputs, forms, uploaders, reorder controls, dialogs, image fallbacks (`SafeImage`). Keep client islands small and leaf-level.
+- **Server Components by default.** Client Components only for: navigation active state and mobile menu, theme controls, Journey arrival scrolling, search/filter inputs, forms, uploaders, reorder controls, dialogs, image fallbacks (`SafeImage`). Keep client islands small and leaf-level.
 - **Styling:** Tailwind v4, tokens in `src/styles/globals.css` (`@theme`). No `tailwind.config.*` file — v4 is CSS-first. Default Tailwind palette is intentionally reset; only expedition tokens exist.
 - **Fonts:** self-hosted via `next/font/local` (`src/styles/fonts.ts`) — no runtime request to Google, works offline and in CI.
 - **Path alias:** `@/*` → `src/*`.
+
+## Theme and Journey arrival
+
+- Root layout runs `THEME_SCRIPT` from `src/lib/theme.ts` before paint. It applies
+  validated `portfolio-theme` local storage (`light`/`dark`), falling back to the
+  system preference, as `html[data-theme]` and `color-scheme`. No cookies or database
+  reads are needed, so public pages retain static rendering.
+- `ThemeToggle` uses `useSyncExternalStore`; navigation and the admin header share
+  one setting. Storage events sync tabs; system changes apply while no preference
+  is saved. CSS semantic UI tokens live in `globals.css`; separate SVG palettes and
+  day/night details live in `components/portfolio/scenes/scenes.css`.
+- `JourneyArrival` is a small client component mounted in `PortfolioShell`. It
+  observes route changes, locates the visible `data-journey-trail`, then moves to
+  the page bottom and animates upward with `requestAnimationFrame`. Wheel, pointer,
+  touch, keyboard, history, hash, visibility or motion preference changes cancel it.
+  Reduced motion, history restoration, anchor links, hidden tabs, open dialogs and
+  short/empty trails skip the animation. The scene and timeline remain server rendered.
+  Root HTML declares `data-scroll-behavior="smooth"` so Next can suspend CSS smooth
+  scrolling during route transitions and restore history positions.
 
 ## Backend (clients built Phase 9; public pages read Supabase since Phase 14)
 - `src/lib/supabase/env.ts` — reads/validates `NEXT_PUBLIC_SUPABASE_*`; `isSupabaseConfigured()`; `STORAGE_BUCKET`.
@@ -107,3 +126,5 @@ Browser ──► Vercel (Next.js App Router)
 | 2026-09-29 | Memoized project reads + `id, slug` index | Metadata/page share one read; numbering and sitemap avoid full project/gallery joins |
 | 2026-09-29 | Lazy import only the mobile map contents on first open | Defers unused UI code while retaining the native dialog shell and focus behavior |
 | 2026-09-30 | Node 24.x in package engines and `.nvmrc` | Matches the tested runtime and Vercel configuration; installed Supabase SDK requires Node 22+ |
+| 2026-10-08 | Local theme script + CSS UI/scene palettes | Applies a saved or system theme before paint while retaining static public pages |
+| 2026-10-08 | Journey arrival uses cancellable `requestAnimationFrame` scrolling | Enables the requested upward introduction while preserving visitor input, reduced motion and history positions |

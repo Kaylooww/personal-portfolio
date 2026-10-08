@@ -49,7 +49,7 @@ export function InlineListManager<T extends { id: string; is_visible: boolean }>
     <div className="flex flex-col gap-5">
       {adding ? (
         <section className="surface-paper rounded-card p-5 sm:p-6" aria-label={`New ${itemNoun}`}>
-          <h2 className="font-display-heavy mb-4 text-lg uppercase text-navy-900">New {itemNoun}</h2>
+          <h2 className="font-display-heavy mb-4 text-lg uppercase text-ink">New {itemNoun}</h2>
           {renderForm({ onDone: () => setAdding(false), onCancel: () => setAdding(false) })}
         </section>
       ) : (
@@ -71,12 +71,12 @@ export function InlineListManager<T extends { id: string; is_visible: boolean }>
                     {leading?.(item)}
                     <div className="min-w-0">
                       <p className="flex flex-wrap items-center gap-2">
-                        <span className="font-display-heavy text-base text-navy-900">{name}</span>
+                        <span className="font-display-heavy text-base text-ink">{name}</span>
                         {!item.is_visible && (
-                          <span className="rounded-tag bg-navy-900/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-navy-700">Hidden</span>
+                          <span className="rounded-tag bg-ink/10 px-2 py-0.5 text-[0.6875rem] font-extrabold uppercase tracking-[0.08em] text-ink-muted">Hidden</span>
                         )}
                       </p>
-                      <div className="text-sm text-navy-500">{summary(item)}</div>
+                      <div className="text-sm text-ink-subtle">{summary(item)}</div>
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-1">
@@ -109,7 +109,7 @@ export function InlineListManager<T extends { id: string; is_visible: boolean }>
                   </div>
                 </div>
                 {editing === item.id && (
-                  <div className="mt-4 border-t border-dashed border-paper-edge pt-4">
+                  <div className="mt-4 border-t border-dashed border-surface-edge pt-4">
                     {renderForm({ item, onDone: () => setEditing(null), onCancel: () => setEditing(null) })}
                   </div>
                 )}

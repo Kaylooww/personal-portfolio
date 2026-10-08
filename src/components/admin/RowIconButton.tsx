@@ -9,8 +9,8 @@ export function RowIconButton({ className, tone = "default", ...props }: Compone
     <button
       type="button"
       className={cn(
-        "grid size-9 place-items-center rounded-control text-navy-700 transition-trail transition-colors disabled:pointer-events-none disabled:opacity-35",
-        tone === "danger" ? "hover:bg-danger-100 hover:text-danger-600" : "hover:bg-blue-50 hover:text-blue-600",
+        "grid size-9 place-items-center rounded-control text-ink-muted transition-trail transition-colors disabled:pointer-events-none disabled:opacity-35",
+        tone === "danger" ? "hover:bg-danger-soft hover:text-danger" : "hover:bg-active-soft hover:text-link",
         className,
       )}
       {...props}

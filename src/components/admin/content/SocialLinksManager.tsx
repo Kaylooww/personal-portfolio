@@ -84,7 +84,7 @@ export function SocialLinksManager({ links }: { links: SocialLink[] }) {
       empty={{ icon: "globe", title: "No links yet", message: "Add your GitHub, LinkedIn and contact email for the Summit page." }}
       label={(l) => l.label}
       leading={(l) => (
-        <span className="grid size-10 shrink-0 place-items-center rounded-control bg-blue-100 text-blue-600">
+        <span className="grid size-10 shrink-0 place-items-center rounded-control bg-active text-link">
           <UiIcon name={ICON[l.platform] ?? "external"} className="size-5" />
         </span>
       )}

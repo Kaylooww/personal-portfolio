@@ -12,7 +12,7 @@ export function SelectField({ label, options, error, className, ...select }: Sel
   const errorId = error ? `${id}-error` : undefined;
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
-      <label htmlFor={id} className="text-sm font-extrabold text-navy-900">
+      <label htmlFor={id} className="text-sm font-extrabold text-ink">
         {label}
       </label>
       <select
@@ -20,8 +20,8 @@ export function SelectField({ label, options, error, className, ...select }: Sel
         aria-invalid={error ? true : undefined}
         aria-describedby={errorId}
         className={cn(
-          "h-12 rounded-control border bg-white px-3 text-base text-navy-900",
-          error ? "border-danger-600" : "border-paper-edge hover:border-wood-300",
+          "h-12 rounded-control border bg-field px-3 text-base text-ink",
+          error ? "border-danger-600" : "border-surface-edge hover:border-wood-300",
         )}
         {...select}
       >
@@ -32,7 +32,7 @@ export function SelectField({ label, options, error, className, ...select }: Sel
         ))}
       </select>
       {error && (
-        <p id={errorId} className="text-sm font-bold text-danger-600">
+        <p id={errorId} className="text-sm font-bold text-danger">
           {error}
         </p>
       )}

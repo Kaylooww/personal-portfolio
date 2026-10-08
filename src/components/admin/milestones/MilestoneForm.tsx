@@ -47,7 +47,7 @@ export function MilestoneForm({ milestoneId, defaults, categories, documentField
   return (
     <form onSubmit={onSubmit} noValidate className="flex flex-col gap-6">
       {!documentFieldsAvailable && (
-        <p role="status" className="rounded-card border border-gold-700 bg-paper-shade p-4 text-sm font-bold text-navy-900">
+        <p role="status" className="rounded-card border border-gold-700 bg-surface-inset p-4 text-sm font-bold text-ink">
           Date display choices and PDF uploads need the Supabase migration <code>20260930000004_milestone_documents_dates.sql</code>. You can still save the other milestone fields.
         </p>
       )}

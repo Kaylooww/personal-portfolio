@@ -44,9 +44,9 @@ export function MediaBrowser({ files, referencesKnown }: { files: MediaFile[]; r
 
   return (
     <div className="flex flex-col gap-5">
-      <p className="text-sm font-bold text-navy-700">
+      <p className="text-sm font-bold text-ink-muted">
         {files.length} {files.length === 1 ? "file" : "files"} · {formatBytes(total)} · {unused.length} unused
-        {!referencesKnown && <span className="ml-2 text-danger-600">(couldn&apos;t check usage — deleting is disabled)</span>}
+        {!referencesKnown && <span className="ml-2 text-danger">(couldn&apos;t check usage — deleting is disabled)</span>}
       </p>
 
       <div role="group" aria-label="Filter by folder" className="flex flex-wrap gap-1.5">
@@ -58,7 +58,7 @@ export function MediaBrowser({ files, referencesKnown }: { files: MediaFile[]; r
             onClick={() => setFolder(f)}
             className={cn(
               "h-9 rounded-pill px-3.5 text-xs font-extrabold uppercase tracking-[0.06em] transition-trail transition-colors",
-              folder === f ? "bg-navy-900 text-paper" : "bg-paper-shade text-navy-800 hover:bg-blue-50",
+              folder === f ? "bg-navy-900 text-paper" : "bg-surface-inset text-ink-strong hover:bg-active-soft",
             )}
           >
             {f}
@@ -75,29 +75,29 @@ export function MediaBrowser({ files, referencesKnown }: { files: MediaFile[]; r
             const isImage = f.contentType?.startsWith("image/");
             return (
               <li key={f.path} className="surface-paper flex flex-col gap-3 rounded-card p-3">
-                <div className="relative aspect-video overflow-hidden rounded-control bg-paper-shade">
+                <div className="relative aspect-video overflow-hidden rounded-control bg-surface-inset">
                   {isImage ? (
-                    <SafeImage src={f.url} alt="" fill sizes="(min-width: 1280px) 22rem, (min-width: 640px) 45vw, 90vw" className="object-contain" fallback={<span className="absolute inset-0 grid place-items-center text-xs font-bold text-danger-600">Can’t load image</span>} />
+                    <SafeImage src={f.url} alt="" fill sizes="(min-width: 1280px) 22rem, (min-width: 640px) 45vw, 90vw" className="object-contain" fallback={<span className="absolute inset-0 grid place-items-center text-xs font-bold text-danger">Can’t load image</span>} />
                   ) : (
-                    <span className="absolute inset-0 grid place-items-center text-navy-500">
+                    <span className="absolute inset-0 grid place-items-center text-ink-subtle">
                       <ContentIcon icon="book" className="size-10" />
                     </span>
                   )}
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-extrabold text-navy-900" title={f.path}>
+                  <p className="truncate text-sm font-extrabold text-ink" title={f.path}>
                     {name}
                   </p>
-                  <p className="truncate text-xs text-navy-500">
+                  <p className="truncate text-xs text-ink-subtle">
                     {f.path.split("/")[0]} · {formatBytes(f.size)}
                   </p>
-                  <p className={cn("mt-1 truncate text-xs font-bold", f.usedBy ? "text-moss-700" : "text-sunset-700")}>{f.usedBy ?? "Not used anywhere"}</p>
+                  <p className={cn("mt-1 truncate text-xs font-bold", f.usedBy ? "text-moss-700 dark:text-moss-100" : "text-warm")}>{f.usedBy ?? "Not used anywhere"}</p>
                 </div>
                 <div className="mt-auto flex items-center gap-1">
                   <RowIconButton onClick={() => copy(f.url)} aria-label={`Copy link to ${name}`} title="Copy link">
                     <UiIcon name="external" className="size-4" />
                   </RowIconButton>
-                  <a href={f.url} target="_blank" rel="noopener noreferrer" className="px-2 text-xs font-extrabold text-blue-600 hover:underline">
+                  <a href={f.url} target="_blank" rel="noopener noreferrer" className="px-2 text-xs font-extrabold text-link hover:underline">
                     Open<span className="sr-only"> {name} (opens in a new tab)</span>
                   </a>
                   <RowIconButton

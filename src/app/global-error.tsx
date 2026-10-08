@@ -11,10 +11,10 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
 
   return (
     <html lang="en">
-      <body className="grid min-h-dvh place-items-center bg-cream p-6 text-center text-navy-900">
+      <body className="grid min-h-dvh place-items-center bg-canvas p-6 text-center text-ink">
         <main>
           <h1 className="text-3xl font-extrabold uppercase">The trail washed out</h1>
-          <p className="mt-3 text-navy-700">Something went wrong loading the site. Please try again.</p>
+          <p className="mt-3 text-ink-muted">Something went wrong loading the site. Please try again.</p>
           <button type="button" onClick={reset} className="mt-6 rounded-control bg-blue-500 px-5 py-3 font-extrabold uppercase tracking-wide text-white">
             Try again
           </button>

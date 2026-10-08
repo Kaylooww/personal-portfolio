@@ -27,7 +27,7 @@ export default async function EditMilestonePage({ params }: EditMilestonePagePro
 
   return (
     <>
-      <Link href="/admin/milestones" className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-blue-600 hover:underline">
+      <Link href="/admin/milestones" className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-link hover:underline">
         <UiIcon name="arrow-left" className="size-4" />
         All milestones
       </Link>
@@ -35,10 +35,10 @@ export default async function EditMilestonePage({ params }: EditMilestonePagePro
       <div className="mt-8 flex flex-col gap-6">
         {/* key: remount the form with fresh defaults after each save */}
         <MilestoneForm key={milestone.updated_at} milestoneId={milestone.id} defaults={milestoneToFormValues(milestone)} categories={categories} documentFieldsAvailable={documentFieldsAvailable} />
-        <section className="flex flex-wrap items-center justify-between gap-3 rounded-card border border-danger-100 bg-danger-100/40 p-5">
+        <section className="flex flex-wrap items-center justify-between gap-3 rounded-card border border-danger-edge bg-danger-soft/40 p-5">
           <div>
-            <h2 className="font-display-heavy text-lg uppercase text-danger-600">Danger zone</h2>
-            <p className="text-sm text-navy-700">Prefer hiding it if you might want it back.</p>
+            <h2 className="font-display-heavy text-lg uppercase text-danger">Danger zone</h2>
+            <p className="text-sm text-ink-muted">Prefer hiding it if you might want it back.</p>
           </div>
           <DangerDeleteButton
             action={deleteMilestone.bind(null, milestone.id)}

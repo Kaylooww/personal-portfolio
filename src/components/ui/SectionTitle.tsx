@@ -36,14 +36,14 @@ export function SectionTitle({
   return (
     <div className={cn("max-w-[40rem]", className)}>
       {eyebrow && (
-        <p className="eyebrow mb-2 flex items-center gap-2 text-blue-600">
+        <p className="eyebrow mb-2 flex items-center gap-2 text-link">
           {eyebrowIcon ?? <LogoMark className="h-4 text-blue-500" />}
           {eyebrow}
         </p>
       )}
       <Heading
         className={cn(
-          "font-display-heavy uppercase text-navy-900",
+          "font-display-heavy uppercase text-ink",
           size === "hero" ? "text-hero" : "text-title",
           titleClassName,
         )}
@@ -53,7 +53,7 @@ export function SectionTitle({
       </Heading>
       {subtitle && <div className="mt-4">{subtitle}</div>}
       {note && (
-        <p className="font-handwritten relative mt-4 inline-block whitespace-pre-line text-hand-lg text-navy-800 -rotate-1">
+        <p className="font-handwritten relative mt-4 inline-block whitespace-pre-line text-hand-lg text-ink-strong -rotate-1">
           {note}
           <Swoosh className="absolute -bottom-2 left-0 h-3 w-3/5 text-blue-500" />
         </p>

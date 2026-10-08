@@ -4,7 +4,7 @@
 
 ## Authentication
 - Supabase Auth, email + password. **No public registration** — the admin user is created manually in the Supabase dashboard; `ADMIN_EMAIL` names it.
-- Entry: a small, low-contrast "Admin" link at the bottom-right of the Airport page → `/admin/login`. Its subtlety is cosmetic, not security.
+- Entry: the small circle at the lower-left of the Airport passport/photo card → `/admin/login`. It is dark in daylight and pale at night. Its 44px click target has an "Admin" accessible label, tooltip and keyboard focus. It is enabled only on Airport; authentication still protects every admin action.
 - Login errors are generic ("Email or password is incorrect.") — never reveal which part was wrong. A valid account that isn't `ADMIN_EMAIL` gets the same message and no session. Exception: if the project's Email provider is off, the form says so (it's a setting, not a credential leak).
 - The Supabase **Email provider must stay enabled**; only "Allow new users to sign up" is turned off.
 - `?next=` return paths are sanitised by `safeAdminPath()` (`src/lib/auth/paths.ts`): only `/admin…`, no `//`, `\`, `..` — no open redirect.
@@ -17,7 +17,7 @@
 The service-role key is never used for normal admin writes — the admin's own session + RLS is.
 
 ## Layout
-Simplified dashboard ("Base Camp"): cream canvas, paper panels, navy sidebar text, blue actions. No scenic backgrounds, `noindex`.
+Simplified dashboard ("Base Camp"): paper panels and blue actions in the shared light/dark theme. The header's sun/moon switch uses the same saved browser preference as the public navigation; login also adopts that theme. No scenic backgrounds, `noindex`.
 Below `lg` the sidebar becomes a horizontally scrolling tab row. Every section has its editor; no placeholder pages remain.
 Files: `app/admin/layout.tsx` (canvas + robots), `app/admin/(protected)/*`, `app/admin/login`, `app/admin/unauthorized`; components in `components/admin/`; nav in `lib/constants/admin-nav.ts`; stats in `lib/queries/admin-dashboard.ts` (admin's own session, so RLS applies).
 Sidebar: Dashboard · Profile · About · Skills · Projects · Journey · Milestones · Media · Settings · Logout.

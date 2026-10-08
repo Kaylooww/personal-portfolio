@@ -12,7 +12,7 @@ function SubmitButton({ className }: { className?: string }) {
       type="submit"
       disabled={pending}
       className={cn(
-        "flex items-center gap-3 rounded-control px-3 py-2.5 text-sm font-extrabold text-navy-700 transition-trail transition-colors hover:bg-danger-100 hover:text-danger-600 disabled:opacity-60",
+        "flex items-center gap-3 rounded-control px-3 py-2.5 text-sm font-extrabold text-ink-muted transition-trail transition-colors hover:bg-danger-soft hover:text-danger disabled:opacity-60",
         className,
       )}
     >

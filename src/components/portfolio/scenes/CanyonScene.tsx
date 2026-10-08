@@ -1,3 +1,6 @@
+import { ExpeditionFlag } from "./ExpeditionFlag";
+import { NightSky } from "./NightSky";
+
 /**
  * STAND-IN ARTWORK for Projects: a warm canyon camp under a blue sky, with a
  * dotted trail climbing a far peak. Replace with a painted plate when supplied.
@@ -7,13 +10,18 @@ export function CanyonScene() {
     <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" className="size-full" aria-hidden focusable="false">
       <defs>
         <linearGradient id="canyon-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" style={{ stopColor: "var(--color-blue-300)" }} />
-          <stop offset="0.7" style={{ stopColor: "var(--color-blue-50)" }} />
-          <stop offset="1" style={{ stopColor: "var(--color-sunset-100)" }} />
+          <stop offset="0" style={{ stopColor: "var(--scene-sky-top)" }} />
+          <stop offset="0.7" style={{ stopColor: "var(--scene-sky-middle)" }} />
+          <stop offset="1" style={{ stopColor: "var(--scene-sky-bottom)" }} />
         </linearGradient>
+        <radialGradient id="canyon-lantern">
+          <stop stopColor="#ffc377" stopOpacity="0.65" />
+          <stop offset="1" stopColor="#ffc377" stopOpacity="0" />
+        </radialGradient>
       </defs>
 
       <rect width="1600" height="900" fill="url(#canyon-sky)" />
+      <NightSky moonX={1090} moonY={135} moonRadius={32} />
       <g className="fill-white animate-cloud-drift motion-reduce:animate-none" opacity="0.85">
         <ellipse cx="620" cy="150" rx="170" ry="36" />
         <ellipse cx="690" cy="124" rx="90" ry="38" />
@@ -31,7 +39,7 @@ export function CanyonScene() {
         strokeLinecap="round"
         fill="none"
       />
-      <path d="M1370 120V70l40 14-40 14" className="stroke-flag-red" strokeWidth="5" fill="none" strokeLinejoin="round" />
+      <ExpeditionFlag x={1370} y={120} scale={0.62} />
 
       {/* Layered mesas */}
       <path d="M0 560V380l90-20 40 30h120l30-60h140l20 70 80 10v150Z" className="fill-sunset-500" opacity="0.45" />
@@ -42,10 +50,20 @@ export function CanyonScene() {
 
       {/* Tent and lantern glow */}
       <g transform="translate(1320 640)">
-        <path d="M0 80 80-20l80 100Z" className="fill-sunset-500" />
-        <path d="M80-20 64 80h32Z" className="fill-sunset-700" />
+        <path d="M0 80 80-20l80 100Z" fill="#b87947" />
+        <path d="M80-20 64 80h32Z" fill="#67472e" />
+        <path className="scene-night-only" d="m80 5-11 75h22Z" fill="#f6c374" />
+        <path d="M80-20 0 80h160" fill="none" stroke="#e0aa72" strokeWidth="2" />
       </g>
-      <circle cx="1280" cy="700" r="36" className="fill-sunset-100" opacity="0.5" />
+      <g className="scene-night-only">
+        <ellipse cx="1360" cy="720" rx="170" ry="70" fill="url(#canyon-lantern)" />
+        <circle cx="1280" cy="697" r="65" fill="url(#canyon-lantern)" />
+      </g>
+      <g transform="translate(1280 700)">
+        <path d="M-5-15v-5a5 5 0 0 1 10 0v5" fill="none" stroke="#473d33" strokeWidth="2" />
+        <rect x="-7" y="-15" width="14" height="20" rx="3" fill="#f8cd82" stroke="#473d33" strokeWidth="2" />
+        <path d="M-8 7H8M-8-16H8" stroke="#473d33" strokeWidth="3" strokeLinecap="round" />
+      </g>
 
       {/* Rope fence */}
       <path d="M0 760c200 30 400 30 620 0" className="stroke-wood-300" strokeWidth="6" fill="none" strokeLinecap="round" />

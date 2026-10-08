@@ -1,5 +1,26 @@
 # Final Testing — Phase 17
 
+## Follow-up — night theme and Journey arrival (2026-10-08)
+
+- `npm run check` passed: ESLint, TypeScript and production build.
+- Production Edge smoke passed in both light and dark modes: 11 public pages,
+  seven widths (320–1920px), 154 layout checks and 44 WCAG A/AA audits. No horizontal
+  overflow or browser exceptions. Navigation, search, milestone filters/views,
+  all 13 detail dialogs, 404s and signed-out admin guards passed.
+- Theme checks passed system preference, keyboard/mobile toggles, saved override,
+  route/reload persistence, cross-tab synchronization and blocked-storage fallback.
+  Three additional dark-mode WCAG audits passed for the mobile map, admin login
+  and milestone detail dialog. The portrait's Admin entry links to login and keeps
+  its 44px target; day/night screenshots were visually inspected.
+- Journey checks at 375/1440px passed direct/client ascent, keyboard/touch/wheel
+  cancellation, reduced motion, hash navigation and Back/Forward behavior. Root
+  `data-scroll-behavior="smooth"` lets Next restore positions without CSS smooth
+  scrolling interference. Current content starts 338px/272px from the top at those
+  widths and completes its ascent in about 1.1 seconds.
+- Tests used viewport emulation in headless Edge. No portfolio records or media
+  were changed; authenticated admin editing, other browsers and physical devices
+  were not retested for this visual update.
+
 ## Follow-up — milestone badge visibility (2026-09-30)
 
 - Gallery, Board and List badges were checked in Edge at 320, 375, 768 and 1440px.
@@ -72,9 +93,12 @@ In a second terminal:
 npm run test:seo -- http://localhost:3100
 $env:BROWSER_CHANNEL = 'msedge'
 npm run test:browser -- http://localhost:3100
+$env:BROWSER_THEME = 'dark'
+npm run test:browser -- http://localhost:3100
+npm run test:theme -- http://localhost:3100
 ```
 
-`test:browser` and `test:seo` are read-only and need no admin credentials. The browser test submits one deliberately invalid login; it sends no email. To use Playwright's bundled Chromium instead of installed Edge, run `npx playwright install chromium` and leave `BROWSER_CHANNEL` unset. Browser binaries are separate from `npm install`.
+`test:browser`, `test:theme` and `test:seo` need no admin credentials and do not change portfolio content. `BROWSER_THEME` defaults to `light`; set it explicitly when repeating the browser suite in one terminal. The browser test submits one deliberately invalid login; it sends no email. To use Playwright's bundled Chromium instead of installed Edge, run `npx playwright install chromium` and leave `BROWSER_CHANNEL` unset. Browser binaries are separate from `npm install`.
 
 ## Executed matrix
 
